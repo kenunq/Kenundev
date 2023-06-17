@@ -1,0 +1,332 @@
+body{
+    background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.17) 0%, rgba(60, 60, 60, 0) 85.42%), #18181B;
+    background-repeat: no-repeat;
+	background-size: cover;
+	width: 1920px;
+	height: 1080px;
+}
+
+.mainblock {
+    padding-top: 20px;
+    margin: 100px;
+}
+
+.label {
+
+    text-align: left;
+}
+
+.text-div{
+    position: absolute
+    left: 15px;
+    top: 14px;
+    height: 20px;
+}
+
+#text {
+
+    pointer-events: none;
+    position: absolute;
+    left: 115px;
+    top: 107px;
+    font-size: 15px;
+}
+
+#check {
+    position:absolute;
+}
+
+
+.head {
+    position: relative;
+    margin-bottom: 70px;
+    width: 62px;
+}
+
+.head ins {
+    background-size: auto 100%;
+    display: block;
+    pointer-events: auto;
+    position: absolute;
+    width: 56px;
+    height: 56px;
+}
+
+.head del {
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    display: block;
+    left: -6px;
+    position: absolute;
+    top: -6px;
+    z-index: 10;
+    width: 68px;
+    height: 68px;
+    pointer-events: none;
+    background-image: url("https://wow.zamimg.com/images/Icon/large/border/default.png");
+}
+
+.head a {
+    background-size: auto 100%;
+    position: absolute;
+    top: 0px;
+    left: -2px;
+    width: 56px;
+    height: 56px;
+    background-image: url("https://wow.zamimg.com/images/Icon/large/hilite/default.png");
+    opacity: 0;
+
+}
+
+.head:hover a {
+    opacity: 1;
+}
+.head:active a {
+	pointer-events: none;
+}
+
+.spanmenu {
+    border: 1px solid;
+    width: 100px;
+    padding-left: 18px;
+    position:absolute;
+    top: 100px;
+    left: 500px;
+    display: none;
+}
+
+.change{
+    background-color: red;
+    cursor: pointer;
+}
+
+.unequip {
+    background-color: black;
+    cursor: pointer;
+}
+
+.unequip p {
+    color: #fff;
+}
+
+.edit-slot {
+    position: absolute;
+    top: 200px;
+    left: 500px;
+    padding: 40px 17px 26px 17px;
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    width: 414px;
+
+}
+
+.btn-close {
+    position: absolute;
+    z-index: 50;
+    right: 10px;
+    top: 7px;
+
+}
+
+.btn-close img{
+    width: 25px;
+    height: 25px;
+    filter: brightness(0) invert(1);
+    opacity: 0.5;
+}
+
+.btn-close:hover img{
+
+    opacity: 1;
+}
+
+
+.seacrh-item{
+    display:flex;
+    width: 100%;
+    height: 30px;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.search-reset{
+    background: #0057FF;
+    border-radius: 10px;
+    padding: 5px;
+    margin-right: 13px;
+    display: flex;
+    align-items: center
+    justify-content: center;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    cursor: pointer;
+}
+
+.search-reset img{
+    width: 20px;
+    height: 20px;
+    align-items: center
+    justify-content: center;
+}
+
+.seacrh-input{
+    display:flex;
+    position: relative;
+    width: 100%;
+    height: 30px;
+    margin-right: 14px;
+}
+
+.seacrh-input input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+}
+
+.seacrh-btn {
+    background: #0057FF;
+    border-radius: 10px;
+
+    display:flex;
+    align-items: center;
+    padding: 6px 11px 6px 11px;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    cursor: pointer;
+}
+
+.seacrh-btn p{
+    margin: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff
+}
+
+.item-list{
+    height: 361px;
+    overflow-y: scroll;
+
+}
+
+::-webkit-scrollbar {
+    width: 11px; /* ширина для вертикального скролла */
+    height: 8px; /* высота для горизонтального скролла */
+    background: rgba(88, 84, 84, 0);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+
+
+.new-item {
+    display:flex;
+    padding: 0px 18px 0px 18px;
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+
+    align-items: center;
+
+    margin-right: 8px;
+    margin-bottom: 12px;
+    height: 50px;
+
+    cursor: pointer;
+}
+
+.new-item-img {
+    margin-right: 30px;
+    height: 36px;
+    width: 36px;
+}
+
+.new-item-img img{
+    width: 36px;
+    height: 36px;
+}
+
+.new-item-text a {
+    color: #fff;
+    font-size: 22px;
+    text-decoration: none;
+}
+
+.new-item-text:active a {
+	pointer-events: none;
+}
+
+
+.btn-access{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn {
+    background: #0057FF;
+    border-radius: 10px;
+    display: flex;
+    padding: 6px 41px;
+
+    margin-top: 54px;
+    cursor: pointer;
+}
+
+.btn p {
+    margin: 0;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff;
+}
+
+
+
+.new-item ins {
+    background-size: auto 100%;
+    display: block;
+    pointer-events: auto;
+
+
+    width: 36px;
+    height: 36px;
+}
+
+.new-item-img:active a {
+	pointer-events: none;
+}
+
+.new-item-img:active ins {
+	pointer-events: none;
+}
+
+.new-item-img a {
+    width: 35px;
+    height: 36px;
+}
+#placeholder-id{
+    color: #fff;
+    opacity: 0.5;
+    pointer-events: none;
+    position: absolute;
+    left: 10px;
+    top: -10px;
+    font-size: 15px;
+}
