@@ -537,11 +537,11 @@ vertical-align: sub
     }
 
     window.setItems = (e, t, i) => {
-        console.log(model.renderer.viewer.method("setItems", [[{
+        model.renderer.viewer.method("setItems", [[{
                 slot: e,
                 display: t,
                 visual: i
-            }]]))
+            }]])
     }
 
 
@@ -840,7 +840,6 @@ vertical-align: sub
 //change item....................................................................................................................
 
            function changeitem(event) {
-                console.log(event.target.getAttribute("displayid"));
                 var displayId = event.target.getAttribute("displayid");
                 var itemId = event.target.getAttribute("itemid");
                 var icon = event.target.getAttribute("icon");
@@ -848,7 +847,12 @@ vertical-align: sub
                 window.equip_slot.getElementsByTagName('ins')[0].style.backgroundImage=`url(https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg)`;
                 window.equip_slot.getElementsByTagName('a')[0].attributes.href.textContent = `https://www.wowhead.com/wotlk/ru/item=${itemId}`;
 
-                window.setItems(window.slot_id, displayId, 0)
+                if(!([14, 13, 2, 11, 12].includes(window.slot_id))){
+                    console.log(1);
+                    window.setItems(window.slot_id, displayId, 0);
+                };
+
+
 
                 changeItemMenuHide();
 
