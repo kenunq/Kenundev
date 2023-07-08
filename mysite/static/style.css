@@ -752,7 +752,7 @@ a:-webkit-any-link {
     color: #fff;
 }
 
-#placeholder-id{
+#placeholder-search{
     color: #fff;
     opacity: 0.5;
     pointer-events: none;
@@ -818,4 +818,208 @@ a:-webkit-any-link {
 
 .spanmenu-close:hover img{
     opacity: 1;
+}
+
+.main-registration-block{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 122px;
+}
+
+.register-block {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+
+    border: 2px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    border-radius: 16px;
+    padding-left: 108px;
+    padding-right: 108px;
+    padding-top: 37px;
+    padding-bottom: 57px;
+}
+
+.login-input{
+    display:flex;
+    position: relative;
+    height: 35px;
+    width: 350px;
+    margin-bottom: 30px;
+}
+
+#placeholder-login{
+    color: #fff;
+    opacity: 0.5;
+    pointer-events: none;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    font-size: 16px;
+}
+
+.login-input input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+    width: 100%;
+}
+
+.create-acc-text{
+    text-align: center;
+    color: #fff;
+    margin-bottom: 66px;
+    font-size: 24px;
+    font-family: Kanit;
+    font-style: normal;
+    font-weight: 275;
+    line-height: normal;
+}
+
+.password-input{
+    display:flex;
+    position: relative;
+    height: 35px;
+    width: 350px;
+    margin-bottom: 30px;
+}
+
+.password-input p{
+    color: #fff;
+    opacity: 0.5;
+    pointer-events: none;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    font-size: 16px;
+}
+
+.password-input input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+    width: 100%;
+}
+
+.repeat-password-input{
+    display:flex;
+    position: relative;
+    height: 35px;
+    width: 350px;
+    margin-bottom: 30px;
+}
+
+.repeat-password-input p{
+    color: #fff;
+    opacity: 0.5;
+    pointer-events: none;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    font-size: 16px;
+}
+
+.repeat-password-input input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+    width: 100%;
+}
+
+.email-input{
+    display:flex;
+    position: relative;
+    height: 35px;
+    width: 350px;
+    margin-bottom: 59px;
+}
+
+.email-input p{
+    color: #fff;
+    opacity: 0.5;
+    pointer-events: none;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    font-size: 16px;
+}
+
+.email-input input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+    width: 100%;
+}
+
+.captcha-block{
+    background: #D9D9D9;
+
+    width: 300px;
+    height: 74px;
+
+    margin-left: 25px;
+    margin-right: 25px;
+    padding: 18px;
+    margin-bottom: 26px;
+}
+
+.captcha-block p {
+    text-align: center;
+
+    color: #000;
+    font-size: 32px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.btn-registration{
+    margin-left: 75px;
+    margin-right: 75px;
+    height: 30px;
+    border-radius: 10px;
+    background: #0057FF;
+    text-align: center;
+    padding-top: 4px;
+    cursor: pointer;
+}
+
+.btn-registration p{
+    pointer-events: none;
+    text-align: center;
+    color: #FFF;
+    font-size: 16px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+     user-select: none;
 }

@@ -136,7 +136,7 @@ vertical-align: sub
 
             <div class="seacrh-input" id="seacrh-input">
 
-                <p id="placeholder-id">ID</p>
+                <p id="placeholder-search">ID</p>
                 <input id="input-item-id">
 
             </div>
@@ -657,10 +657,10 @@ vertical-align: sub
         }
 
         // вызов функции на нажатие инпут
-        document.getElementById("input-item-id").addEventListener('mousedown', inputcheck.bind(null, "placeholder-id", "input-item-id"));
+        document.getElementById("input-item-id").addEventListener('mousedown', inputcheck.bind(null, "placeholder-search", "input-item-id"));
 
         // вызов функции при ухода из инпута
-        document.getElementById("input-item-id").addEventListener('focusout', inputout.bind(null, "placeholder-id", "input-item-id"));
+        document.getElementById("input-item-id").addEventListener('focusout', inputout.bind(null, "placeholder-search", "input-item-id"));
 
 //................................................................................................................................................
 

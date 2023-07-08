@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-registration-block">
+<div class="register-block">
+
+    <div class="create-acc-text">
+
+        <p>Создание аккаунта</p>
+
+    </div>
+
+    <div class="input-block">
+
+    <div class="login-input" id="login-input">
+
+        <p id="placeholder-login">Логин</p>
+        <input id="input-login">
+
+    </div>
+    <div class="password-input" id="password-input">
+
+        <p id="placeholder-password">Пароль</p>
+        <input id="input-password">
+
+    </div>
+    <div class="repeat-password-input" id="repeat-password-input">
+
+        <p id="placeholder-repeat-password">Подтвердите пароль</p>
+        <input id="input-repeat-password">
+
+    </div>
+    <div class="email-input" id="email-input">
+
+        <p id="placeholder-email">Почта</p>
+        <input id="input-email">
+
+    </div>
+
+    </div>
+
+    <div class="captcha-block">
+
+        <p>reCAPTCHA</p>
+
+    </div>
+
+    <div class="btn-registration">
+
+        <p>Регистрация</p>
+
+    </div>
+
+</div>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script type="module">
+
+    // input anim...............................................................................................
+
+        function inputcheck(textid, input) {
+            var text = document.getElementById(`${textid}`);
+            let coords = {top: text.offsetTop, left: text.offsetLeft};
+            console.log(coords);
+
+            var top = text.offsetTop;
+            var left = text.offsetLeft;
+
+            console.log(text.offsetLeft, text.offsetTop);
+            var fsize = 16;
+            if(window.getComputedStyle(text, null).fontSize == fsize + "px"){
+
+            var topy = setInterval(topfunc, 10);
+            var leftx = setInterval(leftfunc, 23);
+            var fsizex = setInterval(fsizefunc, 23);
+            function topfunc() {
+                var direction = 1;
+                if(top == coords.top - 25) {
+                    clearInterval(topy);
+                }else {
+                    console.log(1);
+                    top -= 1 * direction;
+                    text.style.top = top + "px";
+                }
+                }
+
+            function leftfunc() {
+                var direction = 1;
+                if(left == coords.left - 5) {
+                    clearInterval(leftx);
+                }else {
+                     left -= 1 * direction;
+                    text.style.left = left + "px";
+                }
+                }
+
+            function fsizefunc() {
+                var bttn = document.getElementById(`${input}`);
+                var direction = 1;
+                if(fsize == 13) {
+                    bttn.disabled = false;
+                    clearInterval(fsizex);
+                }else {
+                    fsize -= 1 * direction;
+                    text.style.fontSize = fsize + "px";
+                }
+                }
+                }
+        }
+
+        function inputout(idtext, input) {
+            var text = document.getElementById(`${idtext}`);
+
+            //console.log(document.getElementById(`${input}`).value) //--- чтение из инпута
+            if(document.getElementById(`${input}`).value == ""){
+
+            let coords = {top: text.offsetTop, left: text.offsetLeft};
+            //console.log(coords);
+
+            var top = text.offsetTop;
+            var left = text.offsetLeft;
+
+            //console.log(text.offsetLeft, text.offsetTop);
+            var fsize = 13;
+            if(window.getComputedStyle(text, null).fontSize == fsize + "px"){
+
+
+            var topy = setInterval(topfunc, 10);
+            var leftx = setInterval(leftfunc, 23);
+            var fsizex = setInterval(fsizefunc, 25);
+
+                function topfunc() {
+                    var direction = -1;
+                    if(top == coords.top + 25) {
+                        clearInterval(topy);
+                    }else {
+                        top -= 1 * direction;
+                        text.style.top = top + "px";
+                    }
+                    }
+
+                function leftfunc() {
+                    var direction = -1;
+                    if(left == coords.left + 5) {
+                        clearInterval(leftx);
+                    }else {
+                         left -= 1 * direction;
+                        text.style.left = left + "px";
+                    }
+                    }
+
+                function fsizefunc() {
+                    var bttn = document.getElementById(`${input}`);
+                    var direction = -1;
+                    if(fsize == 16) {
+                        bttn.disabled = false;
+                        clearInterval(fsizex);
+                    }else {
+                        bttn.disabled = true;
+                        fsize -= 1 * direction;
+                        text.style.fontSize = fsize + "px";
+                    }
+                    }
+                    }
+            }
+
+
+        }
+
+        // вызов функции на нажатие инпут
+        document.getElementById("input-login").addEventListener('mousedown', inputcheck.bind(null, "placeholder-login", "input-login"));
+        document.getElementById("input-password").addEventListener('mousedown', inputcheck.bind(null, "placeholder-password", "input-password"));
+        document.getElementById("input-repeat-password").addEventListener('mousedown', inputcheck.bind(null, "placeholder-repeat-password", "input-repeat-password"));
+        document.getElementById("input-email").addEventListener('mousedown', inputcheck.bind(null, "placeholder-email", "input-email"));
+
+        // вызов функции при ухода из инпута
+        document.getElementById("input-login").addEventListener('focusout', inputout.bind(null, "placeholder-login", "input-login"));
+        document.getElementById("input-password").addEventListener('focusout', inputout.bind(null, "placeholder-password", "input-password"));
+        document.getElementById("input-repeat-password").addEventListener('focusout', inputout.bind(null, "placeholder-repeat-password", "input-repeat-password"));
+        document.getElementById("input-email").addEventListener('focusout', inputout.bind(null, "placeholder-email", "input-email"));
+
+//................................................................................................................................................
+
+
+</script>
+
+{% endblock %}
