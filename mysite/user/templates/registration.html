@@ -12,29 +12,30 @@
     </div>
 
     <div class="input-block">
-
+    <form action="{% url 'user:registration' %}" method="post">
+        {% csrf_token %}
     <div class="login-input" id="login-input">
 
         <p id="placeholder-login">Логин</p>
-        <input id="input-login">
+        {{ form.username }}
 
     </div>
     <div class="password-input" id="password-input">
 
         <p id="placeholder-password">Пароль</p>
-        <input id="input-password">
+        {{ form.password1 }}
 
     </div>
     <div class="repeat-password-input" id="repeat-password-input">
 
         <p id="placeholder-repeat-password">Подтвердите пароль</p>
-        <input id="input-repeat-password">
+        {{ form.password2 }}
 
     </div>
     <div class="email-input" id="email-input">
 
         <p id="placeholder-email">Почта</p>
-        <input id="input-email">
+        {{ form.email }}
 
     </div>
 
@@ -46,12 +47,13 @@
 
     </div>
 
-    <div class="btn-registration">
+    <div class="btn-registration" >
 
+        <input type="submit" value="123123131">
         <p>Регистрация</p>
 
     </div>
-
+    </form>
 </div>
     </div>
 {% endblock %}
