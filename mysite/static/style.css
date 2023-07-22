@@ -1023,3 +1023,42 @@ a:-webkit-any-link {
     -ms-user-select: none; /* Internet Explorer/Edge */
      user-select: none;
 }
+
+.forgot-pass{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.forgot-pass a{
+    color: #fff;
+    pointer: cursor;
+}
+
+.remember-me{
+    display: flex;
+    text-align: center;
+}
+
+.remember-me input{
+    margin-top: 6px;
+    margin-right: 10px;
+}
+
+.remember-me p{
+    color: #fff;
+}
+
+.href-login{
+    margin-top: 40px;
+    display: flex;
+}
+
+.href-login p{
+    color: #fff;
+    margin-right: 5px;
+}
+
+.href-login a{
+    opacity: 0.7;
+}

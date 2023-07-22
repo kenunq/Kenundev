@@ -1,16 +1,27 @@
-from django.shortcuts import render
+from django.contrib.auth.views import LoginView
+from django.shortcuts import render, resolve_url
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import CreateView
 from django.urls import reverse, reverse_lazy
 from django.views.generic.base import TemplateView
+from django.conf import settings
 
-from user.forms import UserRegistrationForm
+from user.forms import UserRegistrationForm, UserLoginForm
 from user.models import User
 
 class RegistrationView(SuccessMessageMixin, CreateView):
 	model = User
 	form_class = UserRegistrationForm
 	template_name = 'registration.html'
-	success_url = reverse_lazy('home')
+	success_url = reverse_lazy('user:login')
 	success_message = 'Вы успешно зарегистрировались!'
+
+class UserLoginView(LoginView):
+	template_name = 'login.html'
+	form_class = UserLoginForm
+	success_url = settings.LOGIN_REDIRECT_URL
+
+	def get_success_url(self):
+		url = reverse_lazy('home')
+		return url or resolve_url(settings.LOGIN_REDIRECT_URL)
 

@@ -22,3 +22,13 @@ class UserRegistrationForm(UserCreationForm):
 	def save(self, commit=True):
 		user = super(UserRegistrationForm, self).save(commit=True)
 		return user
+
+class UserLoginForm(AuthenticationForm):
+	username = forms.CharField(widget=forms.TextInput(attrs={
+		'id': 'input-login'}))
+	password = forms.CharField(widget=forms.PasswordInput({
+		'id': 'input-password'}))
+
+	class Meta:
+		model = User
+		fields = ('username', 'password')

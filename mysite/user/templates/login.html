@@ -7,7 +7,7 @@
 
     <div class="create-acc-text">
 
-        <p>Создание аккаунта</p>
+        <p>Вход в аккаунт</p>
 
     </div>
 
@@ -23,43 +23,32 @@
     <div class="password-input" id="password-input">
 
         <p id="placeholder-password">Пароль</p>
-        {{ form.password1 }}
-
-    </div>
-    <div class="repeat-password-input" id="repeat-password-input">
-
-        <p id="placeholder-repeat-password">Подтвердите пароль</p>
-        {{ form.password2 }}
-
-    </div>
-    <div class="email-input" id="email-input">
-
-        <p id="placeholder-email">Почта</p>
-        {{ form.email }}
+        {{ form.password }}
 
     </div>
 
     </div>
 
-    <div class="captcha-block">
+    <div class="forgot-pass">
 
-        <p>reCAPTCHA</p>
+        <div class="remember-me">
+
+            <input type="checkbox">
+            <p>Запомнить меня</p>
+
+        </div>
+
+        <a href="@">Забыли пароль?</a>
 
     </div>
 
     <div class="btn-registration" >
 
         <input type="submit" value="123123131">
-        <p>Регистрация</p>
+        <p>Войти</p>
 
     </div>
     </form>
-
-    <div class="href-login">
-        <p>Уже есть аккаунт?</p>
-        <a href="{% url 'user:login' %}">Войти</a>
-    </div>
-
 </div>
     </div>
 {% endblock %}
@@ -181,14 +170,10 @@
         // вызов функции на нажатие инпут
         document.getElementById("input-login").addEventListener('mousedown', inputcheck.bind(null, "placeholder-login", "input-login"));
         document.getElementById("input-password").addEventListener('mousedown', inputcheck.bind(null, "placeholder-password", "input-password"));
-        document.getElementById("input-repeat-password").addEventListener('mousedown', inputcheck.bind(null, "placeholder-repeat-password", "input-repeat-password"));
-        document.getElementById("input-email").addEventListener('mousedown', inputcheck.bind(null, "placeholder-email", "input-email"));
 
         // вызов функции при ухода из инпута
         document.getElementById("input-login").addEventListener('focusout', inputout.bind(null, "placeholder-login", "input-login"));
         document.getElementById("input-password").addEventListener('focusout', inputout.bind(null, "placeholder-password", "input-password"));
-        document.getElementById("input-repeat-password").addEventListener('focusout', inputout.bind(null, "placeholder-repeat-password", "input-repeat-password"));
-        document.getElementById("input-email").addEventListener('focusout', inputout.bind(null, "placeholder-email", "input-email"));
 
 //................................................................................................................................................
 
