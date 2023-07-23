@@ -1,4 +1,6 @@
-from django.contrib.auth.views import LoginView
+from django.contrib import auth
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import CreateView
@@ -19,9 +21,16 @@ class RegistrationView(SuccessMessageMixin, CreateView):
 class UserLoginView(LoginView):
 	template_name = 'login.html'
 	form_class = UserLoginForm
-	success_url = settings.LOGIN_REDIRECT_URL
 
-	def get_success_url(self):
-		url = reverse_lazy('home')
-		return url or resolve_url(settings.LOGIN_REDIRECT_URL)
 
+# class UserLogout(LogoutView):
+#
+# 	def get(self, request, *args, **kwargs):
+# 		return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+	# def get_success_url(self):
+	# 	return reverse_lazy('home')
+
+def UserLogout(request):
+	auth.logout(request)
+	return HttpResponseRedirect(request.META['HTTP_REFERER'])

@@ -26,5 +26,5 @@ urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
     path('user/', include('user.urls', namespace='user')),
     path('char/', CharPageView.as_view(), name='char'),
-    path('testanim/', TestAnim.as_view(), name='home'),
+    path('testanim/', TestAnim.as_view(), name='testanim'),
 ]
