@@ -47,10 +47,9 @@
 
     </div>
 
-    <div class="btn-registration" >
+    <div class="btn-registration">
 
-        <input type="submit" value="123123131">
-        <p>Регистрация</p>
+        <button type="submit" value="Регистрация">Регистрация</button>
 
     </div>
     </form>
@@ -180,9 +179,13 @@
 
         // вызов функции на нажатие инпут
         document.getElementById("input-login").addEventListener('mousedown', inputcheck.bind(null, "placeholder-login", "input-login"));
+        document.getElementById("input-login").addEventListener('focus', inputcheck.bind(null, "placeholder-login", "input-login"));
         document.getElementById("input-password").addEventListener('mousedown', inputcheck.bind(null, "placeholder-password", "input-password"));
+        document.getElementById("input-password").addEventListener('focus', inputcheck.bind(null, "placeholder-password", "input-password"));
         document.getElementById("input-repeat-password").addEventListener('mousedown', inputcheck.bind(null, "placeholder-repeat-password", "input-repeat-password"));
+        document.getElementById("input-repeat-password").addEventListener('focus', inputcheck.bind(null, "placeholder-repeat-password", "input-repeat-password"));
         document.getElementById("input-email").addEventListener('mousedown', inputcheck.bind(null, "placeholder-email", "input-email"));
+        document.getElementById("input-email").addEventListener('focus', inputcheck.bind(null, "placeholder-email", "input-email"));
 
         // вызов функции при ухода из инпута
         document.getElementById("input-login").addEventListener('focusout', inputout.bind(null, "placeholder-login", "input-login"));

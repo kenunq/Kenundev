@@ -2,8 +2,8 @@
 {% load static %}
 
 {% block content %}
-<div class="main-registration-block">
-<div class="register-block">
+<div class="main-login-block">
+<div class="login-block">
 
     <div class="create-acc-text">
 
@@ -42,10 +42,9 @@
 
     </div>
 
-    <div class="btn-registration" >
+    <div class="btn-login" >
 
-        <input type="submit" value="123123">
-        <p>Войти</p>
+        <button type="submit" value="Войти">Войти</button>
 
     </div>
     </form>
@@ -166,7 +165,6 @@
 
 
         }
-
         // вызов функции на нажатие инпут
         document.getElementById("input-login").addEventListener('mousedown', inputcheck.bind(null, "placeholder-login", "input-login"));
         document.getElementById("input-password").addEventListener('mousedown', inputcheck.bind(null, "placeholder-password", "input-password"));

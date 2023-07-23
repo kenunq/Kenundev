@@ -830,7 +830,34 @@ a:-webkit-any-link {
     padding-bottom: 122px;
 }
 
+.main-login-block{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 122px;
+}
+
 .register-block {
+    background-color: rgba(255,255,255,0.03);
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+
+    border: 2px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    border-radius: 16px;
+    padding-left: 108px;
+    padding-right: 108px;
+    padding-top: 37px;
+    padding-bottom: 57px;
+}
+
+.login-block {
+    background-color: rgba(255,255,255,0.03);
     position: relative;
     display: inline-block;
     vertical-align: top;
@@ -1006,23 +1033,22 @@ a:-webkit-any-link {
     cursor: pointer;
 }
 
-.btn-registration p{
-    pointer-events: none;
-    text-align: center;
-    color: #FFF;
+
+
+.btn-registration button {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    color: #fff;
     font-size: 16px;
     font-family: Inter;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-     user-select: none;
 }
+
 
 .forgot-pass{
     display: flex;
@@ -1041,8 +1067,8 @@ a:-webkit-any-link {
 }
 
 .remember-me input{
-    margin-top: 6px;
-    margin-right: 10px;
+    margin-top: 2px;
+    margin-right: 8px;
 }
 
 .remember-me p{
@@ -1061,4 +1087,38 @@ a:-webkit-any-link {
 
 .href-login a{
     opacity: 0.7;
+}
+
+.btn-login{
+    margin-left: 75px;
+    margin-right: 75px;
+    height: 30px;
+    border-radius: 10px;
+    background: #0057FF;
+    text-align: center;
+    padding-top: 4px;
+    cursor: pointer;
+}
+
+.btn-login button {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.create-acc-text{
+    color: #fff;
+    font-size: 22px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }

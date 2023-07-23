@@ -27,9 +27,75 @@
 
     <link rel="stylesheet" href="{% static 'style.css' %}">
 
-    {% block css %}\
+    <style>
+   /* main box settings */
+.dropdown[_ngcontent-gox-c59] img[_ngcontent-gox-c59] {
+height: 20px;
+margin-right: 10px
+}
 
-      {% endblock %}
+/* color menu */
+.dropdown-menu[_ngcontent-gox-c59] { /* полоска под дропдаун меню */
+background-color: #000;
+border-bottom: 2px solid #1fb8ff;
+padding-bottom: 1px;
+box-shadow: 0 0 30px 10px #ffffff12;
+}
+
+/* color pri hover */
+.dropdown-menu[_ngcontent-gox-c59] .dropdown-item[_ngcontent-gox-c59] {
+color: #fff;
+cursor: Pointer;
+padding: 0rem 0rem
+}
+.dropdown-menu[_ngcontent-gox-c59] .dropdown-item[_ngcontent-gox-c59]:hover {
+background-color: #252525
+}
+
+/* ramka main box */
+.btn-select-lang[_ngcontent-gox-c59] {
+color: #fff;
+border-color: #343a40;
+background-color: #201e21;
+padding: 2px 10px
+}
+
+/* pri navedenii na main box */
+.btn-select-lang[_ngcontent-gox-c59]:hover {
+background-color: #151515
+}
+#dropdownMenuButton[_ngcontent-gox-c59] img[_ngcontent-gox-c59],
+.dropdown-menu[_ngcontent-gox-c59] .dropdown-item[_ngcontent-gox-c59] img[_ngcontent-gox-c59] {
+vertical-align: sub
+}
+
+    /* settings btns v menu */
+.russian-btn {
+  border:none;
+  width: 158px;
+  height: 25px;
+  background: url("{% static 'img/langue/RU.svg' %}") no-repeat 10px 2px;
+  background-size: auto 85%;
+  text-align: center;
+  padding-left: 30px;
+  color:#fff;
+  font-family: 'Inter', sans-serif;
+}
+.english-btn {
+  border:none;
+  width: 158px;
+  height: 25px;
+  background: url("{% static 'img/langue/EN.svg' %}") no-repeat 10px 2px;
+  background-size: auto 85%;
+  text-align: center;
+  padding-left: 30px;
+  color:#fff;
+  font-family: 'Inter', sans-serif;
+
+
+}
+
+    </style>
 
   </head>
 <body>
@@ -41,9 +107,10 @@
          </div>
 
          <div class='nav'>
-           <a class='nav-item' href="@">Главная</a>
+
+           <a class='nav-item' href="{% url 'home' %}">Главная</a>
            <a class='nav-item' href="{% url 'char' %}">Персонаж</a>
-             <a class='nav-item' href="@">Таланты</a>
+           <a class='nav-item' href="@">Таланты</a>
            <a class='nav-item' href="@">Аддоны</a>
            <a class='nav-item' href="@">Услуги</a>
 
