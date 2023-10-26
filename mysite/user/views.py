@@ -27,10 +27,11 @@ class UserLoginView(LoginView):
 #
 # 	def get(self, request, *args, **kwargs):
 # 		return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-	# def get_success_url(self):
-	# 	return reverse_lazy('home')
+#
+# 	def get_success_url(self):
+# 		return reverse_lazy('home')
 
 def UserLogout(request):
+	print(request.META)
 	auth.logout(request)
 	return HttpResponseRedirect(request.META['HTTP_REFERER'])

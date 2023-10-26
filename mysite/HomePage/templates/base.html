@@ -5,13 +5,14 @@
 <html lang="ru" xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="utf-8">
-
+    <script src="{% static 'js/javascript/zamimg_power.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-     <script src="https://wow.zamimg.com/modelviewer/wrath/viewer/viewer.min.js"></script>
-    <script src="{% static 'js/wow-model-viewer/index.js' %}"></script>
+     <script src="{% static 'js/javascript/wow-model-viewer/viewer_wrath.min.js' %}"></script>
+    <script src="{% static 'js/javascript/wow-model-viewer/model_viewer_utils.js' %}"></script>
+
      <base href="http://127.0.0.1:8000/">
       <script>const whTooltips = {colorLinks: false, iconize: 'large', renameLinks: false};</script>
-      <script src="https://wow.zamimg.com/js/tooltips.js"></script>
+
 <!--    <base href="www.wowhead.com">-->
     <link rel="shortcut icon" href="#">
 
@@ -114,13 +115,24 @@ vertical-align: sub
            <a class='nav-item' href="@">Аддоны</a>
            <a class='nav-item' href="@">Услуги</a>
 
+
          </div>
 
 
 
         <nav _ngcontent-gox-c59="" class="navbar navbar-expand-xl navbar-dark bg-navbar select-none">
           <div _ngcontent-gox-c59="" id="nav-menu" class="collapse navbar-collapse">
-
+              {% if user.is_authenticated %}
+                    <a class='nav-item' href="{% url 'user:login' %}" style="font-size: 18px;     margin-right: 10px;
+    color: #fff;
+    font-size: 16px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;">{{ user }}</a>
+              {% else %}
+                    <a class='nav-item' href="{% url 'user:login' %}" style="font-size: 18px;    margin-right: 10px; color: #fff;font-size: 16px;font-family: Inter;font-style: normal;font-weight: 400;line-height: normal;">Войти</a>
+              {% endif %}
             <div _ngcontent-gox-c59="" class="dropdown float-left d-none d-xl-inline">
               <button _ngcontent-gox-c59="" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-select-lang dropdown-toggle">
                 <img _ngcontent-gox-c59="" src="{% static 'img/langue/RU.svg' %}">

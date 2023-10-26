@@ -514,20 +514,24 @@ vertical-align: sub
 
 {% block js %}
 <script type="module">
-    import {generateModels} from "{% static 'js/wow-model-viewer/index.js' %}";
+
 
     const character = {
-        "race": 1,
-        "gender": 1,
-        "skin": 3,
         "face": 1,
-        "hairStyle": 8,
-        "hairColor": 9,
-        "facialStyle": 8,
-        "items": [[16, 22996]]
-    };
-    const model = await generateModels(1, `#model_3d`, character);
+        "gender": 1,
+        "generalOptions": {'mount': {"type": 8, "id": 0}},
+        "hair_color": 0,
+        "hair_style": 0,
+        "items": [],
+        "piercings": 0,
+        "race": 1,
+        "sheathMain": 8,
+        "sheathOff": 9,
+        "skin_color": 3
 
+    };
+    window.model = await generateModels('#model_3d', character);
+    console.log(window.model)
     window.fullScreen = () => {
         model.setFullscreen(true)
     }
@@ -535,7 +539,6 @@ vertical-align: sub
     window.clearSlot = (s) => {
         model.renderer.viewer.method("clearSlots", String(s))
     }
-
     window.setItems = (e, t, i) => {
         model.renderer.viewer.method("setItems", [[{
                 slot: e,
@@ -543,6 +546,7 @@ vertical-align: sub
                 visual: i
             }]])
     }
+
 
 
 // input anim...............................................................................................
@@ -753,10 +757,10 @@ vertical-align: sub
      window.itemsData = fetch('/static/db/itemsdata.json')
     .then((response) => response.json())
     .then((data) => {
-    console.log(data)
+
     window.itemsData = data;
     });
-    console.log(window.itemsData);
+
 
     function itemList() {
     var itemlist = document.querySelector(".btn-access");
@@ -839,6 +843,8 @@ vertical-align: sub
 
 //change item....................................................................................................................
 
+           var characterdata = {}
+
            function changeitem(event) {
                 var displayId = event.target.getAttribute("displayid");
                 var itemId = event.target.getAttribute("itemid");
@@ -848,8 +854,10 @@ vertical-align: sub
                 window.equip_slot.getElementsByTagName('a')[0].attributes.href.textContent = `https://www.wowhead.com/wotlk/ru/item=${itemId}`;
 
                 if(!([14, 13, 2, 11, 12].includes(window.slot_id))){
-                    console.log(1);
+                    console.log(window.slot_id, displayId, 0);
                     window.setItems(window.slot_id, displayId, 0);
+                    characterdata[window.slot_id] = {"displayId": displayId, "itemId": itemId, "icon": icon};
+                    console.log(characterdata);
                 };
 
 
@@ -866,18 +874,32 @@ vertical-align: sub
 
     document.querySelector(".cloak-hide");
 
-    function checkbox(){
+    function checkbox_head(){
         if(document.querySelector(".head-hide").checked == false){
             window.clearSlot(1);
         };
 
-        //if(document.querySelector(".head-hide").checked == true){
-        //    window.setItems(1, );
-        //};
-
+        if(document.querySelector(".head-hide").checked == true){
+            var displayId = characterdata[1]['displayId']
+            console.log(1, displayId, 0)
+            window.setItems(1, displayId, 0);
+        };
     };
 
-    document.querySelector(".head-hide").addEventListener('change', checkbox);
+    function checkbox_cloak(){
+        if(document.querySelector(".cloak-hide").checked == false){
+            window.clearSlot(16);
+        };
+
+        if(document.querySelector(".cloak-hide").checked == true){
+            var displayId = characterdata[16]['displayId']
+            console.log(16, displayId, 0)
+            window.setItems(16, displayId, 0);
+        };
+    };
+
+    document.querySelector(".head-hide").addEventListener('change', checkbox_head);
+    document.querySelector(".cloak-hide").addEventListener('change', checkbox_cloak);
 
 //...............................................................................................................................
 

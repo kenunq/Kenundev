@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view(), name='home'),
     path('user/', include('user.urls', namespace='user')),
-    path('char/', CharPageView.as_view(), name='char'),
+    path('char/', HomePageView.as_view(), name='char'),
     path('testanim/', TestAnim.as_view(), name='testanim'),
+    path('api/modelviewer/<path:modelviewer_path>/', ZamimgProxyView.as_view(), name='zamimg_proxy'),
 ]
