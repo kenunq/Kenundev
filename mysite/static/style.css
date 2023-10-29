@@ -216,6 +216,7 @@ p {
     border-radius: 10px;
     outline:none;
     padding-left: 5px;
+    color: #fff;
 }
 
 .seacrh-btn {
@@ -1169,3 +1170,236 @@ a:-webkit-any-link {
     line-height: normal;
 }
 
+.addons_shop {
+    display: flex;
+    margin-top: 160px;
+}
+
+.addons_category {
+    padding: 37px 39px 37px 39px;
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    margin-right: 35px;
+    height: min-content;
+}
+
+.category_header {
+    text-align: center;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255);
+    width: 322px;
+}
+
+.category_header p {
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 33px;
+}
+
+.category_list {
+
+}
+
+.category {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.category p {
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 33px;
+}
+
+.category p:hover {
+    color: Blue;
+}
+
+.addons_services {
+    display: flex;
+    margin-bottom: 60px;
+    height: 35px;
+}
+
+.addons_filter {
+    display: flex;
+    background: rgba(88, 84, 84, 0.18);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    height: min-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 520px;
+}
+
+.addons_filter:hover {
+    border: 1px solid blue;
+}
+
+.addons_filter p {
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 33px;
+    margin-right: 120px;
+    height: max-content
+}
+
+.addons_filter img {
+    margin-top: 8px;
+}
+
+.addon_filter_open {
+    display: none;
+    width: 230px;
+    position: absolute;
+    left: 650px;
+    top: 290px;
+
+    background: rgba(88, 84, 84, .9);
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.addon_filter_open div{
+    border-bottom: 1px solid rgba(255, 255, 255);
+    width: 229px;
+}
+
+.addon_filter_open div:last-child {
+    border-bottom: 0px solid rgba(255, 255, 255);
+    width: 229px;
+}
+
+.addon_filter_open a{
+    margin-left: 5px;
+    width: max-content;
+
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 33px;
+}
+
+.addon_filter_open a:hover{
+    color: blue;
+}
+
+.addons_cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.addon {
+    padding: 23px 25px 18px 25px;
+    margin-right: 31px;
+    margin-bottom: 36px;
+
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    width: 236px;
+}
+
+.addon:nth-child(4n) {
+  margin-right: 0px;
+}
+
+.addon img{
+    margin-bottom: 10px;
+}
+
+.addon_name{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff
+}
+
+.addon_description{
+    margin-top: 8px;
+    margin-bottom: 15px;
+    opacity: .7;
+    color: rgba(255, 255, 255, 0.70);
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    height: 34px;
+
+}
+
+.addon_price{
+    color: #fff;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    margin-bottom: 10px;
+}
+
+
+.buy-btn {
+    background: #0057FF;
+    border-radius: 10px;
+
+    display:flex;
+    align-items: center;
+    padding: 6px 11px 6px 65px;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    text-align: center;
+}
+
+.buy-btn p{
+    margin: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff
+}
+
+.reset-category-btn{
+    background: #0057FF;
+    border-radius: 10px;
+    margin-top: 30px;
+    display:flex;
+    align-items: center;
+    padding: 6px 11px 6px 75px;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    text-align: center;
+}
+
+.reset-category-btn p{
+    margin: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff
+}

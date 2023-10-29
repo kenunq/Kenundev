@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 from HomePage.views import *
 from user.views import *
@@ -25,7 +27,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view(), name='home'),
     path('user/', include('user.urls', namespace='user')),
+    path('addons/', include('addons.urls', namespace='addons')),
     path('char/', HomePageView.as_view(), name='char'),
     path('testanim/', TestAnim.as_view(), name='testanim'),
     path('api/modelviewer/<path:modelviewer_path>/', ZamimgProxyView.as_view(), name='zamimg_proxy'),
 ]
+
+if settings.DEBUG == True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
