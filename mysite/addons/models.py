@@ -14,6 +14,13 @@ class AddonCategory(models.Model):
     def __str__(self):
         return self.name
 
+
+class Compatible_Versions(models.Model):
+    version = models.CharField('Версия игры', max_length=32)
+
+    def __str__(self):
+        return self.version
+
 class Addon(models.Model):
     name = models.CharField(max_length=256, verbose_name='Название аддона')
     description = models.TextField(verbose_name='Краткое описание аддона')
@@ -21,6 +28,8 @@ class Addon(models.Model):
     full_description = models.TextField(verbose_name='Полное описание аддона')
     category = models.ManyToManyField(AddonCategory, related_name='a_category', verbose_name='Категория')
 
+    author = models.CharField(default='Jojin', max_length=32)
+    version = models.ManyToManyField(Compatible_Versions, verbose_name="Версия игры:")
     file = models.FileField(upload_to='addons_file', null=True, verbose_name='Файл с аддоном')
     preview = models.ImageField(upload_to='addons_images/preview', verbose_name='Картинка карточки аддона')
 
@@ -41,3 +50,5 @@ class Addon(models.Model):
 class AddonImage(models.Model):
     image = models.ImageField(upload_to='addons_images', verbose_name='Картинка аддона')
     addon = models.ForeignKey(Addon, on_delete=models.CASCADE, related_name='images')
+
+

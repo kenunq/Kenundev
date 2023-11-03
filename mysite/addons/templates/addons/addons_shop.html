@@ -37,7 +37,7 @@
 
     </div>
 
-    <div class="addons_main">
+    <div class="addons_main" style="width: 100%;">
 
         <div class="addons_services">
 
@@ -61,18 +61,13 @@
              <div class="seacrh-item" id="search-item">
 
 
-            <div class="seacrh-input" id="seacrh-input">
+            <div class="seacrh-input" id="seacrh-input" style="margin-right: 0px;">
 
                 <p id="placeholder-search">Поиск</p>
                 <input id="input-item-id">
 
             </div>
 
-            <div class="seacrh-btn">
-
-                <p>Найти</p>
-
-            </div>
 
         </div>
 
@@ -90,7 +85,7 @@
                 <p class="addon_name">{{ product.name }}</p>
                 <p class="addon_description">{{ product.description }}</p>
                 <p class="addon_price">{{ product.price }}р.</p>
-                <a href="@">
+                <a href="{{ request.path }}{{ product.slug }}">
                     <div class="buy-btn">
 
                         <p>Купить</p>
@@ -104,6 +99,18 @@
 
 
         </div>
+
+
+
+
+
+        <div class="container-pag">
+  <ul class="pagination" onclick="show_item(event)">
+
+
+
+  </ul>
+</div>
 
     </div>
 </div>
@@ -298,7 +305,104 @@
 
 //..................................
 
+// search...............................................................................................
 
+//input_id = input-item-id
+
+
+    document.querySelector('#input-item-id').oninput = function () {
+
+        var val = this.value.toLowerCase().trim();
+        var obj_list = document.querySelectorAll('.addons_cards div');
+        console.log(obj_list)
+        if (val != '') {
+
+            obj_list.forEach(function (elem) {
+
+                if(elem.getAttribute("class") == 'addon' || elem.getAttribute("class") == 'addon hide'){
+
+                    if (elem.innerText.toLowerCase().search(val) == -1){
+
+                        elem.classList.add('hide');
+                        elem.style.display = 'none'
+
+                    }
+                    else {
+                        elem.classList.remove('hide');
+                        elem.style.display = 'block'
+                    }
+                }
+            });
+        }
+        else {
+            paginator()
+            obj_list.forEach(function (elem) {
+                elem.classList.remove('hide');
+            });
+        }
+    }
+
+//..................................
+
+// paginator..........................
+
+
+var page_size = 8; //сколько отображаем сначала
+var count_page = Math.ceil(count / page_size); //кол-во страниц
+var count = document.querySelectorAll('.addon').length; //всего записей
+var list_obj = document.querySelectorAll('.addon')
+
+function paginator(){
+    list_obj.forEach(function (elem) {
+                elem.style.display = 'none';
+            });
+    var count_page = Math.ceil(count / page_size); //кол-во страниц
+
+    var paginator = document.querySelector(".pagination");
+    var page = "";
+    for (var i = 0; i < count_page; i++) {
+      page += "<li><p>" + (i+1) + "</p></li>";
+    }
+    paginator.innerHTML = page;
+
+     for(var i = 0; i < 1 * page_size; i++){
+            console.log(i)
+            if (list_obj[i]){
+                list_obj[i].style.display = 'block'
+            }
+        }
+
+    var buttuns_p = document.querySelectorAll(".pagination p");
+    console.log(buttuns_p)
+    buttuns_p[0].classList.add("active");
+}
+//..
+function show_item(event){
+    var buttuns_p = document.querySelectorAll(".pagination p");
+    var e = event || window.event;
+    var target = e.target;
+    buttuns_p.forEach(function (elem) {
+                console.log(1)
+                elem.classList.remove("active");
+            });
+    target.classList.add("active");
+    var page = target.innerText;
+
+
+    list_obj.forEach(function (elem) {
+                console.log(1)
+                elem.style.display = 'none';
+            });
+    for(var i = (page-1) * page_size; i < page * page_size; i++){
+        console.log(i)
+        if (list_obj[i]){
+            list_obj[i].style.display = 'block'
+        }
+    }
+}
+
+window.onload = paginator;
+//...................
 
 </script>
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from addons.models import AddonCategory, Addon, AddonImage
+from addons.models import AddonCategory, Addon, AddonImage, Compatible_Versions
 
 
 # Register your models here.
@@ -8,6 +8,10 @@ from addons.models import AddonCategory, Addon, AddonImage
 @admin.register(AddonCategory)
 class CategoryAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(Compatible_Versions)
+class VersionsAdmin(admin.ModelAdmin):
+    list_display = ('version',)
 
 
 class ImageInline(admin.TabularInline):

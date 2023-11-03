@@ -128,11 +128,11 @@ vertical-align: sub
 
                     <div class="seacrh-item" id="search-item">
 
-            <div class="search-reset">
+<!--            <div class="search-reset">-->
 
-                <img src="{% static 'img/icon/reset.png' %}">
+<!--                <img src="{% static 'img/icon/reset.png' %}">-->
 
-            </div>
+<!--            </div>-->
 
             <div class="seacrh-input" id="seacrh-input">
 
@@ -141,11 +141,11 @@ vertical-align: sub
 
             </div>
 
-            <div class="seacrh-btn">
+<!--            <div class="seacrh-btn">-->
 
-                <p>Найти</p>
+<!--                <p>Найти</p>-->
 
-            </div>
+<!--            </div>-->
 
         </div>
 
@@ -902,6 +902,41 @@ vertical-align: sub
     document.querySelector(".cloak-hide").addEventListener('change', checkbox_cloak);
 
 //...............................................................................................................................
+
+// search...............................................................................................
+
+//input_id = input-item-id
+
+
+    document.querySelector('#input-item-id').oninput = function () {
+        var val = this.value.toLowerCase().trim();
+        var obj_list = document.querySelectorAll('.item-list div');
+
+        if (val != '') {
+
+            obj_list.forEach(function (elem) {
+
+                if(elem.getAttribute("itemid")){
+
+                    if (elem.getAttribute("itemid").search(val) == -1){
+
+                        elem.classList.add('hide');
+
+                    }
+                    else {
+                        elem.classList.remove('hide');
+                    }
+                }
+            });
+        }
+        else {
+            obj_list.forEach(function (elem) {
+                elem.classList.remove('hide');
+            });
+        }
+    }
+
+//..................................
 
 
 </script>

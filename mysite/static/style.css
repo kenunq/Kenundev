@@ -279,6 +279,10 @@ p {
     cursor: pointer;
 }
 
+.item-list div.hide{
+    display: none;
+}
+
 .new-item-img {
     margin-right: 30px;
     height: 36px;
@@ -1173,6 +1177,7 @@ a:-webkit-any-link {
 .addons_shop {
     display: flex;
     margin-top: 160px;
+    width: 100%;
 }
 
 .addons_category {
@@ -1224,6 +1229,8 @@ a:-webkit-any-link {
     color: Blue;
 }
 
+
+
 .addons_services {
     display: flex;
     margin-bottom: 60px;
@@ -1239,7 +1246,7 @@ a:-webkit-any-link {
     height: min-content;
     padding-left: 10px;
     padding-right: 10px;
-    margin-right: 520px;
+    margin-right: 560px;
 }
 
 .addons_filter:hover {
@@ -1300,15 +1307,24 @@ a:-webkit-any-link {
     color: blue;
 }
 
+.addons-search{
+    width: 100%;
+}
+
 .addons_cards {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
+.addons_cards div.hide{
+  display: none;
+}
+
 .addon {
+    display: none;
     padding: 23px 25px 18px 25px;
-    margin-right: 31px;
+    margin-right: 33px;
     margin-bottom: 36px;
 
     background: rgba(88, 84, 84, 0.18);
@@ -1316,7 +1332,7 @@ a:-webkit-any-link {
     border-radius: 16px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     text-align: center;
-    width: 236px;
+    width: 238px;
 }
 
 .addon:nth-child(4n) {
@@ -1403,3 +1419,189 @@ a:-webkit-any-link {
     line-height: 19px;
     color: #fff
 }
+
+
+
+
+
+.container-pag{
+    padding: 0px;
+}
+
+.container-pag .pagination {
+  position: relative;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+  border-radius: 2px;
+}
+.container-pag .pagination li {
+  list-style-type: none;
+  display: inline-block;
+}
+.container-pag .pagination li p {
+  position: relative;
+  padding: 20px 25px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+}
+.container-pag .pagination li p:hover,
+.container-pag .pagination li p.active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.page_item.disabled{
+    pointer-events:none;
+    opacity: .6;
+}
+
+
+
+
+
+
+
+
+
+
+.addon_page_discription{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff;
+
+    width: 400px;
+    margin-right: 60px;
+    margin-top: 30px;
+}
+
+
+.slider-main{
+    position: relative;
+    width: min-content;
+    height: min-content;
+    margin-right: 136px;
+    padding: 14px 14px 14px 14px;
+    overflow: hidden;
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.slider-container {
+  position: relative;
+  width: min-content;
+  height: min-content;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slider img {
+  width: 372px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.prev-button,
+.next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  color: white;
+}
+
+.prev-button {
+  left: 10px;
+}
+
+.next-button {
+  right: 10px;
+}
+
+
+.addon_page_main {
+    display: flex;
+    margin-top: 222px;
+    justify-content: center;
+}
+
+.addon_info_panel {
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 23px;
+
+}
+
+
+.addon_page_name {
+    border-bottom: 1px solid rgba(255, 255, 255);
+    padding-bottom: 25px;
+    margin-bottom: 16px;
+
+
+}
+
+.addon_page_name p{
+        font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 19px;
+    color: #fff;
+    margin-right: 30px;
+}
+
+.addon_page_price{
+    margin-bottom: 32px;
+
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 19px;
+    color: #fff
+}
+
+.addon_page_author {
+    margin-bottom: 25px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 19px;
+    color: #fff
+}
+
+.addon_page_sovm{
+    margin-bottom: 25px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 19px;
+    color: #fff
+}
+
