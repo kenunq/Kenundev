@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="addon_page_main">
+    <p class="addon_page_discription">{{ addon.full_description }}</p>
+<div class="slider-main">
+    <div class="slider-container">
+        <div class="slider">
+            {% for image in addon.images.all %}
+                <img src="{{ image.image.url }}" alt="" width="186" height="100">
+            {% endfor %}
+        </div>
+        <button class="prev-button" aria-label="Посмотреть предыдущий слайд">&lt;</button>
+        <button class="next-button" aria-label="Посмотреть следующий слайд">&gt</button>
+      </div>
+</div>
+
+    <div class="addon_info_panel">
+
+        <div  class="addon_page_name">
+            <p>{{ addon.name }}</p>
+        </div>
+
+        <p class="addon_page_price">{{ addon.price }}р.</p>
+
+        <p class="addon_page_author">Автор: {{ addon.author }}</p>
+
+        <p class="addon_page_sovm">Совместимость: 3.3.5, 3.4.0</p>
+
+        <a href="@">
+                    <div class="buy-btn">
+
+                        <p>Купить</p>
+
+                    </div>
+                </a>
+
+
+
+    </div>
+
+    </div>
+{% endblock %}
+
+{% block js %}
+<script>
+// Получаем элементы слайдера
+const slider = document.querySelector('.slider');
+const prevButton = document.querySelector('.prev-button');
+const nextButton = document.querySelector('.next-button');
+const slides = Array.from(slider.querySelectorAll('img'));
+const slideCount = slides.length;
+let slideIndex = 0;
+
+// Устанавливаем обработчики событий для кнопок
+prevButton.addEventListener('click', showPreviousSlide);
+nextButton.addEventListener('click', showNextSlide);
+
+// Функция для показа предыдущего слайда
+function showPreviousSlide() {
+  slideIndex = (slideIndex - 1 + slideCount) % slideCount;
+  updateSlider();
+}
+
+// Функция для показа следующего слайда
+function showNextSlide() {
+  slideIndex = (slideIndex + 1) % slideCount;
+  updateSlider();
+}
+
+// Функция для обновления отображения слайдера
+function updateSlider() {
+  slides.forEach((slide, index) => {
+    if (index === slideIndex) {
+      slide.style.display = 'block';
+    } else {
+      slide.style.display = 'none';
+    }
+  });
+}
+
+// Инициализация слайдера
+updateSlider();
+</script>
+{% endblock %}
