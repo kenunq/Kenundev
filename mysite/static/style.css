@@ -1605,3 +1605,22 @@ a:-webkit-any-link {
     color: #fff
 }
 
+.addon-page-buy-btn {
+    background: #0057FF;
+    border-radius: 10px;
+
+
+    padding: 6px 0px 6px 0px;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    text-align: center;
+}
+
+.addon-page-buy-btn p{
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff
+}

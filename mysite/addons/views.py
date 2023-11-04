@@ -61,7 +61,7 @@ class AddonPageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AddonPageView, self).get_context_data()
-        context['addon'] = Addon.objects.filter(name=kwargs['addon_slug'])[0]
+        context['addon'] = Addon.objects.filter(slug=kwargs['addon_slug'])[0]
         # context['images'] = AddonImage.objects.filter(addon__slug=kwargs['addon_slug'])
         print(context)
         return context
