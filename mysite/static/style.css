@@ -1174,6 +1174,8 @@ a:-webkit-any-link {
     line-height: normal;
 }
 
+/* addon-shop......................................................................................................*/
+
 .addons_shop {
     display: flex;
     margin-top: 160px;
@@ -1460,13 +1462,13 @@ a:-webkit-any-link {
     opacity: .6;
 }
 
+/* .................................................................................................................*/
 
 
 
 
 
-
-
+/* addon-page......................................................................................................*/
 
 
 .addon_page_discription{
@@ -1535,6 +1537,7 @@ a:-webkit-any-link {
 .next-button {
   right: 10px;
 }
+
 
 
 .addon_page_main {
@@ -1624,3 +1627,86 @@ a:-webkit-any-link {
     line-height: 19px;
     color: #fff
 }
+/* ................................................................................................................. */
+
+/* homepage......................................................................................................... */
+
+.home_page_main {
+    margin-top: 160px;
+    justify-content: center;
+    align-items: center;
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+
+.home_page_header {
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 4px;
+    margin: 0px auto 50px;
+    padding: 30px;
+    background: rgba(88, 84, 84, 0.18);
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(255, 255, 255);
+    border-image: initial;
+    border-radius: 16px;
+}
+
+.home_page_header p {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 19px;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+}
+
+.home_page_info {
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 4px;
+    margin: 0px auto;
+    padding: 0px 30px 30px;
+    background: rgba(88, 84, 84, 0.18);
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(255, 255, 255);
+    border-image: initial;
+    border-radius: 16px;
+}
+
+.home_page_info div:first-of-type {
+    width: 100%;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    margin: 30px auto;
+}
+
+.home_page_info h2 {
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+}
+
+.home_page_info div {
+    width: min-content;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    margin: 30px auto 15px;
+}
+
+.home_page_info a {
+    color: rgb(77, 136, 255);
+    opacity: 1.5;
+}
+
+.home_page_info p {
+    margin-top: 10px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 27px;
+    color: rgb(255, 255, 255);
+}
+
+/* ............................................................................................................... */
+

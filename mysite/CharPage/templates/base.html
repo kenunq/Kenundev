@@ -1,0 +1,181 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="utf-8">
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+       {% block head %}
+
+  {% endblock %}
+
+      <base href="/" />
+      <link rel="shortcut icon" href="#">
+
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,200;0,400;0,600;1,200;1,300&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+
+
+    <title>Kenunchik</title>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <style>
+   /* main box settings */
+.dropdown[_ngcontent-gox-c59] img[_ngcontent-gox-c59] {
+height: 20px;
+margin-right: 10px
+}
+
+/* color menu */
+.dropdown-menu[_ngcontent-gox-c59] { /* полоска под дропдаун меню */
+background-color: #000;
+border-bottom: 2px solid #1fb8ff;
+padding-bottom: 1px;
+box-shadow: 0 0 30px 10px #ffffff12;
+}
+
+/* color pri hover */
+.dropdown-menu[_ngcontent-gox-c59] .dropdown-item[_ngcontent-gox-c59] {
+color: #fff;
+cursor: Pointer;
+padding: 0rem 0rem
+}
+.dropdown-menu[_ngcontent-gox-c59] .dropdown-item[_ngcontent-gox-c59]:hover {
+background-color: #252525
+}
+
+/* ramka main box */
+.btn-select-lang[_ngcontent-gox-c59] {
+color: #fff;
+border-color: #343a40;
+background-color: #201e21;
+padding: 2px 10px
+}
+
+/* pri navedenii na main box */
+.btn-select-lang[_ngcontent-gox-c59]:hover {
+background-color: #151515
+}
+#dropdownMenuButton[_ngcontent-gox-c59] img[_ngcontent-gox-c59],
+.dropdown-menu[_ngcontent-gox-c59] .dropdown-item[_ngcontent-gox-c59] img[_ngcontent-gox-c59] {
+vertical-align: sub
+}
+
+    /* settings btns v menu */
+.russian-btn {
+  border:none;
+  width: 158px;
+  height: 25px;
+  background: url("{% static 'img/langue/RU.svg' %}") no-repeat 10px 2px;
+  background-size: auto 85%;
+  text-align: center;
+  padding-left: 30px;
+  color:#fff;
+  font-family: 'Inter', sans-serif;
+}
+.english-btn {
+  border:none;
+  width: 158px;
+  height: 25px;
+  background: url("{% static 'img/langue/EN.svg' %}") no-repeat 10px 2px;
+  background-size: auto 85%;
+  text-align: center;
+  padding-left: 30px;
+  color:#fff;
+  font-family: 'Inter', sans-serif;
+
+
+}
+
+    </style>
+
+  </head>
+<body>
+    <div class='header'>
+       <div class='header-line'>
+
+         <div class='header-logo'>
+           <p>ЛОГО</p>
+         </div>
+
+         <div class='nav'>
+
+           <a class='nav-item' href="{% url 'home' %}">Главная</a>
+           <a class='nav-item' href="{% url 'char' %}">Персонаж</a>
+           <a class='nav-item' href="{% url 'talants' %}">Таланты</a>
+           <a class='nav-item' href="{% url 'addons:shop' %}">Аддоны</a>
+           <a class='nav-item' href="@">Услуги</a>
+
+
+         </div>
+
+
+
+        <nav _ngcontent-gox-c59="" class="navbar navbar-expand-xl navbar-dark bg-navbar select-none">
+          <div _ngcontent-gox-c59="" id="nav-menu" class="collapse navbar-collapse">
+              {% if user.is_authenticated %}
+                    <a class='nav-item' href="{% url 'user:login' %}" style="font-size: 18px;     margin-right: 10px;
+    color: #fff;
+    font-size: 16px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;">{{ user }}</a>
+              {% else %}
+                    <a class='nav-item' href="{% url 'user:login' %}" style="font-size: 18px;    margin-right: 10px; color: #fff;font-size: 16px;font-family: Inter;font-style: normal;font-weight: 400;line-height: normal;">Войти</a>
+              {% endif %}
+            <div _ngcontent-gox-c59="" class="dropdown float-left d-none d-xl-inline">
+              <button _ngcontent-gox-c59="" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-select-lang dropdown-toggle">
+                <img _ngcontent-gox-c59="" src="{% static 'img/langue/RU.svg' %}">
+              </button>
+
+              <div _ngcontent-gox-c59="" aria-labelledby="dropdownMenuButton" class="dropdown-menu">
+                  <span _ngcontent-gox-c59="" class="dropdown-item">
+                    <form action="https://frishub.ru/i18n/setlang/" method="POST">
+                      <input type="hidden" name="csrfmiddlewaretoken" value="Ndcf8DyDe3PA6WdlG4NW1aEuhlZonnitVPlue1mbMKPgtBcbVQ1vkoDJRvtGDJHL">
+                      <input _ngcontent-gox-c59="" class="russian-btn" type="hidden" name="language" value="ru">
+                      <input _ngcontent-gox-c59="" class="russian-btn" value="Русский" type="button">
+                    </form>
+                  </span>
+
+                  <span _ngcontent-gox-c59="" class="dropdown-item">
+                    <form action="https://frishub.ru/i18n/setlang/" method="POST">
+                      <input type="hidden" name="csrfmiddlewaretoken" value="Ndcf8DyDe3PA6WdlG4NW1aEuhlZonnitVPlue1mbMKPgtBcbVQ1vkoDJRvtGDJHL">
+                      <input _ngcontent-gox-c59="" class="english-btn" type="hidden" name="language" value="en">
+                      <input _ngcontent-gox-c59="" class="english-btn" value="English" type="submit">
+                    </form>
+                  </span>
+
+              </div>
+            </div>
+          </div>
+        </nav>
+
+
+         </div>
+
+       </div>
+
+  {% block content %}
+
+  {% endblock %}
+
+  {% block footer %}
+
+  {% endblock %}
+
+</body>
+
+{% block js %}
+
+{% endblock %}
+
+</html>

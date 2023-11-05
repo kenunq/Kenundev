@@ -1,0 +1,952 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <script src="{% static 'js/javascript/zamimg_power.min.js' %}"></script>
+
+    <script src="{% static 'js/javascript/wow-model-viewer/viewer_wrath.min.js' %}"></script>
+    <script src="{% static 'js/javascript/wow-model-viewer/model_viewer_utils.js' %}"></script>
+    <script>const whTooltips = {colorLinks: false, iconize: 'large', renameLinks: false};</script>
+
+{% endblock %}
+
+{% block css %}
+    <style>
+   /* main box settings */
+.dropdown[_ngcontent-gox-c59] img[_ngcontent-gox-c59] {
+height: 20px;
+margin-right: 10px
+}
+
+/* color menu */
+.dropdown-menu[_ngcontent-gox-c59] { /* полоска под дропдаун меню */
+background-color: #000;
+border-bottom: 2px solid #1fb8ff;
+padding-bottom: 1px;
+box-shadow: 0 0 30px 10px #ffffff12;
+}
+
+/* color pri hover */
+.dropdown-menu[_ngcontent-gox-c59] .dropdown-item[_ngcontent-gox-c59] {
+color: #fff;
+cursor: Pointer;
+padding: 0rem 0rem
+}
+.dropdown-menu[_ngcontent-gox-c59] .dropdown-item[_ngcontent-gox-c59]:hover {
+background-color: #252525
+}
+
+/* ramka main box */
+.btn-select-lang[_ngcontent-gox-c59] {
+color: #fff;
+border-color: #343a40;
+background-color: #201e21;
+padding: 2px 10px
+}
+
+/* pri navedenii na main box */
+.btn-select-lang[_ngcontent-gox-c59]:hover {
+background-color: #151515
+}
+#dropdownMenuButton[_ngcontent-gox-c59] img[_ngcontent-gox-c59],
+.dropdown-menu[_ngcontent-gox-c59] .dropdown-item[_ngcontent-gox-c59] img[_ngcontent-gox-c59] {
+vertical-align: sub
+}
+
+    /* settings btns v menu */
+.russian-btn {
+  border:none;
+  width: 158px;
+  height: 25px;
+  background: url("{% static 'img/langue/RU.svg' %}") no-repeat 10px 2px;
+  background-size: auto 85%;
+  text-align: center;
+  padding-left: 30px;
+  color:#fff;
+  font-family: 'Inter', sans-serif;
+}
+.english-btn {
+  border:none;
+  width: 158px;
+  height: 25px;
+  background: url("{% static 'img/langue/EN.svg' %}") no-repeat 10px 2px;
+  background-size: auto 85%;
+  text-align: center;
+  padding-left: 30px;
+  color:#fff;
+  font-family: 'Inter', sans-serif;
+
+
+}
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<div class="main">
+
+        <div class="spanmenu" id="spanmenu">
+
+            <div class="spanmenu-close">
+                <img src="{% static 'img/icon/Close.png' %}">
+            </div>
+
+            <div class="type-slot">
+                <p>type item</p>
+            </div>
+
+            <div class="change" id="change">
+                <p>Выбрать</p>
+            </div>
+
+            <div class="unequip" id="unequip">
+                <p>Снять</p>
+            </div>
+
+    </div>
+
+        <div class="char-header">
+
+            <div class="item-char-header">
+
+            <div class="rass-char" id="head-item">
+                <img src="{% static 'img/rass/human-male.png' %}">
+            </div>
+
+            <p class="char-name">Jojin</p>
+
+            <p class="char-info">Человек разбойник 80ур.</p>
+
+
+      </div>
+
+        </div>
+
+        <div class="main-char">
+
+            <div class="char-list">
+
+                <div class="edit-slot">
+
+                    <div class="btn-close">
+
+                        <img src="{% static 'img/icon/Close.png' %}">
+
+                    </div>
+
+                    <div class="seacrh-item" id="search-item">
+
+<!--            <div class="search-reset">-->
+
+<!--                <img src="{% static 'img/icon/reset.png' %}">-->
+
+<!--            </div>-->
+
+            <div class="seacrh-input" id="seacrh-input">
+
+                <p id="placeholder-search">ID</p>
+                <input id="input-item-id">
+
+            </div>
+
+<!--            <div class="seacrh-btn">-->
+
+<!--                <p>Найти</p>-->
+
+<!--            </div>-->
+
+        </div>
+
+
+                    <div class="btn-access">
+
+            <div class="btn-acc">
+
+                <p>Применить</p>
+
+            </div>
+
+        </div>
+
+            </div>
+
+                <a href="#">
+                    <div class="char-list-item">
+                      <p class="char-list-info-name">Jojin</p>
+                      <p class="char-list-info-description">Человек разбойник 80ур.</p>
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div class="char-list-item">
+                      <p class="char-list-info-name">Kenunhero</p>
+                      <p class="char-list-info-description">Человек жрица 80ур.</p>
+                    </div>
+                </a>
+
+          </div>
+
+            <div class="character">
+
+                    <div class="item-left">
+
+                        <div class="item-slot" id="    item-slot" slot="1">
+
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_head.jpg&quot;);"></ins>
+                            <del></del>
+                            <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" id="item-slot" slot="2">
+
+                                <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_neck.jpg&quot;);"></ins>
+                                <del></del>
+                                <a href="#"></a>
+
+                          </div>
+
+                        <div class="item-slot" id="item-slot" slot="3">
+
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_shoulder.jpg&quot;);"></ins>
+                            <del></del>
+                            <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" id="item-slot" slot="16">
+
+                                <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_chest.jpg&quot;);"></ins>
+                                <del></del>
+                                <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" id="item-slot" slot="5">
+
+                                <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_chest.jpg&quot;);"></ins>
+                                <del></del>
+                                <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" id="item-slot" slot="4">
+
+                                <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_shirt.jpg&quot;);"></ins>
+                                <del></del>
+                                <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" id="item-slot" slot="19">
+
+                                <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_tabard.jpg&quot;);"></ins>
+                                <del></del>
+                                <a href=""></a>
+
+                        </div>
+
+                        <div class="item-slot" id="item-slot" slot="9">
+
+                                <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_wrists.jpg&quot;);"></ins>
+                                <del></del>
+                                <a href="#"></a>
+
+                        </div>
+                    </div>
+
+                    <div class="model">
+
+                        <div id="model_3d"></div>
+
+                        <div class="input-checkbox">
+
+                            <div class="checkbox">
+
+                                <input type="checkbox" class="head-hide" checked>
+                                <p class="hide-text">Голова</p>
+
+                            </div>
+
+                            <div class="checkbox">
+
+                                <input type="checkbox" class="cloak-hide" checked>
+                                <p class="hide-text">Плащ</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="item-right">
+
+                        <div class="item-slot" slot="10">
+
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_hands.jpg&quot;);"></ins>
+                            <del></del>
+                            <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" slot="6">
+
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_waist.jpg&quot;);"></ins>
+                            <del></del>
+                            <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" slot="7">
+
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_legs.jpg&quot;);"></ins>
+                            <del></del>
+                            <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" slot="8">
+
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_feet.jpg"&quot;);"></ins>
+                            <del></del>
+                            <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" slot="11">
+
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_finger.jpg&quot;);"></ins>
+                            <del></del>
+                            <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" slot="12">
+
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_finger.jpg&quot;);"></ins>
+                            <del></del>
+                            <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" slot="13">
+
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_trinket.jpg&quot;);"></ins>
+                            <del></del>
+                            <a href="#"></a>
+
+                        </div>
+
+                        <div class="item-slot" slot="14">
+
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_trinket.jpg&quot;);"></ins>
+                            <del></del>
+                            <a href="#"></a>
+
+                        </div>
+                    </div>
+
+                    <div class="item-bottom">
+
+                        <div class="item-slot" slot="21">
+
+                        <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_mainhand.jpg&quot;);"></ins>
+                        <del></del>
+                        <a href="#"></a>
+
+                    </div>
+
+                        <div class="item-slot" slot="22">
+
+                    <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_offhand.jpg&quot;);"></ins>
+                    <del></del>
+                    <a href="#"></a>
+
+                </div>
+
+                        <div class="item-slot" slot="18">
+
+                    <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_ranged.jpg&quot;);"></ins>
+                    <del></del>
+                    <a href="#"></a>
+
+                </div>
+
+                    </div>
+
+                </div>
+
+            <div class="character-description">
+
+                    <div class="block-professions">
+
+                        <div class="border-professions">
+
+                            <p>Профессии</p>
+
+                        </div>
+
+                        <div class="professions">
+
+                            <div class="prof">
+
+                                <div class="prof-image">
+
+                            <img src="{% static 'img/Professions/Engineering.jpg' %}">
+
+                        </div>
+
+                                <div class="test1">
+
+                                    <div class="prof-name">
+
+                                <p>Портняжное дело</p>
+
+                            </div>
+
+                                    <div class="progresbar">
+
+                                <div id="progresbar">
+
+                                    <p>420</p>
+
+                                </div>
+
+                            </div>
+
+                                </div>
+
+
+
+                            </div>
+                            <div class="prof">
+
+                                <div class="prof-image">
+
+                                    <img src="{% static 'img/Professions/Tailoring.jpg' %}">
+
+                                </div>
+
+                                <div class="test1">
+
+                                    <div class="prof-name">
+
+                                        <p>Портняжное дело</p>
+
+                                    </div>
+
+                                    <div class="progresbar">
+
+                                        <div id="progresbar">
+
+                                            <p>420</p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="block-talents">
+
+                        <div class="border-talents">
+
+                            <p>Таланты</p>
+
+                        </div>
+
+                        <div class="talents">
+
+                            <div class="talent">
+
+                                <div class="talent-image">
+
+                                    <img src="{% static 'img/Talents/Stealth.png' %}">
+
+                                </div>
+
+                                <div class="test1">
+
+                                    <div class="talents-name">
+
+                                        <a href="#">
+                                        <p>Скрытность 12/3/56</p>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="talent">
+
+                                <div class="talent-image">
+
+                                    <img src="{% static 'img/Talents/Stealth.png' %}">
+
+                                </div>
+
+                                <div class="test1">
+
+                                    <div class="talents-name">
+
+                                        <a href="">
+                                        <p>Скрытность 12/3/56</p>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
+{% block js %}
+<script type="module">
+
+
+    const character = {
+        "face": 1,
+        "gender": 1,
+        "generalOptions": {'mount': {"type": 8, "id": 0}},
+        "hair_color": 0,
+        "hair_style": 0,
+        "items": [],
+        "piercings": 0,
+        "race": 1,
+        "sheathMain": 8,
+        "sheathOff": 9,
+        "skin_color": 3
+
+    };
+    window.model = await generateModels('#model_3d', character);
+    console.log(window.model)
+    window.fullScreen = () => {
+        model.setFullscreen(true)
+    }
+
+    window.clearSlot = (s) => {
+        model.renderer.viewer.method("clearSlots", String(s))
+    }
+    window.setItems = (e, t, i) => {
+        model.renderer.viewer.method("setItems", [[{
+                slot: e,
+                display: t,
+                visual: i
+            }]])
+    }
+
+
+
+// input anim...............................................................................................
+
+        function inputcheck(textid, input) {
+            var text = document.getElementById(`${textid}`);
+            let coords = {top: text.offsetTop, left: text.offsetLeft};
+            console.log(coords);
+
+            var top = text.offsetTop;
+            var left = text.offsetLeft;
+
+            console.log(text.offsetLeft, text.offsetTop);
+            var fsize = 15;
+            if(window.getComputedStyle(text, null).fontSize == fsize + "px"){
+
+            var topy = setInterval(topfunc, 10);
+            var leftx = setInterval(leftfunc, 23);
+            var fsizex = setInterval(fsizefunc, 23);
+            function topfunc() {
+                var direction = 1;
+                if(top == coords.top - 19) {
+                    clearInterval(topy);
+                }else {
+                    console.log(1);
+                    top -= 1 * direction;
+                    text.style.top = top + "px";
+                }
+                }
+
+            function leftfunc() {
+                var direction = 1;
+                if(left == coords.left - 5) {
+                    clearInterval(leftx);
+                }else {
+                     left -= 1 * direction;
+                    text.style.left = left + "px";
+                }
+                }
+
+            function fsizefunc() {
+                var bttn = document.getElementById(`${input}`);
+                var direction = 1;
+                if(fsize == 10) {
+                    bttn.disabled = false;
+                    clearInterval(fsizex);
+                }else {
+                    fsize -= 1 * direction;
+                    text.style.fontSize = fsize + "px";
+                }
+                }
+                }
+        }
+
+        function inputout(idtext, input) {
+            var text = document.getElementById(`${idtext}`);
+
+            //console.log(document.getElementById(`${input}`).value) //--- чтение из инпута
+            if(document.getElementById(`${input}`).value == ""){
+
+            let coords = {top: text.offsetTop, left: text.offsetLeft};
+            //console.log(coords);
+
+            var top = text.offsetTop;
+            var left = text.offsetLeft;
+
+            //console.log(text.offsetLeft, text.offsetTop);
+            var fsize = 10;
+            if(window.getComputedStyle(text, null).fontSize == fsize + "px"){
+
+
+            var topy = setInterval(topfunc, 10);
+            var leftx = setInterval(leftfunc, 23);
+            var fsizex = setInterval(fsizefunc, 25);
+
+                function topfunc() {
+                    var direction = -1;
+                    if(top == coords.top + 19) {
+                        clearInterval(topy);
+                    }else {
+                        top -= 1 * direction;
+                        text.style.top = top + "px";
+                    }
+                    }
+
+                function leftfunc() {
+                    var direction = -1;
+                    if(left == coords.left + 5) {
+                        clearInterval(leftx);
+                    }else {
+                         left -= 1 * direction;
+                        text.style.left = left + "px";
+                    }
+                    }
+
+                function fsizefunc() {
+                    var bttn = document.getElementById(`${input}`);
+                    var direction = -1;
+                    if(fsize == 15) {
+                        bttn.disabled = false;
+                        clearInterval(fsizex);
+                    }else {
+                        bttn.disabled = true;
+                        fsize -= 1 * direction;
+                        text.style.fontSize = fsize + "px";
+                    }
+                    }
+                    }
+            }
+
+
+        }
+
+        // вызов функции на нажатие инпут
+        document.getElementById("input-item-id").addEventListener('mousedown', inputcheck.bind(null, "placeholder-search", "input-item-id"));
+
+        // вызов функции при ухода из инпута
+        document.getElementById("input-item-id").addEventListener('focusout', inputout.bind(null, "placeholder-search", "input-item-id"));
+
+//................................................................................................................................................
+
+
+
+
+//button unequip...............................................................................................
+           window.type_slot = [["Голова"],["Шея"],["Плечи"],["Рубашка"],["Грудь"],["Пояс"],["Ноги"],["Ступни"],
+           ["Запястья"],["Кисти рук"],["Кольцо"],["Кольцо"],["Аксессуар"],["Аксессуар"],[""],["Спина"],[""],["Оружие"],["Накидка"],[""],["Оружие"],["Оружие"]];
+
+           window.default_image = [["head"],["neck"],["shoulder"],["shirt"],["chest"],["waist"],["legs"],["feet"],
+           ["wrists"],["hands"],["finger"],["finger"],["trinket"],["trinket"],[""],["chest"],[""],["ranged"],["tabard"],["shirt"],["mainhand"],["offhand"]];
+
+           function unequip() {
+
+                var unequip = document.getElementById("unequip");
+
+                window.equip_slot.getElementsByTagName('ins')[0].style.backgroundImage=`url(https://wow.zamimg.com/images/wow/icons/large/inventoryslot_${window.default_image[window.slot_id - 1]}.jpg)`;
+                window.equip_slot.getElementsByTagName('a')[0].attributes.href.textContent = "#";
+                window.clearSlot(window.slot_id);
+                document.getElementById("spanmenu").style.display = "none";
+
+                if(document.querySelector(".edit-slot")){
+                    changeItemMenuHide()
+                };
+
+           }
+
+            document.getElementById("unequip").addEventListener('click', unequip);
+
+
+//...............................................................................................................................
+
+
+// span menu.....................................................................................................................................
+
+        function spanmenu(btn, slot) {
+
+            var spanmenu =  document.getElementById("spanmenu");
+            window.slot_id = slot;
+            window.equip_slot = btn;
+            var rect = window.equip_slot.getBoundingClientRect();
+
+            spanmenu.style.left = rect.left + window.equip_slot.offsetWidth + "px";
+            spanmenu.style.top = rect.top + "px";
+            spanmenu.style.display = "block";
+            spanmenu.getElementsByTagName('p')[0].textContent = window.type_slot[slot-1]
+
+
+        }
+
+
+
+       function spanmenuhide(btn, type) {
+        var spanmenu =  document.getElementById("spanmenu");
+        var timer;
+
+        console.log(type);
+        if(type == "hide"){
+            timer = setTimeout(() => {
+            spanmenu.style.display = "none";
+            }, 1000)
+         }else if(type == "show"){
+            clearTimeout(timer)
+         };
+
+        }
+
+
+
+      var buttons = document.querySelectorAll('.item-slot');
+        for (var i = 0; i < buttons.length; ++i) {
+        buttons[i].addEventListener('click', spanmenu.bind(null, buttons[i], Number(buttons[i].attributes.slot.value)));
+        //buttons[i].addEventListener('mouseleave', spanmenuhide.bind(null, 1, "hide"));
+        //console.log(buttons[i]);
+        };
+
+        //document.getElementById("spanmenu").addEventListener('mouseleave', spanmenuhide.bind(null, null, "hide"));
+        //document.getElementById("spanmenu").addEventListener('mouseenter', spanmenuhide.bind(null, null, "show"));
+
+        document.querySelector(".spanmenu-close").addEventListener('click', function(){
+            document.getElementById("spanmenu").style.display = "none";
+        });
+
+//...............................................................................................................................
+
+
+//change item menu...............................................................................................................
+
+     window.itemsData = fetch('/static/db/itemsdata.json')
+    .then((response) => response.json())
+    .then((data) => {
+
+    window.itemsData = data;
+    });
+
+
+    function itemList() {
+    var itemlist = document.querySelector(".btn-access");
+
+            itemlist.insertAdjacentHTML("beforebegin", `
+        <div class="item-list" id="itemlist">
+
+
+        </div>
+            `);
+
+    document.querySelector("#itemlist").addEventListener('click', changeitem);
+
+    }
+
+    function changeItemMenu() {
+        if(document.getElementById("itemlist")){
+            document.getElementById("itemlist").remove();
+        };
+        itemList()
+        document.getElementById("spanmenu").style.display = "none";
+        var itemlist = document.getElementById("itemlist");
+        let elements_list = [];
+        var slot = window.slot_id;
+
+
+        if(slot == 12 || slot == 14){
+            var slot = slot - 1
+        };
+        for (i in window.itemsData[0][slot]) {
+
+
+            itemlist.insertAdjacentHTML("beforeend", `
+                <div class="new-item q${window.itemsData[0][slot][i].quality}" displayid="${window.itemsData[0][slot][i].displayId}" itemId="${window.itemsData[0][slot][i].itemId}" icon="${window.itemsData[0][slot][i].icon}">
+
+                    <div class="new-item-img">
+                        <a href="https://www.wowhead.com/wotlk/ru/item=${window.itemsData[0][slot][i].itemId}">
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/${window.itemsData[0][slot][i].icon}.jpg&quot;);"></ins>
+                        </a>
+                    </div>
+
+                <div class="new-item-text">
+
+                    <a href="https://www.wowhead.com/wotlk/ru/item=${window.itemsData[0][slot][i].itemId}">${window.itemsData[0][slot][i].Name}</a>
+
+                </div>
+
+            </div>
+            `);
+
+            };
+            window.WH.Tooltips.init();
+            document.querySelector(".edit-slot").style.display = "block";
+            document.querySelector(".char-list").style.marginRight = "10px";
+            var charlist = document.querySelectorAll('.char-list-item');
+            for (var i = 0; i < buttons.length; ++i) {
+            charlist[i].style.display = "none";
+            };
+
+
+    };
+
+
+     function changeItemMenuHide() {
+         document.querySelector(".edit-slot").style.display = "none";
+           document.querySelector(".char-list").style.marginRight = "100px";
+           var charlist = document.querySelectorAll('.char-list-item');
+           for (var i = 0; i < buttons.length; ++i) {
+           charlist[i].style.display = "block";
+           };
+     };
+
+     document.querySelector(".btn-close").addEventListener('click', changeItemMenuHide.bind(null));
+     document.getElementById("change").addEventListener('click', changeItemMenu.bind(null));
+
+
+
+//...............................................................................................................................
+
+
+//change item....................................................................................................................
+
+           var characterdata = {}
+
+           function changeitem(event) {
+                var displayId = event.target.getAttribute("displayid");
+                var itemId = event.target.getAttribute("itemid");
+                var icon = event.target.getAttribute("icon");
+
+                window.equip_slot.getElementsByTagName('ins')[0].style.backgroundImage=`url(https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg)`;
+                window.equip_slot.getElementsByTagName('a')[0].attributes.href.textContent = `https://www.wowhead.com/wotlk/ru/item=${itemId}`;
+
+                if(!([14, 13, 2, 11, 12].includes(window.slot_id))){
+                    console.log(window.slot_id, displayId, 0);
+                    window.setItems(window.slot_id, displayId, 0);
+                    characterdata[window.slot_id] = {"displayId": displayId, "itemId": itemId, "icon": icon};
+                    console.log(characterdata);
+                };
+
+
+
+                changeItemMenuHide();
+
+           }
+
+//...............................................................................................................................
+
+
+
+//Checkbox head and cloak....................................................................................................................
+
+    document.querySelector(".cloak-hide");
+
+    function checkbox_head(){
+        if(document.querySelector(".head-hide").checked == false){
+            window.clearSlot(1);
+        };
+
+        if(document.querySelector(".head-hide").checked == true){
+            var displayId = characterdata[1]['displayId']
+            console.log(1, displayId, 0)
+            window.setItems(1, displayId, 0);
+        };
+    };
+
+    function checkbox_cloak(){
+        if(document.querySelector(".cloak-hide").checked == false){
+            window.clearSlot(16);
+        };
+
+        if(document.querySelector(".cloak-hide").checked == true){
+            var displayId = characterdata[16]['displayId']
+            console.log(16, displayId, 0)
+            window.setItems(16, displayId, 0);
+        };
+    };
+
+    document.querySelector(".head-hide").addEventListener('change', checkbox_head);
+    document.querySelector(".cloak-hide").addEventListener('change', checkbox_cloak);
+
+//...............................................................................................................................
+
+// search...............................................................................................
+
+//input_id = input-item-id
+
+
+    document.querySelector('#input-item-id').oninput = function () {
+        var val = this.value.toLowerCase().trim();
+        var obj_list = document.querySelectorAll('.item-list div');
+
+        if (val != '') {
+
+            obj_list.forEach(function (elem) {
+
+                if(elem.getAttribute("itemid")){
+
+                    if (elem.getAttribute("itemid").search(val) == -1){
+
+                        elem.classList.add('hide');
+
+                    }
+                    else {
+                        elem.classList.remove('hide');
+                    }
+                }
+            });
+        }
+        else {
+            obj_list.forEach(function (elem) {
+                elem.classList.remove('hide');
+            });
+        }
+    }
+
+//..................................
+
+
+</script>
+{% endblock %}

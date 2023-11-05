@@ -1,0 +1,388 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>test animation</title>
+      <script>const whTooltips = {colorLinks: false, iconSize: 'large', renameLinks: false};</script>
+      <script src="https://wow.zamimg.com/js/tooltips.js"></script>
+
+    <link rel="stylesheet" href="{% static 'testanim.css' %}">
+
+<body>
+    <div class="spanmenu" id="spanmenu">
+        <div>
+        <p>type item</p>
+        </div>
+
+        <div class="change" id="change">
+            <p>сменить.</p>
+        </div>
+
+        <div class="unequip" id="unequip">
+            <p>Снять.</p>
+        </div>
+
+    </div>
+
+
+    <div class="edit-slot">
+
+                            <div class="btn-close">
+                        <img src="{% static 'img/icon/Close.png' %}">
+                    </div>
+
+        <div class="seacrh-item" id="search-item">
+
+            <div class="search-reset">
+
+                <img src="{% static 'img/icon/reset.png' %}">
+
+            </div>
+
+            <div class="seacrh-input" id="seacrh-input">
+                <p id="placeholder-id">ID</p>
+                <input id="input-item-id">
+
+
+            </div>
+
+            <div class="seacrh-btn">
+
+                <p>Найти</p>
+
+            </div>
+
+        </div>
+
+<!--        <div class="item-list" id="itemlist">-->
+
+
+<!--        </div>-->
+
+        <div class="btn-access">
+
+            <div class="btn">
+
+                <p>Применить</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button id="check">check</button>
+    <div class="mainblock">
+        <div class="block">
+
+            <label class="label">
+
+                <input id="input">
+                <p id="text">Логин</p>
+
+            </label>
+
+        </div>
+
+        <div class="icon">
+            123
+            <div class="head" slot="1">
+
+                <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inventoryslot_head.jpg&quot;);"></ins>
+                <del></del>
+                <a href="#" class="item" slot="1"></a>
+
+            </div>
+
+            <div class="head" id="head" slot="3" >
+
+                <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/inv_shoulder_09.jpg&quot;);"></ins>
+                <del></del>
+                 <a href="https://www.wowhead.com/wotlk/ru/item=4733" class="item" slot="2"></a>
+            </div>
+
+            </div>
+
+        </div>
+    <a href="#" data-wowhead="item=2828">hai</a>
+    <a href="#" data-wowhead="item=2828&amp;domain=ru.classic">hai</a>
+    </div>
+
+    <script>
+// input anim...............................................................................................
+
+        var bttn = document.getElementById("input");
+        var btn = document.getElementById("check");
+
+        function inputcheck(textid, input) {
+            var text = document.getElementById(`${textid}`);
+            let coords = {top: text.offsetTop-15, left: text.offsetLeft};
+            console.log(coords);
+
+            var top = text.offsetTop-15;
+            var left = text.offsetLeft;
+
+            console.log(text.offsetLeft, text.offsetTop-15);
+            var fsize = 15;
+            if(window.getComputedStyle(text, null).fontSize == fsize + "px"){
+
+            var topy = setInterval(topfunc, 10);
+            var leftx = setInterval(leftfunc, 23);
+            var fsizex = setInterval(fsizefunc, 23);
+            function topfunc() {
+                var direction = 1;
+                if(top == coords.top - 13) {
+                    clearInterval(topy);
+                }else {
+                    console.log(1);
+                    top -= 1 * direction;
+                    text.style.top = top + "px";
+                }
+                }
+
+            function leftfunc() {
+                var direction = 1;
+                if(left == coords.left - 5) {
+                    clearInterval(leftx);
+                }else {
+                     left -= 1 * direction;
+                    text.style.left = left + "px";
+                }
+                }
+
+            function fsizefunc() {
+                var bttn = document.getElementById(`${input}`);
+                var direction = 1;
+                if(fsize == 10) {
+                    bttn.disabled = false;
+                    clearInterval(fsizex);
+                }else {
+                    fsize -= 1 * direction;
+                    text.style.fontSize = fsize + "px";
+                }
+                }
+                }
+        }
+
+        function inputout(idtext, input) {
+            var text = document.getElementById(`${idtext}`);
+
+            console.log(document.getElementById(`${input}`).value) //--- чтение из инпута
+            if(document.getElementById(`${input}`).value == ""){
+
+            let coords = {top: text.offsetTop-15, left: text.offsetLeft};
+            console.log(coords);
+
+            var top = text.offsetTop-15;
+            var left = text.offsetLeft;
+
+
+            var fsize = 10;
+            if(window.getComputedStyle(text, null).fontSize == fsize + "px"){
+
+
+            var topy = setInterval(topfunc, 10);
+            var leftx = setInterval(leftfunc, 23);
+            var fsizex = setInterval(fsizefunc, 25);
+
+                function topfunc() {
+                    var direction = -1;
+                    if(top == coords.top + 18) {
+                        clearInterval(topy);
+                    }else {
+                        top -= 1 * direction;
+                        text.style.top = top + "px";
+                    }
+                    }
+
+                function leftfunc() {
+                    var direction = -1;
+                    if(left == coords.left + 5) {
+                        clearInterval(leftx);
+                    }else {
+                         left -= 1 * direction;
+                        text.style.left = left + "px";
+                    }
+                    }
+
+                function fsizefunc() {
+                    var bttn = document.getElementById("input");
+                    var direction = -1;
+                    if(fsize == 15) {
+                        bttn.disabled = false;
+                        clearInterval(fsizex);
+                    }else {
+                        bttn.disabled = true;
+                        fsize -= 1 * direction;
+                        text.style.fontSize = fsize + "px";
+                    }
+                    }
+                    }
+            }
+
+
+        }
+
+        // вызов функции на нажатие инпут
+        document.getElementById("input").addEventListener('mousedown', inputcheck.bind(null, "text"));
+        document.getElementById("input-item-id").addEventListener('mousedown', inputcheck.bind(null, "placeholder-id", "input-item-id"));
+
+        // вызов функции при ухода из инпута
+        document.getElementById("input").addEventListener('focusout', inputout.bind(null, "text", "input"));
+        document.getElementById("input-item-id").addEventListener('focusout', inputout.bind(null, "placeholder-id", "input-item-id"));
+        //bttn.onblur = inputout;
+//................................................................................................................................................
+
+
+//button unequip...............................................................................................
+           window.type_slot = [["Голова"], ["Шея"], ["Плечи"], ["Спина"], ["Грудь"], ["Рубашка"], ["Накидка"], ["Запястья"]];
+
+           window.default_image = [["head"],["neck"],["shoulder"],["chest"],["chest"],[""],[""],[""],["wrists"],[""],[""],[""],[""],[""],
+           [""],[""],[""],[""],["tabard"],["shirt"],[""],[""]]
+
+           function unequip() {
+
+                var unequip = document.getElementById("unequip");
+                console.log("slotid:" + window.slot_id)
+
+                window.equip_slot.getElementsByTagName('ins')[0].style.backgroundImage=`url(https://wow.zamimg.com/images/wow/icons/large/inventoryslot_${window.default_image[window.slot_id - 1]}.jpg)`;
+                document.getElementById("spanmenu").style.display = "none";
+
+
+                window.clearSlot = () => {
+                     window.model1.renderer.viewer.method("clearSlots", String(window.slot_id))
+                 }
+
+           }
+
+            document.getElementById("unequip").addEventListener('click', unequip);
+
+
+//...............................................................................................................................
+
+
+
+// span menu.....................................................................................................................................
+
+        function spanmenu(btn, slot) {
+            console.log(window.itemsData[0][slot][1].ilvl);
+            var spanmenu =  document.getElementById("spanmenu");
+            window.slot_id = slot;
+            window.equip_slot = btn;
+            console.log(window.slot_id)
+
+            spanmenu.style.left = btn.offsetLeft + btn.offsetWidth + "px";
+            spanmenu.style.top = btn.offsetTop + "px";
+            spanmenu.style.display = "block";
+            spanmenu.getElementsByTagName('p')[0].textContent = type_slot[slot-1]
+
+
+        }
+
+
+
+       function spanmenuhide(btn, type) {
+        var spanmenu =  document.getElementById("spanmenu");
+        var timer;
+
+        console.log(type);
+        if(type == "hide"){
+            timer = setTimeout(() => {
+            spanmenu.style.display = "none";
+            }, 1000)
+         }else if(type == "show"){
+            clearTimeout(timer)
+         };
+
+        }
+
+
+
+      var buttons = document.querySelectorAll('.head');
+        for (var i = 0; i < buttons.length; ++i) {
+        buttons[i].addEventListener('click', spanmenu.bind(null, buttons[i], Number(buttons[i].attributes.slot.value)));
+        //buttons[i].addEventListener('mouseleave', spanmenuhide.bind(null, 1, "hide"));
+        console.log(buttons[i]);
+        };
+
+        //document.getElementById("spanmenu").addEventListener('mouseleave', spanmenuhide.bind(null, null, "hide"));
+        //document.getElementById("spanmenu").addEventListener('mouseenter', spanmenuhide.bind(null, null, "show"));
+
+//...............................................................................................................................
+
+
+//change item menu...............................................................................................................
+
+     window.itemsData = fetch('/static/db/itemsdata.json')
+    .then((response) => response.json())
+    .then((data) => {
+    console.log(data)
+    window.itemsData = data;
+    });
+    console.log(window.itemsData);
+
+    function itemList() {
+    var itemlist = document.querySelector(".btn-access");
+
+            itemlist.insertAdjacentHTML("beforebegin", `
+        <div class="item-list" id="itemlist">
+
+
+        </div>
+            `);
+
+    }
+
+    function changeItemMenu() {
+        if(document.getElementById("itemlist")){
+            document.getElementById("itemlist").remove();
+        };
+        itemList()
+        document.getElementById("spanmenu").style.display = "none";
+        var itemlist = document.getElementById("itemlist");
+        let elements_list = [];
+        var slot = window.slot_id;
+
+
+
+        for (i in window.itemsData[0][slot]) {
+
+
+            itemlist.insertAdjacentHTML("beforeend", `
+                <div class="new-item q${window.itemsData[0][slot][i].quality}" displayid="${window.itemsData[0][slot][i].displayId}" itemId="${window.itemsData[0][slot][i].itemId}">
+
+                    <div class="new-item-img">
+                        <a href="https://www.wowhead.com/wotlk/ru/item=${window.itemsData[0][slot][i].itemId}">
+                            <ins style="background-image: url(&quot;https://wow.zamimg.com/images/wow/icons/large/${window.itemsData[0][slot][i].icon}.jpg&quot;);"></ins>
+                        </a>
+                    </div>
+
+                <div class="new-item-text">
+
+                    <a href="https://www.wowhead.com/wotlk/ru/item=${window.itemsData[0][slot][i].itemId}">${window.itemsData[0][slot][i].Name}</a>
+
+                </div>
+
+            </div>
+            `);
+
+            };
+            window.WH.Tooltips.init();
+            document.querySelector(".edit-slot").style.display = "block";
+
+    };
+
+     document.getElementById("change").addEventListener('click', changeItemMenu.bind(null));
+
+
+
+//...............................................................................................................................
+
+    </script>
+
+</body>
+</html>

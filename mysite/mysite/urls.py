@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 
 from HomePage.views import *
 from user.views import *
+from CharPage.views import *
+from talants.views import *
 
 
 urlpatterns = [
@@ -28,8 +30,9 @@ urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
     path('user/', include('user.urls', namespace='user')),
     path('addons/', include('addons.urls', namespace='addons')),
-    path('char/', HomePageView.as_view(), name='char'),
+    path('char/', CharPageView.as_view(), name='char'),
     path('testanim/', TestAnim.as_view(), name='testanim'),
+    path('talents/', TalantsView.as_view(), name='talants'),
     path('api/modelviewer/<path:modelviewer_path>/', ZamimgProxyView.as_view(), name='zamimg_proxy'),
 ]
 
