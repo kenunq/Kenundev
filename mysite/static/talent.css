@@ -20,7 +20,7 @@
 #tc-classes .iconmedium {
     float: left;
     margin-right: 2px;
-    margin-bottom: 2px;
+    margin-bottom: 20px;
     opacity: .6666;
     filter: alpha(opacity=66)
 }
@@ -41,8 +41,8 @@
 
 #tc-classes.choose #tc-classes-inner {
     position: absolute;
-    left: 77px;
-    top: 150px
+    top: 150px;
+    left: 245px;
 }
 
 #tc-classes.choose .iconmedium {
@@ -59,10 +59,12 @@
     top: 0;
     padding: 10px;
     background-color: #141414
+
 }
 
 .talentcalc-sidebar-inner {
     width: 300px
+
 }
 
 .talentcalc-sidebar-controls {
@@ -450,6 +452,526 @@ a.talentcalc-button-summary {
     top: 33px
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .iconmedium ins {
     background-size: auto;
+}
+
+.main {
+    margin-top: 80px;
+}
+
+.talentcalc-sidebar-anchor {
+    top: 60px;
+    left: 180px;
+}
+.talentcalc-wrapper{
+    left: 170px;
+    top: -30px;
+}
+
+.talentcalc-main {
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.talentcalc-default .talentcalc-main {
+    position: relative;
+    width: 635px;
+    height: 650px;
+    top: 40px;
+    left: -15px;
+    padding-left: 8px;
+    padding-top: 50px;
+
+}
+
+
+.talentcalc-lower-tree1,.talentcalc-lower-tree2,.talentcalc-lower-tree3 {
+    top: -9px;
+    color: #fff;
+}
+
+.talentcalc-lower-tree1 {
+    left: -5px;
+}
+
+.talentcalc-lower-tree2 {
+    left: 200px;
+}
+
+.talentcalc-lower-tree3 {
+    left: 405px;
+}
+
+.talentcalc-upper {
+    position: absolute;
+    padding: 10px 50px 10px 40px;
+    top: 52px;
+    left: -5px;
+    z-index: 1;
+
+}
+
+.talentcalc-default .talentcalc-upper,.talentcalc-pet .talentcalc-upper,.talentcalc-default .talentcalc-lower {
+    width: 614px;
+    margin-bottom: 0;
+
+}
+
+h3 {
+    color: #fff;
+}
+
+
+
+
+
+
+/* .talentcalc-glyphpicker {
+
+
+    width: min-content;
+    z-index: 2;
+    padding: 10px;
+
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.listview-clip {
+   overflow: auto;
+}
+
+.lightbox-outer{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 1px;
+    height: 1px;
+    z-index: 60;
+}
+
+.lightbox-overlay{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #000;
+    opacity: .8;
+    filter: alpha(opacity=80);
+    z-index: 50;
+}
+
+.lightbox-inner{
+    visibility: visible;
+    width: 800px;
+    height: 564px;
+    left: -400px;
+    top: -282px;
+}
+*/
+
+.lightbox-outer {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 1px;
+    height: 1px;
+    z-index: 60
+}
+
+.lightbox-inner {
+    position: absolute;
+    z-index: 70
+}
+
+.lightbox-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #000;
+    opacity: .8;
+    filter: alpha(opacity=80);
+    z-index: 50
+}
+
+.listview {
+    border: 2px solid #404040;
+    clear: both
+}
+
+.listview-band-top,.listview-band-bottom {
+    background-color: #404040;
+    color: #ccc
+}
+
+.listview-band-top {
+    padding: 3px 3px 6px 6px;
+}
+
+.talentcalc-glyphpicker .listview-band-top {
+    background-color: rgba(255,255,255,0);
+    height: 15px
+}
+
+.listview-band-bottom {
+    padding: 6px 3px 3px 3px
+}
+
+.listview-band-top input,.listview-band-bottom input,.listview-band-top select,.listview-band-bottom select {
+    font-size: 11px;
+    margin-right: .5em
+}
+
+.listview-quicksearch {
+    display: block;
+    float: right;
+    position: relative;
+    margin-right: 1px;
+    margin-bottom: 10px;
+}
+
+.listview-quicksearch a {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    padding: 3px 3px 2px 2px
+}
+
+.listview-quicksearch a span {
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: url(../images/Listview/quicksearch-cancel.gif) no-repeat
+}
+
+.listview-quicksearch a:hover span {
+    background-position: 0 -12px
+}
+
+.listview-quicksearch em {
+    position: absolute;
+    display: block;
+    right: 2px;
+    top: 2px;
+    width: 13px;
+    height: 13px;
+    background: url(../images/Listview/quicksearch.gif) no-repeat
+}
+
+.listview-quicksearch input {
+    margin: 0;
+    border: 1px solid #a7a6aa;
+
+    padding-left: 2px;
+    font-size: 11px;
+    font-family: Arial,sans-serif;
+    background: #fff;
+    color: #000
+}
+
+.talentcalc-glyphpicker {
+
+
+    width: min-content;
+    z-index: 2;
+    padding: 10px;
+
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.listview-clip {
+   overflow: auto;
+}
+
+.small crop {
+    color: #fff;
+}
+
+.listview-mode-default td {
+    padding: 4px;
+    color: #ddd;
+    text-align: center;
+    font-size: 13px
+}
+
+.iconsmall ins,.iconmedium ins,.iconlarge ins,.iconblizzard ins {
+    background-repeat: no-repeat;
+    background-size: auto;
+    display: block;
+    position: absolute;
+    z-index: 5
+}
+
+.clickable tr{
+    cursor: pointer;
+}
+
+.clickable tr:hover{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-access{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 250px;
+    left: 305px;
+}
+
+.btn-acc {
+    background: #0057FF;
+    border-radius: 10px;
+    display: flex;
+    padding: 6px 41px;
+
+    margin-top: 54px;
+    cursor: pointer;
+
+}
+
+.btn-acc p {
+    margin: 0;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff;
+}
+
+.talents_save_form {
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding: 20px;
+    z-index: 100;
+}
+
+.save-form{
+        display: flex;
+}
+
+.char_list {
+    display: flex;
+    background: rgba(88, 84, 84, 0.18);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    height: min-content;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.char_list:hover {
+    border: 1px solid blue;
+}
+
+.char_list p {
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 33px;
+    margin-right: 120px;
+    height: max-content;
+}
+
+.char_list img {
+    margin-top: 8px;
+    right: 0;
+}
+
+.addon_filter_open {
+    display: none;
+    width: 230px;
+    position: absolute;
+    left: 650px;
+    top: 290px;
+
+    background: rgba(88, 84, 84, .9);
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.addon_filter_open div{
+    border-bottom: 1px solid rgba(255, 255, 255);
+    width: 229px;
+}
+
+.addon_filter_open div:last-child {
+    border-bottom: 0px solid rgba(255, 255, 255);
+    width: 229px;
+}
+
+.addon_filter_open p{
+    margin-left: 5px;
+    width: max-content;
+
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 33px;
+}
+
+.addon_filter_open div:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.addon_filter_open a:hover{
+    color: blue;
+}
+
+.input_talent_name{
+    width: 100%;
+}
+
+.talent_name{
+    display:flex;
+    width: 100%;
+    height: 30px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.name-input{
+    display:flex;
+    position: relative;
+    width: 100%;
+    height: 30px;
+    margin-right: 14px;
+}
+
+.name-input input{
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+}
+
+.form_name_list p:first-child{
+    margin-top: 3px;
+    margin-bottom: 32px;
+}
+
+.form_name_list p {
+    color: #fff;
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+}
+.form_name_list {
+    margin-right: 15px;
+}
+
+.char_list_open{
+    display: none;
+    width: 230px;
+    position: absolute;
+    top:  170px;
+    left: 343px;
+    transform: translate(-50%,-50%);
+
+    background: rgba(88, 84, 84, .9);
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.char_list_open div{
+    border-bottom: 1px solid rgba(255, 255, 255);
+    width: 229px;
+}
+
+.char_list_open div:last-child {
+    border-bottom: 0px solid rgba(255, 255, 255);
+    width: 229px;
+}
+
+.char_list_open div:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.char_list_open p{
+    margin-left: 5px;
+    width: max-content;
+
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 33px;
+}
+
+.char_list_open a:hover{
+    color: blue;
+}
+
+.btn-save{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-sav {
+    background: #0057FF;
+    border-radius: 10px;
+    display: flex;
+    padding: 6px 41px;
+
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.btn-sav p {
+    margin: 0;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff;
 }

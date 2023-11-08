@@ -3,7 +3,8 @@ var $WowheadTalentCalculator; function TalentCalc() {
     MODE_DEFAULT = 0, MODE_PET = 1, MIN_LEVEL = 10, MAX_LEVEL = 80, _versionBuild = 355, _self = this, _opt, _data = {}, _glyphLookup = {}, _talentLookup = {}, _build, _firstBuild, _firstGlyphs, _glyphs, _currentClass = -1, _oldClass = -1, _nClassChanges = 0, _currentGlyphSlot, _filteredGlyphs = !1, _locked = !1, _mode, _nTrees, _nTiers, _nGlyphs, _glyphSlots, _glyphOrder = [1, 2], _glyphLevels = { 1: [], 2: [] }, _pointsPerTier, _basePoints, _bonusPoints = 0, _pointsFromBonus, _maxLevel = MAX_LEVEL, _pointsToSpend, _referenceArray, _container, _divSidebar, _controlsDiv, _lnkLock, _lnkSummary, _lnkExport, _lnkRestore, _glyphDiv, _glyphIcons = {}, _glyphLinks = {}, _divWrapper, _divUpper, _lblClass, _lblSpec, _lblReqLevel, _lnkMaxLevel, _lblPtsLeft, _lnkBonusPoints, _divLower, _lblTreePoints = [], _divMain, _divModel, swfModel, _encoding = '0zMcmVokRsaqbdrfwihuGINALpTjnyxtgevElBCDFHJKOPQSUWXYZ123456789', _blizzEncoding = 'aZbYcXdWeVfUgThSiRjQkPlOmNnMoLpKqJrIsHtGuFvEwDxCyBzA0123456789_=+-.', _newTree = 'Z', _onChangeCallback, _info = {}; this.getTalentTrees = function () { return _data[_currentClass] }; this.addGlyph = function (itemId) {
         if (itemId) { _addGlyph(_currentGlyphSlot, itemId) } else { _removeGlyph(_currentGlyphSlot) }
         Lightbox.hide()
-    }; this.getBlizzBuild = function () {
+    };
+     this.getBlizzBuild = function () {
         if (_currentClass == -1) { return }
         var c = _data[_currentClass], blizz = ''; for (var tree = 0; tree < _nTrees; ++tree) { for (var i = 0; i < c[tree].t.length; ++i) { blizz += c[tree].t[i].k } }
         blizz = $WH.rtrim(blizz, '0'); return blizz
@@ -521,6 +522,7 @@ var $WowheadTalentCalculator; function TalentCalc() {
         if (glyph && !locked) { Icon.setTexture(icon, 1, glyph.icon); a.href = link.href = '?item=' + glyph.id; $WH.st(a, _simplifyGlyphName(glyph.name)); a.className = 'q1'; return !0 } else { Icon.setTexture(icon, 1, 'inventoryslot_empty'); a.href = link.href = 'javascript:;'; $WH.st(a, (!locked ? LANG.tc_empty : LANG.tc_locked)); a.className = 'q0'; return !1 }
     }
     function _updateTree(tree, refresh, talent, classId) {
+        show_save();
         var c = _data[classId]; var highestLevel; var bc; if (!talent || c.k == _pointsToSpend) { bc = 0; highestLevel = _pointsToSpend - 21 } else { bc = talent.i; highestLevel = Math.floor(c[tree].k / _pointsPerTier) * _pointsPerTier + 5 }
         if (talent != null && talent.links != null) { for (var i = 0, bf = talent.links.length; i < bf; ++i) { if (bc > talent.links[i]) { bc = talent.links[i] } } }
         for (var i = bc; i < c[tree].t.length; ++i) {
@@ -553,7 +555,7 @@ TalentCalc.MODE_DEFAULT = 0; TalentCalc.MODE_PET = 1; Listview.templates.glyph =
     }, columns: [{
         id: 'glyph', type: 'text', align: 'left', value: 'name', span: 2, compute: function (glyph, td, tr) {
             if (glyph.none) { return }
-            var i = $WH.ce('td'); i.style.width = '1px'; i.style.padding = '0'; i.style.borderRight = 'none'; var icon = Icon.create(glyph.icon, 0, null, '?item=' + glyph.id), link = Icon.getLink(icon); $WH.ae(i, icon); $WH.ae(tr, i); td.style.borderLeft = 'none'; link.onclick = $WH.rf; var a = $WH.ce('a'); a.style.fontFamily = 'Verdana, sans-serif'; a.href = '?item=' + glyph.id; $WH.ae(a, $WH.ct($WowheadTalentCalculator.simplifyGlyphName(glyph.name))); td.style.whiteSpace = 'nowrap'; $WH.ae(td, a); tr.onclick = function (e) { if (e.which != 2 || e.target != a) { e.preventDefault(); ($WowheadTalentCalculator.addGlyph.bind(null, glyph.id))() } }
+            var i = $WH.ce('td'); i.style.width = '1px'; i.style.padding = '0'; i.style.borderRight = 'none'; var icon = Icon.create(glyph.icon, 0, null, 'https://www.wowhead.com/wotlk/ru/item=' + glyph.id), link = Icon.getLink(icon); $WH.ae(i, icon); $WH.ae(tr, i); td.style.borderLeft = 'none'; link.onclick = $WH.rf; var a = $WH.ce('a'); a.style.fontFamily = 'Verdana, sans-serif'; a.style.color = '#FFD100'; a.href = 'https://www.wowhead.com/wotlk/ru/item=' + glyph.id; $WH.ae(a, $WH.ct($WowheadTalentCalculator.simplifyGlyphName(glyph.name))); td.style.whiteSpace = 'nowrap'; $WH.ae(td, a); tr.onclick = function (e) { if (e.which != 2 || e.target != a) { e.preventDefault(); ($WowheadTalentCalculator.addGlyph.bind(null, glyph.id))() } }
         }, sortFunc: function (a, b, col) {
             if (a.none) { return -1 }
             return $WH.strcmp(a.name, b.name)

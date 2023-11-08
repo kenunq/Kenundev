@@ -3,7 +3,6 @@
 
 {% block head %}
 
-<script src="{% static 'js/javascript/zamimg_power.min.js' %}"></script>
 
 <script src="{% static 'js/javascript/locale_ruru.js' %}"></script>
 <script src="{% static 'js/javascript/basic.js' %}" type="text/javascript"></script>
@@ -22,12 +21,15 @@
         var g_host = "";
         var g_dataKey = 's877LVqSDI4Awswmk4RcPCpHXhdaG2cl9Qox528t'
     </script>
-<link rel="stylesheet" href="{% static 'talent.css' %}">
+
+
 <script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
+<script src="{% static 'js/javascript/zamimg_power.min.js' %}"></script>
+<script src="{% static 'widgets/power.js' %}"></script>
+<link rel="stylesheet" href="{% static 'talent.css' %}">
 {% endblock %}
 
 {% block content %}
-
 <div class="main" id="main">
 
     <div class="main-contents" id="main-contents">
@@ -55,7 +57,64 @@
         <div class="clear"></div>
     </div>
 </div>
+<form>
+    <div class="talents_save_form" style="display: none;">
 
+
+        <div class="save-form">
+        <div class="form_name_list">
+
+            <p>Введите название:</p>
+            <p>Выберите персонажа:</p>
+
+        </div>
+
+        <div class="form_input_list">
+
+            <div class="input_talent_name">
+
+                 <div class="talent_name" id="talent_name">
+
+
+                    <div class="name-input" id="name-input" style="margin-right: 0px;">
+
+                        <p id="placeholder-search">Введите название</p>
+                        <input id="input_name_talents">
+
+                    </div>
+
+                 </div>
+
+            </div>
+
+            <div class="char_list" id="char_list">
+
+            <p>Выбрать</p>
+            <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle">
+
+        </div>
+
+            <div class="char_list_open" id="char_list_open" open="False">
+                <div class="name_char" onclick="enter_char_name(event)"><p >Популярное</p></div>
+                <div class="name_char" onclick="enter_char_name(event)"><p>Дешевле</p></div>
+                <div class="name_char" onclick="enter_char_name(event)"><p>Дороже</p></div>
+            </div>
+
+        </div>
+        </div>
+        <div class="btn-save">
+
+            <div class="btn-sav">
+
+                <p>Сохранить</p>
+
+            </div>
+
+        </div>
+
+    </div>
+</form>
+<div class="lightbox-overlay" style="height: 100%; display: none;"></div>
 {% endblock %}
 
 {% block js %}
@@ -64,6 +123,236 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'UA-62198676-2');
+
+</script>
+
+<script>
+
+    function show_save(){
+
+        var summary_style = document.querySelector('.talentcalc-button-summary').style.display;
+
+        if(summary_style == '') {
+            var item = document.querySelector(".talentcalc-sidebar-anchor");
+             item.insertAdjacentHTML("beforeend", `
+             {% if user.is_authenticated %}
+                <div class="btn-access">
+
+            <div class="btn-acc" id="btn-acc">
+
+                <p>Сохранить таланты</p>
+
+            </div>
+
+        </div>
+        {% endif %}
+            `);
+        var objects = document.querySelectorAll(".btn-acc")
+        objects[objects.length - 1].addEventListener('click', save_menu_open);
+        }
+
+    };
+
+    function enter_char_name(event){
+        var object = document.querySelector('.char_list p');
+        var e = event || window.event;
+        var target = e.target;
+        object.innerText = target.innerText;
+        addon_filter_open();
+
+
+    };
+
+
+ function rotate_tringle(d){
+        var d= d;
+        if(d == 0){
+            var rotate_interval = setInterval(function w(){
+            if(d == 180){
+                clearInterval(rotate_interval);
+            };
+            document.getElementById("tringle").style['-webkit-transform']= `rotate(${d + "deg"})`;
+            d +=3;
+            },4);
+        };
+
+        if(d == 180){
+            var rotate_interval = setInterval(function w(){
+            if(d == 360){
+                clearInterval(rotate_interval);
+            }
+            document.getElementById("tringle").style['-webkit-transform']= `rotate(${d + "deg"})`;
+            d +=3;
+            },4);
+        };
+    };
+
+    function addon_filter_open() {
+        //var obj = document.getElementById("char_list_open");
+        var obj = document.querySelector(".char_list_open");
+        var attr = obj.getAttribute("open")
+        if(attr == "False"){
+            rotate_tringle(0);
+            obj.setAttribute("open", "True")
+            obj.style.display = "block"
+
+        }
+
+        if(attr == "True"){
+            rotate_tringle(180);
+            obj.setAttribute("open", "False")
+            obj.style.display = "none"
+
+        }
+
+    }
+
+
+
+     document.getElementById("char_list").addEventListener('mousedown', addon_filter_open);
+
+    // input anim...............................................................................................
+
+        function inputcheck(textid, input) {
+            var text = document.getElementById(`${textid}`);
+            let coords = {top: text.offsetTop, left: text.offsetLeft};
+            console.log(coords);
+
+            var top = text.offsetTop;
+            var left = text.offsetLeft;
+
+            console.log(text.offsetLeft, text.offsetTop);
+            var fsize = 15;
+            if(window.getComputedStyle(text, null).fontSize == fsize + "px"){
+
+            var topy = setInterval(topfunc, 10);
+            var leftx = setInterval(leftfunc, 23);
+            var fsizex = setInterval(fsizefunc, 23);
+            function topfunc() {
+                var direction = 1;
+                if(top == coords.top - 19) {
+                    clearInterval(topy);
+                }else {
+                    console.log(1);
+                    top -= 1 * direction;
+                    text.style.top = top + "px";
+                }
+                }
+
+            function leftfunc() {
+                var direction = 1;
+                if(left == coords.left - 5) {
+                    clearInterval(leftx);
+                }else {
+                     left -= 1 * direction;
+                    text.style.left = left + "px";
+                }
+                }
+
+            function fsizefunc() {
+                var bttn = document.getElementById(`${input}`);
+                var direction = 1;
+                if(fsize == 10) {
+                    bttn.disabled = false;
+                    clearInterval(fsizex);
+                }else {
+                    fsize -= 1 * direction;
+                    text.style.fontSize = fsize + "px";
+                }
+                }
+                }
+        }
+
+        function inputout(idtext, input) {
+            var text = document.getElementById(`${idtext}`);
+
+            //console.log(document.getElementById(`${input}`).value) //--- чтение из инпута
+            if(document.getElementById(`${input}`).value == ""){
+
+            let coords = {top: text.offsetTop, left: text.offsetLeft};
+            //console.log(coords);
+
+            var top = text.offsetTop;
+            var left = text.offsetLeft;
+
+            //console.log(text.offsetLeft, text.offsetTop);
+            var fsize = 10;
+            if(window.getComputedStyle(text, null).fontSize == fsize + "px"){
+
+
+            var topy = setInterval(topfunc, 10);
+            var leftx = setInterval(leftfunc, 23);
+            var fsizex = setInterval(fsizefunc, 25);
+
+                function topfunc() {
+                    var direction = -1;
+                    if(top == coords.top + 19) {
+                        clearInterval(topy);
+                    }else {
+                        top -= 1 * direction;
+                        text.style.top = top + "px";
+                    }
+                    }
+
+                function leftfunc() {
+                    var direction = -1;
+                    if(left == coords.left + 5) {
+                        clearInterval(leftx);
+                    }else {
+                         left -= 1 * direction;
+                        text.style.left = left + "px";
+                    }
+                    }
+
+                function fsizefunc() {
+                    var bttn = document.getElementById(`${input}`);
+                    var direction = -1;
+                    if(fsize == 15) {
+                        bttn.disabled = false;
+                        clearInterval(fsizex);
+                    }else {
+                        bttn.disabled = true;
+                        fsize -= 1 * direction;
+                        text.style.fontSize = fsize + "px";
+                    }
+                    }
+                    }
+            }
+
+
+        }
+
+        // вызов функции на нажатие инпут
+        document.getElementById("input_name_talents").addEventListener('mousedown', inputcheck.bind(null, "placeholder-search", "input_name_talents"));
+
+        // вызов функции при ухода из инпута
+        document.getElementById("input_name_talents").addEventListener('focusout', inputout.bind(null, "placeholder-search", "input_name_talents"));
+
+//..........................
+
+//save-open......................
+
+    function save_menu_open(){
+        document.querySelector(".talents_save_form").style.display = "block";
+        document.querySelector(".lightbox-overlay").style.display = "block";
+
+        document.addEventListener('keydown', function(event) {
+            if (event.code == 'Escape') {
+                save_menu_hide()
+            }
+        });
+
+    };
+
+    function save_menu_hide(){
+        document.querySelector(".talents_save_form").style.display = "none";
+        document.querySelector(".lightbox-overlay").style.display = "none";
+    };
+
+    document.querySelector(".lightbox-overlay").addEventListener('click', save_menu_hide);
+
+
+//...............
 
 </script>
 {% endblock %}
