@@ -10557,7 +10557,7 @@
       },
       Al = 51,
       El = 5200,
-      Ml = "DressingRoom",
+      Ml = "CharModel",
       Cl = "Stand";
     class Sl {
       constructor(t, e, i, r, n, s, a, o) {

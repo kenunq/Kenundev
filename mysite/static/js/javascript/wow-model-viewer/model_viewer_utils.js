@@ -431,7 +431,7 @@ class WowModelViewer extends ZamModelViewer {
             if (anim_name && !animNames.includes(anim_name)) animNames.push(anim_name);
         };
         animNames.sort();
-        const defaultIndex = Math.max(0, animNames.findIndex(i => i === "DressingRoom"));
+        const defaultIndex = Math.max(0, animNames.findIndex(i => i === "CharModel"));
 
         return {animNames, defaultIndex};
     };

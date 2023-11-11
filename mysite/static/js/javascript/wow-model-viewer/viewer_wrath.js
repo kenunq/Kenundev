@@ -10290,7 +10290,7 @@
       },
       al = 44,
       ol = 4400,
-      ll = "DressingRoom",
+      ll = "CharModel",
       hl = "Stand";
     class ul {
       constructor(t, e, i, r, n, s, a, o) {

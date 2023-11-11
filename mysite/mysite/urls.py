@@ -31,6 +31,7 @@ urlpatterns = [
     path('user/', include('user.urls', namespace='user')),
     path('addons/', include('addons.urls', namespace='addons')),
     path('char/', CharPageView.as_view(), name='char'),
+    path('char/<uuid:room_id>/', UniqueCharPageView.as_view(), name='char_page_room'),
     path('testanim/', TestAnim.as_view(), name='testanim'),
     path('talents/', TalantsView.as_view(), name='talants'),
     path('api/modelviewer/<path:modelviewer_path>/', ZamimgProxyView.as_view(), name='zamimg_proxy'),
