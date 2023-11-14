@@ -83,6 +83,8 @@ class CharModel(models.Model):
 
     allow_edit = models.BooleanField(verbose_name='Разрешить редактирование')
 
+    creating = models.BooleanField(verbose_name='Персонаж создан?', default=False)
+
     race = models.IntegerField(verbose_name='Раса')
 
     gender = models.IntegerField(verbose_name='Пол')

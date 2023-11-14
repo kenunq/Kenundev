@@ -22,7 +22,7 @@ class CharModelAdmin(admin.ModelAdmin):
 
     readonly_fields = ('race_img65x65',)
 
-    fields = ('room_id', 'creator', 'allow_edit', ('race', 'race_img65x65'),
+    fields = ('room_id', 'creator', 'allow_edit', 'creating', ('race', 'race_img65x65'),
               'gender', 'last_update_time', 'items', 'face')
 
     def get_short_room_id(self, obj: CharModel) -> str:
