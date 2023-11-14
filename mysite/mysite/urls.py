@@ -31,6 +31,7 @@ urlpatterns = [
     path('user/', include('user.urls', namespace='user')),
     path('addons/', include('addons.urls', namespace='addons')),
     path('char/', CharPageView.as_view(), name='char'),
+    path('createchar/<uuid:room_id>/', CreateCharView.as_view(), name='createchar'),
     path('char/<uuid:room_id>/', UniqueCharPageView.as_view(), name='char_page_room'),
     path('testanim/', TestAnim.as_view(), name='testanim'),
     path('talents/', TalantsView.as_view(), name='talants'),

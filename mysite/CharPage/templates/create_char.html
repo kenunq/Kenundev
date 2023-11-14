@@ -1,0 +1,456 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+    <script src="{% static 'js/javascript/zamimg_power.min.js' %}"></script>
+    <script src="{% static 'js/javascript/wow-model-viewer/viewer_wrath.min.js' %}"></script>
+    <script src="{% static 'js/javascript/wow-model-viewer/model_viewer_utils.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'create_char.css' %}">
+
+    <script>
+        var data = {
+            'Class': 1,
+            'Race': 1,
+            'Gender': 1,
+            'Skin_Color': 1,
+            'Face': 1,
+            'Hair_Style': 1,
+            'Hair_Color': 1,
+            'Facial_Hair': 1,
+            'Markings': 1,
+            'Horn_Style': 1,
+            'Horn_Color': 1,
+            'Hair': 1,
+            'Features': 1,
+            'Earrings': 1,
+            'Tusks': 1,
+            'Piercings': 1
+        }
+       var character = {
+        "face": 1,
+        "gender": 1,
+        "generalOptions": {'mount': {"type": 8, "id": 0}},
+        "hair_color": 1,
+        "hair_style": 1,
+        "facial_hair": 2,
+        "markings": 1,
+        "horn_style": 1,
+        "features": 1,
+        "horn_color": 1,
+        "hair": 1,
+        "earrings": 1,
+        "tusks": 3,
+        "items": [],
+        "piercings": 0,
+        "race": 1,
+        "sheathMain": 8,
+        "sheathOff": 9,
+        "skin_color": 1
+    };
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="main_block">
+<div class="block_main_settings">
+
+    <div class="block_races">
+
+        <p id="current_race">Человек</p>
+
+        <div class="races_alliance">
+
+            <img src="{% static 'img/other/Alliance-Logo.png' %}" height="56" width="56">
+            <div class="race_image selected" onclick="change_race(event)" race_name="Человек" race_id="1">
+                <ins style="background-image: url(&quot;{% static 'img/rass/female/race_human.jpg' %}&quot;);"></ins>
+                <del></del>
+                <a href=":javascript"></a>
+            </div>
+            <div class="race_image" onclick="change_race(event)" race_name="Дворф" race_id="3">
+                <ins style="background-image: url(&quot;{% static 'img/rass/female/race_dwarf.jpg' %}&quot;);"></ins>
+                <del></del>
+                <a href=":javascript"></a>
+            </div>
+            <div class="race_image" onclick="change_race(event)" race_name="Ночной эльф" race_id="4">
+                <ins style="background-image: url(&quot;{% static 'img/rass/female/race_nightelf.jpg' %}&quot;);"></ins>
+                <del></del>
+                <a href=":javascript"></a>
+            </div>
+            <div class="race_image" onclick="change_race(event)" race_name="Гном" race_id="7">
+                <ins style="background-image: url(&quot;{% static 'img/rass/female/race_gnome.jpg' %}&quot;);"></ins>
+                <del></del>
+                <a href=":javascript"></a>
+            </div>
+            <div class="race_image" onclick="change_race(event)" race_name="Дреней" race_id="11">
+                <ins style="background-image: url(&quot;{% static 'img/rass/female/race_draenei.jpg' %}&quot;);"></ins>
+                <del></del>
+                <a href=":javascript"></a>
+            </div>
+
+        </div>
+
+        <div class="races_horde">
+
+            <img src="{% static 'img/other/Horde-Logo.png' %}" height="56" width="56">
+            <div class="race_image" onclick="change_race(event)" race_name="Орк" race_id="2">
+                <ins style="background-image: url(&quot;{% static 'img/rass/female/race_orc.jpg' %}&quot;);"></ins>
+                <del></del>
+                <a href=":javascript"></a>
+            </div>
+            <div class="race_image" onclick="change_race(event)" race_name="Нежить" race_id="5">
+                <ins style="background-image: url(&quot;{% static 'img/rass/female/race_scourge.jpg' %}&quot;);"></ins>
+                <del></del>
+                <a href=":javascript"></a>
+            </div>
+            <div class="race_image" onclick="change_race(event)" race_name="Таурен" race_id="6">
+                <ins style="background-image: url(&quot;{% static 'img/rass/female/race_tauren.jpg' %}&quot;);"></ins>
+                <del></del>
+                <a href=":javascript"></a>
+            </div>
+            <div class="race_image" onclick="change_race(event)" race_name="Тролль" race_id="8">
+                <ins style="background-image: url(&quot;{% static 'img/rass/female/race_trol.jpg' %}&quot;);"></ins>
+                <del></del>
+                <a href=":javascript"></a>
+            </div>
+            <div class="race_image" onclick="change_race(event)" race_name="Эльф крови" race_id="10">
+                <ins style="background-image: url(&quot;{% static 'img/rass/female/race_bloodelf.jpg' %}&quot;);"></ins>
+                <del></del>
+                <a href=":javascript"></a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="block_sex">
+
+        <p id="current_sex">Женщина</p>
+        <div class="sex_list">
+            <div class="sex" gender_id="0"  sex_name="Мужчина" onclick="change_sex(event)">
+            <ins style="background-image: url(&quot;{% static 'img/other/male.png' %}&quot;);"></ins>
+            <del></del>
+        </div>
+            <div class="sex selected" gender_id="1" sex_name="Женщина" onclick="change_sex(event)">
+            <ins style="background-image: url(&quot;{% static 'img/other/female.png' %}&quot;);"></ins>
+            <del></del>
+        </div>
+        </div>
+
+    </div>
+
+    <div class="block_classes">
+
+        <p id="current_class">Разбойник</p>
+        <div class="class_list1">
+            <div class="class_image" class_name="Воин" onclick="change_class(event)">
+                <ins style="background-image: url(&quot;{% static 'img/classes/warrior.jpg' %}&quot;);"></ins>
+                <del></del>
+            </div>
+            <div class="class_image" class_name="Шаман" onclick="change_class(event)">
+                <ins style="background-image: url(&quot;{% static 'img/classes/shaman.jpg' %}&quot;);"></ins>
+                <del></del>
+            </div>
+            <div class="class_image" class_name="Охотник" onclick="change_class(event)">
+                <ins style="background-image: url(&quot;{% static 'img/classes/hunter.jpg' %}&quot;);"></ins>
+                <del></del>
+            </div>
+            <div class="class_image selected" class_name="Разбойник" onclick="change_class(event)">
+                <ins style="background-image: url(&quot;{% static 'img/classes/rogue.jpg' %}&quot;);"></ins>
+                <del></del>
+            </div>
+            <div class="class_image" class_name="Жрец" onclick="change_class(event)">
+                <ins style="background-image: url(&quot;{% static 'img/classes/priest.jpg' %}&quot;);"></ins>
+                <del></del>
+            </div>
+
+        </div>
+
+        <div class="class_list2">
+            <div class="class_image" class_name="Рыцарь смерти" onclick="change_class(event)">
+                <ins style="background-image: url(&quot;{% static 'img/classes/deathknight.jpg' %}&quot;);"></ins>
+                <del></del>
+            </div>
+            <div class="class_image" class_name="Паладин" onclick="change_class(event)">
+                <ins style="background-image: url(&quot;{% static 'img/classes/paladin.jpg' %}&quot;);"></ins>
+                <del></del>
+            </div>
+            <div class="class_image" class_name="Чернокнижник" onclick="change_class(event)">
+                <ins style="background-image: url(&quot;{% static 'img/classes/warlock.jpg' %}&quot;);"></ins>
+                <del></del>
+            </div>
+            <div class="class_image" class_name="Маг" onclick="change_class(event)">
+                <ins style="background-image: url(&quot;{% static 'img/classes/mage.jpg' %}&quot;);"></ins>
+                <del></del>
+            </div>
+            <div class="class_image" class_name="Друид" onclick="change_class(event)">
+                <ins style="background-image: url(&quot;{% static 'img/classes/druid.jpg' %}&quot;);"></ins>
+                <del></del>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="block_settings">
+
+        <div class="settings0">
+
+            <div class="settings_name">
+
+                    <p>Цвет кожи</p>
+
+                </div>
+            
+            <img src="{% static 'img/other/prev.PNG' %}" class="button_prev" onclick="change_option(event)">
+            <img src="{% static 'img/other/next.PNG' %}" class="button_next" onclick="change_option(event)">
+
+        </div>
+
+        <div class="settings1">
+
+            <div class="settings_name">
+
+                    <p>Лицо</p>
+
+                </div>
+
+            <img src="{% static 'img/other/prev.PNG' %}" class="button_prev" onclick="change_option(event)">
+            <img src="{% static 'img/other/next.PNG' %}" class="button_next" onclick="change_option(event)">
+
+        </div>
+
+        <div class="settings2">
+
+            <div class="settings_name">
+
+                    <p>Прическа</p>
+
+                </div>
+
+            <img src="{% static 'img/other/prev.PNG' %}" class="button_prev" onclick="change_option(event)">
+            <img src="{% static 'img/other/next.PNG' %}" class="button_next" onclick="change_option(event)">
+
+        </div>
+
+        <div class="settings3">
+
+            <div class="settings_name">
+
+                    <p>Цвет волос</p>
+
+                </div>
+
+            <img src="{% static 'img/other/prev.PNG' %}" class="button_prev" onclick="change_option(event)">
+            <img src="{% static 'img/other/next.PNG' %}" class="button_next" onclick="change_option(event)">
+
+        </div>
+
+        <div class="settings4">
+
+            <div class="settings_name">
+
+                    <p>Пирсинг</p>
+
+                </div>
+
+            <img src="{% static 'img/other/prev.PNG' %}" class="button_prev" onclick="change_option(event)">
+            <img src="{% static 'img/other/next.PNG' %}" class="button_next" onclick="change_option(event)">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+ <div class="model">
+     <div id="model_3d"></div>
+ </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script type="module">
+    //const character = {
+    //    "face": 1,
+    //    "gender": data["Gender"],
+    //    "generalOptions": {'mount': {"type": 8, "id": 0}},
+    //    "hair_color": 0,
+    //    "hair_style": 0,
+    //    "items": [],
+    //    "piercings": 0,
+    //    "race": 1,
+    //    "sheathMain": 8,
+    //    "sheathOff": 9,
+    //    "skin_color": 3
+    //};
+
+    //window.model = await generateModels('#model_3d', character);
+
+
+</script>
+
+<script>
+
+    const _render_model = async function () {
+
+        if (window.model){
+            window.model.renderer.models[0].modelIsLoaded = false;
+        };
+
+        generate_face_settings();
+        window.model = await generateModels('#model_3d', character);
+
+
+    };
+    _render_model();
+
+    function change_race(event){
+
+        var object_p = document.querySelector("#current_race");
+        var e = event || window.event;
+        var target = e.target;
+        var target_parent = target.parentElement;
+
+        hide_selected(target_parent.classList);
+
+
+        target_parent.classList.add("selected");
+        var new_value = target_parent.getAttribute("race_name");
+        object_p.innerText = new_value;
+        var race_id = target_parent.getAttribute("race_id");
+
+        data["Race"] = parseInt(race_id);
+        character["race"] = data["Race"];
+        _render_model();
+
+    };
+
+    function change_sex(event){
+        var object_p = document.querySelector("#current_sex");
+        var e = event || window.event;
+        var target = e.target;
+        var target_parent = target.parentElement;
+
+        hide_selected(target_parent.classList);
+
+
+        target_parent.classList.add("selected");
+        var new_value = target_parent.getAttribute("sex_name");
+        object_p.innerText = new_value;
+        var gender_id = target_parent.getAttribute("gender_id");
+
+        change_icon_races(gender_id);
+
+        data["Gender"] = parseInt(gender_id);
+        character["gender"] = data["Gender"];
+        _render_model();
+
+    };
+
+    function change_class(event){
+        var object_p = document.querySelector("#current_class");
+        var e = event || window.event;
+        var target = e.target;
+        var target_parent = target.parentElement;
+        hide_selected(target_parent.classList)
+        target_parent.classList.add("selected")
+        var new_value = target_parent.getAttribute("class_name");
+        object_p.innerText = new_value;
+        data["Class"] = new_value;
+    };
+
+    function hide_selected(class_name){
+        var obj = document.querySelectorAll(`.${class_name[0]}.selected`);
+        obj[0].classList.remove("selected")
+
+    };
+
+    function change_icon_races(gender){
+        const image_url = {
+            0: "male",
+            1: "female"
+        }
+        objects = document.querySelectorAll(".race_image ins");
+        for (let i = 0; i < objects.length; i++) {
+            if(gender == 1){
+                objects[i].style.backgroundImage = objects[i].style.backgroundImage.replace(image_url[0], image_url[gender])
+            } else {
+                objects[i].style.backgroundImage = objects[i].style.backgroundImage.replace(image_url[1], image_url[gender])
+            };
+
+        };
+    };
+
+    //window.model.updateAppearance(character)
+
+    function generate_face_settings(){
+        var options_translate = {
+            'Skin Color': "Цвет кожи",
+            'Face': "Лицо",
+            'Hair Style': "Прическа",
+            'Hair Color': "Цвет волос",
+            'Facial Hair': "Борода и усы",
+            'Markings': "Раскраска",
+            'Horn Style': "Вид рогов",
+            'Horn Color': "Цвет рогов",
+            'Hair': "Волосы",
+            'Features': "Аксессуары",
+            'Earrings': "Серьги",
+            'Tusks': "Клыки",
+            'Piercings': "Пирсинг"
+        };
+
+        findRaceGenderOptions(data["Race"], data["Gender"]).then((fullOptions) => {
+            var full_options = fullOptions.Options;
+
+            for (let i = 0; i < full_options.length; i++) {
+
+                var obj_setting = document.querySelector(`.settings${i}`);
+                obj_setting.children[0].children[0].innerText = options_translate[full_options[i]["Name"]]
+                obj_setting.setAttribute("name", full_options[i]["Name"])
+                obj_setting.setAttribute("max", full_options[i]["Choices"].length)
+                data[full_options[i]["Name"].replace(" ", "_")] = 0
+                character[full_options[i]["Name"].replace(" ", "_").toLowerCase()] = 0
+
+
+            };
+        });
+
+    };
+
+    function change_option(event){
+        var e = event || window.event;
+        var target = e.target;
+        var target_class = target.classList[0];
+        var options = target.parentElement.getAttribute("name");
+        var max_value = parseInt(target.parentElement.getAttribute("max")) - 1;
+        var current_value = data[options.replace(" ", "_")];
+        console.log(current_value)
+        if(target_class == "button_next"){
+
+            if(current_value == max_value){
+
+                character[options.replace(" ", "_").toLowerCase()] = -1;
+                data[options.replace(" ", "_")] = -1;
+
+            };
+            character[options.replace(" ", "_").toLowerCase()] += 1;
+            data[options.replace(" ", "_")] += 1;
+
+        } else {
+            if(current_value == 0){
+                character[options.replace(" ", "_").toLowerCase()] = parseInt(max_value) + 1;
+                data[options.replace(" ", "_")] = parseInt(max_value) + 1;
+            };
+            character[options.replace(" ", "_").toLowerCase()] -= 1;
+            data[options.replace(" ", "_")] -= 1;
+
+        };
+        window.model.updateAppearance(character)
+
+    };
+</script>
+
+{% endblock %}

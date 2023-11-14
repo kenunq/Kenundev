@@ -1,0 +1,248 @@
+.model{
+    position: absolute;
+    width: 500px;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+	border: 1px solid #FFFFFF;
+
+}
+
+#model_3d {
+    width: 100%;
+    height: 500px;
+}
+
+.main_block{
+    display: flex;
+}
+
+.block_main_settings{
+    margin-top: 90px;
+    width: min-content;
+    height: min-content;
+    padding-top: 16px;
+    padding-left: 47px;
+    padding-right: 47px;
+    padding-bottom: 30px;
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.block_main_settings p{
+    color: #FFC700;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+    margin-bottom: 10px;
+}
+
+.block_races{
+    margin-bottom: 13px;
+}
+
+.races_alliance{
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.races_alliance img:first-child{
+    position: absolute;
+    left: 205px;
+}
+
+.races_alliance div:last-child{
+    margin-right: 0px;
+}
+
+.races_horde{
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.races_horde img:first-child{
+    position: absolute;
+    left: 205px;
+}
+
+.races_horde div:last-child{
+    margin-right: 0px;
+}
+
+.race_image{
+    position: relative;
+    margin-right: 14px;
+    cursor: pointer;
+}
+
+.race_image ins{
+    display: block;
+    width: 56px;
+    height: 56px;
+}
+
+.race_image.selected del{
+    display: block;
+    background-size: auto 100%;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: 62px;
+    height: 62px;
+    background-image: url("https://wow.zamimg.com/images/Icon/medium/border/gold-selected.png");
+}
+
+.block_sex{
+    margin-bottom: 18px;
+}
+
+.sex_list{
+    display: flex;
+}
+
+.sex{
+    position: relative;
+    margin-right: 14px;
+    left: 30%;
+    cursor: pointer;
+}
+
+.sex ins{
+    display: block;
+    width: 56px;
+    height: 56px;
+}
+
+
+.sex.selected del{
+    display: block;
+    background-size: auto 100%;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: 62px;
+    height: 62px;
+    background-image: url("https://wow.zamimg.com/images/Icon/medium/border/gold-selected.png");
+}
+
+.block_classes{
+    margin-bottom: 40px;
+}
+
+.class_list1{
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.class_image{
+    position: relative;
+    margin-right: 14px;
+    cursor: pointer;
+}
+
+.class_list1 div:last-child{
+    margin-right: 0px;
+}
+
+.class_image ins{
+    display: block;
+    width: 56px;
+    height: 56px;
+}
+
+.class_image.selected del{
+    display: block;
+    background-size: auto 100%;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: 62px;
+    height: 62px;
+    background-image: url("https://wow.zamimg.com/images/Icon/medium/border/gold-selected.png");
+}
+
+.class_list2{
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.class_list2 div:last-child{
+    margin-right: 0px;
+}
+
+.block_settings{
+    width: min-content;
+    margin: 0 auto;
+}
+
+.block_settings p{
+    color: #fff;
+    font-family: Inter;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.settings0{
+    display: flex;
+    margin-bottom: 20px;
+
+}
+
+.settings1{
+    display: flex;
+    margin-bottom: 20px;
+
+}
+
+.settings2{
+    display: flex;
+    margin-bottom: 20px;
+
+}
+
+.settings3{
+    display: flex;
+    margin-bottom: 20px;
+
+}
+
+.settings4{
+    display: flex;
+
+}
+
+.settings_name{
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+
+    margin-right: 13px;
+
+    width: 230px;
+}
+
+.settings_name p{
+    margin: 5px auto;
+}
+
+.button_prev{
+    cursor: pointer;
+}
+
+.button_next{
+    cursor: pointer;
+}
+
+
+
+

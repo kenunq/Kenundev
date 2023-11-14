@@ -59,6 +59,7 @@ class UniqueCharPageView(TemplateView):
 
     time_delta = timedelta(days=365)
 
+
     def _time_checking(self):
         """Обновляет время для текущей комнаты и
         проверяет все остальные комнаты на предмет устаревания
@@ -156,7 +157,8 @@ class UniqueCharPageView(TemplateView):
             self.creator_id = self.dressing_room[0].creator
 
             self.is_room_creator = self.creator_id == self.request.user
-
+            current_room = CharModel.objects.filter(room_id=self.room_id)
+            context['creating'] = getattr(current_room[0], 'creating')
             # Если пользователь авторизован
             if not self.request.user.is_anonymous:
                 # Если в этой комнате не записан создатель
@@ -203,12 +205,21 @@ class UniqueCharPageView(TemplateView):
             self.dressing_room.create(**default_create_config)
 
             character_data = self.create_character_data()
+            current_room = CharModel.objects.filter(room_id=self.room_id)
+            context['creating'] = getattr(current_room[0], 'creating')
 
         character_data.update({'my_saved_rooms': my_saved_rooms})
 
         context.update({'character_data': json.dumps(character_data)})
 
         return context
+
+
+    def render_to_response(self, context, **response_kwargs):
+        if context['creating'] == False:
+            return redirect('createchar', self.room_id)
+        return super(UniqueCharPageView, self).render_to_response(context, **response_kwargs)
+            # return redirect('createchar', uuid4())
 
 
     def post(self, request: ASGIRequest, *args, **kwargs) -> JsonResponse:
@@ -245,3 +256,17 @@ class UniqueCharPageView(TemplateView):
         self.dressing_room.update(**data)
 
         return JsonResponse({'status': 'data was successfully saved'})
+
+
+class CreateCharView(TemplateView):
+    template_name = 'create_char.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        #Сделать в пост
+        # current_room = CharModel.objects.get(room_id=self.kwargs['room_id'])
+        # setattr(current_room, 'creating', True)
+        # current_room.save()
+        # print(getattr(current_room, 'creating'))
+        #----------------
+        return context

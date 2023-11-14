@@ -623,10 +623,11 @@ window.dressUI = {
         gender: charData.gender,
         items: charData.items,
         face: 1,
-        hair_color: 0,
-        hair_style: 0,
-        piercings: 0,
-        skin_color: 3,
+        hair_color: 3,
+        hair_style: 1,
+        horn_style: 1,
+        piercings: 3,
+        skin_color: 1,
         // 'Оружия ближнего боя':
         // 15, 22, 23 (лев. рука)
         // 13, 17, 21, 25, 26 (прав. рука)
@@ -741,7 +742,6 @@ function add_items_in_window_items(){
             window.dressUI.model_opts.items.push([slot, displayId, itemId, visual, icon]);
         };
     };
-    console.log("char_items2", char_items2)
 };
 
 const get_actual_dressUI = () => {
@@ -786,7 +786,6 @@ const IGNORED_PROPS = [
 ];
 
 function wrapDressUI(target) {
-    console.log(111111)
     const handler = {
 
         // get: function(target, property) {
@@ -920,8 +919,13 @@ dc_model_opts.items = window.dressUI.model_opts.items.map(item => [item[0], item
 
 
     window.setItems = (e, t, i, itemId, icon) => {
+        findRaceGenderOptions(window.dressUI.model_opts.race, window.dressUI.model_opts.gender).then((fullOptions) => {
+            console.log(fullOptions.Options);
+        });
+
         let index = slotIdIsExists(e);
         console.log(index)
+        characterdata[e] = {"displayId": t, "itemId": itemId, "icon": icon};
         model.renderer.viewer.method("setItems", [[{
                 slot: e,
                 display: t,
@@ -1289,7 +1293,7 @@ dc_model_opts.items = window.dressUI.model_opts.items.map(item => [item[0], item
 
                 if(!([14, 13, 2, 11, 12].includes(window.slot_id))){
                     window.setItems(window.slot_id, displayId, 0, itemId, icon);
-                    characterdata[window.slot_id] = {"displayId": displayId, "itemId": itemId, "icon": icon};
+
                 } else {
                     let index = slotIdIsExists(window.slot_id);
                     if (!window.dressUI.char.only_item) {
@@ -1327,28 +1331,43 @@ dc_model_opts.items = window.dressUI.model_opts.items.map(item => [item[0], item
 
 //Checkbox head and cloak....................................................................................................................
 
-    document.querySelector(".cloak-hide");
 
     function checkbox_head(){
         if(document.querySelector(".head-hide").checked == false){
-            window.clearSlot(1);
+            model.renderer.viewer.method("clearSlots", String(1));
+
         };
 
         if(document.querySelector(".head-hide").checked == true){
-            var displayId = characterdata[1]['displayId']
-            console.log(1, displayId, 0)
-            window.setItems(1, displayId, 0);
+            for (let i = 0; i < window.dressUI.model_opts.items.length; i++) {
+
+                if(window.dressUI.model_opts.items[i][0] == 1){
+                    var displayId = window.dressUI.model_opts.items[i][1]
+                }
+
+            };
+
+            model.renderer.viewer.method("setItems", [[{
+                slot: 1,
+                display: displayId,
+                visual: 0
+            }]])
         };
     };
 
     function checkbox_cloak(){
         if(document.querySelector(".cloak-hide").checked == false){
-            window.clearSlot(16);
+            model.renderer.viewer.method("clearSlots", String(16));
         };
 
         if(document.querySelector(".cloak-hide").checked == true){
-            var displayId = characterdata[16]['displayId']
-            console.log(3, 144542, 0)
+           for (let i = 0; i < window.dressUI.model_opts.items.length; i++) {
+
+                if(window.dressUI.model_opts.items[i][0] == 16){
+                    var displayId = window.dressUI.model_opts.items[i][1]
+                }
+
+            };
             window.setItems(16, displayId, 0);
         };
     };
