@@ -270,3 +270,8 @@ class CreateCharView(TemplateView):
         # print(getattr(current_room, 'creating'))
         #----------------
         return context
+
+    def post(self, request: ASGIRequest, *args, **kwargs) -> JsonResponse:
+        print(json.loads(request.body))
+
+        return JsonResponse({'status': 'data was successfully saved'})

@@ -3,6 +3,7 @@
 
 
 {% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static 'js/javascript/zamimg_power.min.js' %}"></script>
     <script src="{% static 'js/javascript/wow-model-viewer/viewer_wrath.min.js' %}"></script>
     <script src="{% static 'js/javascript/wow-model-viewer/model_viewer_utils.js' %}"></script>
@@ -10,6 +11,9 @@
 
     <script>
         var data = {
+            'Face_options': [0,0,0,0,0],
+            'Proffesions': [0,0],
+            'Name': "",
             'Class': 1,
             'Race': 1,
             'Gender': 1,
@@ -48,12 +52,13 @@
         "sheathOff": 9,
         "skin_color": 1
     };
+    var current_proffesion = 1
     </script>
 {% endblock %}
 
 {% block content %}
 <div class="main_block">
-<div class="block_main_settings">
+    <div class="block_main_settings">
 
     <div class="block_races">
 
@@ -261,13 +266,95 @@
 
     </div>
 
+
 </div>
 
-
- <div class="model">
+    <div class="model">
      <div id="model_3d"></div>
+        <div class="block_name_char">
+
+            <p>Имя</p>
+            <div class="name-input" id="name-input">
+
+                <input id="input-char-name">
+
+            </div>
+
+        </div>
  </div>
+
+    <div class="block_proffesions">
+
+        <p>Профессии</p>
+
+        <div class="proffesion1" number="1" onclick="change_prof_list(1)">
+            <img src="">
+            <p>Выбрать</p>
+            <p class="name_select_prof"></p>
+            <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle1">
+        </div>
+        <div class="proffesion2" number="2" onclick="change_prof_list(2)">
+            <img src="">
+            <p>Выбрать</p>
+            <p class="name_select_prof"></p>
+            <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle2">
+        </div>
+
     </div>
+
+    <div class="proffesions_list">
+
+        <div class="proffesion" prof_id="1" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Jewelcrafting.jpg' %}">
+            <p>Ювелирное дело</p>
+        </div>
+        <div class="proffesion" prof_id="2" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Engineering.jpg' %}">
+            <p>Инженерное дело</p>
+        </div>
+        <div class="proffesion" prof_id="3" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Blacksmithing.jpg' %}">
+            <p>Кузнечное дело</p>
+        </div>
+        <div class="proffesion" prof_id="4" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Tailoring.jpg' %}">
+            <p>Портняжное дело</p>
+        </div>
+        <div class="proffesion" prof_id="5" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Leatherworking.jpg' %}">
+            <p>Кожевенное дело</p>
+        </div>
+        <div class="proffesion" prof_id="6" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Herbalism.jpg' %}">
+            <p>Травничество</p>
+        </div>
+        <div class="proffesion" prof_id="7" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Enchanting.jpg' %}">
+            <p>Наложение чар</p>
+        </div>
+        <div class="proffesion" prof_id="8" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Alchemy.jpg' %}">
+            <p>Алхимия</p>
+        </div>
+        <div class="proffesion" prof_id="9" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Inscription.jpg' %}">
+            <p>Начертание</p>
+        </div>
+        <div class="proffesion" prof_id="10" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Mining.jpg' %}">
+            <p>Горное дело</p>
+        </div>
+        <div class="proffesion" prof_id="11" onclick="set_proffesional(event)">
+            <img src="{% static 'img/Professions/medium/Skinning.jpg' %}">
+            <p>Снятие шкур</p>
+        </div>
+
+    </div>
+
+    <div class="button_contiune" onclick="sendRequest()">
+        <p>Применить</p>
+    </div>
+</div>
 {% endblock %}
 
 {% block js %}
@@ -404,7 +491,7 @@
 
         findRaceGenderOptions(data["Race"], data["Gender"]).then((fullOptions) => {
             var full_options = fullOptions.Options;
-
+            data['Face_options'] = [0,0,0,0,0]
             for (let i = 0; i < full_options.length; i++) {
 
                 var obj_setting = document.querySelector(`.settings${i}`);
@@ -427,28 +514,110 @@
         var options = target.parentElement.getAttribute("name");
         var max_value = parseInt(target.parentElement.getAttribute("max")) - 1;
         var current_value = data[options.replace(" ", "_")];
-        console.log(current_value)
+        var id_option = target.parentElement.classList[0].slice(-1);
+
         if(target_class == "button_next"){
 
             if(current_value == max_value){
 
                 character[options.replace(" ", "_").toLowerCase()] = -1;
                 data[options.replace(" ", "_")] = -1;
+                data['Face_options'][id_option] = -1;
 
             };
             character[options.replace(" ", "_").toLowerCase()] += 1;
             data[options.replace(" ", "_")] += 1;
+            data['Face_options'][id_option] += 1;
 
         } else {
             if(current_value == 0){
                 character[options.replace(" ", "_").toLowerCase()] = parseInt(max_value) + 1;
                 data[options.replace(" ", "_")] = parseInt(max_value) + 1;
+                data['Face_options'][id_option] = parseInt(max_value) + 1;
             };
             character[options.replace(" ", "_").toLowerCase()] -= 1;
             data[options.replace(" ", "_")] -= 1;
+            data['Face_options'][id_option] -= 1;
 
         };
         window.model.updateAppearance(character)
+
+    };
+
+    function change_prof_list(current){
+        current_proffesion = current;
+        rotate_tringle(0, current);
+        document.querySelector(".proffesions_list").style.display = "block";
+    }
+
+    function set_proffesional(event){
+
+        var e = event || window.event;
+        var target = e.target;
+        var childs = target.childNodes;
+        var object = document.querySelector(`.proffesion${current_proffesion}`);
+        object.classList.add("selected")
+        var obj_childs = object.childNodes;
+        console.log(childs)
+        var img_src = childs[1].attributes[0].nodeValue;
+        var name_prof = childs[3].innerText;
+        obj_childs[1].attributes[0].nodeValue = img_src;
+        obj_childs[7].style.display = "none";
+        obj_childs[3].style.display = "none";
+        obj_childs[5].innerText = name_prof
+
+        target.style.display = "none"
+        if (data["Proffesions"][parseInt(current_proffesion)-1] != 0){
+
+            document.querySelectorAll(`[prof_id="${data["Proffesions"][parseInt(current_proffesion)-1]}"]`)[0].style.display = "flex";
+
+        };
+        data["Proffesions"][parseInt(current_proffesion)-1] = target.getAttribute("prof_id")
+
+        document.querySelector(".proffesions_list").style.display = "none";
+    };
+
+
+    function rotate_tringle(d, id){
+        var d = d;
+        if(d == 0){
+            var rotate_interval = setInterval(function w(){
+            if(d == 180){
+                clearInterval(rotate_interval);
+            };
+            document.getElementById(`tringle${id}`).style['-webkit-transform']= `rotate(${d + "deg"})`;
+            d +=3;
+            },4);
+        };
+
+        if(d == 180){
+            var rotate_interval = setInterval(function w(){
+            if(d == 360){
+                clearInterval(rotate_interval);
+            }
+            document.getElementById(`tringle${id}`).style['-webkit-transform']= `rotate(${d + "deg"})`;
+            d +=3;
+            },4);
+        };
+    };
+
+
+    function sendRequest(){
+        data['Name'] = document.querySelector("#input-char-name").value
+        if (data['Name'] == "") {
+
+            return;
+
+        };
+
+        const csrftoken = Cookies.get('csrftoken');
+        $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: document.URL,
+        data: JSON.stringify(data),
+        headers: { 'X-CSRFToken': csrftoken }
+        });
 
     };
 </script>
