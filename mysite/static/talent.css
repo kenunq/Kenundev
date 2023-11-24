@@ -806,8 +806,10 @@ h3 {
     font-weight: 500;
     font-size: 16px;
     line-height: 33px;
-    margin-right: 120px;
+    width: 195px;
+    margin-right: 25px;
     height: max-content;
+    word-break: break-all;
 }
 
 .char_list img {
@@ -907,11 +909,14 @@ h3 {
 
 .char_list_open{
     display: none;
-    width: 230px;
+    width: 259px;
+    height: 200px;
     position: absolute;
-    top:  170px;
-    left: 343px;
+    top:  210px;
+    left: 360px;
     transform: translate(-50%,-50%);
+    overflow-y: auto;
+    overflow-x: hidden;
 
     background: rgba(88, 84, 84, .9);
     border: 1px solid #FFFFFF;
@@ -921,7 +926,13 @@ h3 {
 
 .char_list_open div{
     border-bottom: 1px solid rgba(255, 255, 255);
-    width: 229px;
+    width: 259px;
+    display: flex;
+}
+
+.char_list_open div img{
+    margin-left: 7px;
+    margin-top: 6px;
 }
 
 .char_list_open div:last-child {

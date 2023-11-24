@@ -79,7 +79,7 @@
                     <div class="name-input" id="name-input" style="margin-right: 0px;">
 
                         <p id="placeholder-search">Введите название</p>
-                        <input id="input_name_talents">
+                        <input type="text" maxlength="15" id="input_name_talents">
 
                     </div>
 
@@ -95,9 +95,13 @@
         </div>
 
             <div class="char_list_open" id="char_list_open" open="False">
-                <div class="name_char" onclick="enter_char_name(event)"><p >Популярное</p></div>
-                <div class="name_char" onclick="enter_char_name(event)"><p>Дешевле</p></div>
-                <div class="name_char" onclick="enter_char_name(event)"><p>Дороже</p></div>
+                {% for char in chars %}
+                    <div class="name_char" class_id="{{ char.char_class }}" onclick="enter_char_name(event)">
+                        <img src="" onerror="this.onerror=null; this.src=return_icon_race({{ char.race }}, {{ char.gender }});" weigth="20" height="20">
+                        <img src="" onerror="this.onerror=null; this.src=return_icon_class('{{ char.char_class }}');" weigth="20" height="20">
+                        <p>{{ char.char_name }}</p>
+                    </div>
+                {% endfor %}
             </div>
 
         </div>
@@ -127,6 +131,46 @@
 </script>
 
 <script>
+
+function return_icon_class(class_id){
+    CLASSES = {
+        "Воин":"warrior",
+        "Рыцарь смерти":"deathknight",
+        "Друид":"druid",
+        "Охотник":"hunter",
+        "Маг":"mage",
+        "Паладин":"paladin",
+        "Жрец":"priest",
+        "Разбойник":"rogue",
+        "Шаман":"shaman",
+        "Чернокнижник":"warlock"
+    };
+    return `../static/img/classes/${CLASSES[class_id]}.jpg`
+
+};
+
+function return_icon_race(race, gender){
+     RACES = {
+        1: "race_human",
+        2: "race_orc",
+        3: "race_dwarf",
+        4: "race_nightelf",
+        5: "race_scourge",
+        6: "race_tauren",
+        7: "race_gnome",
+        8: "race_trol",
+        9: "race_goblin",
+        10: "race_bloodelf",
+        11: "race_draenei"
+        }
+    GENDERS = {
+        0: 'male',
+        1: 'female'
+    }
+
+    return `../static/img/rass/${GENDERS[gender]}/${RACES[race]}.jpg`
+
+};
 
     function show_save(){
 

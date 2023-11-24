@@ -1,0 +1,59 @@
+{
+  "Model": 0,
+  "Textures": {
+    "2": 312949
+  },
+  "Textures2": null,
+  "TextureFiles": null,
+  "ModelFiles": {
+    "3808": [
+      {
+        "FileDataId": 307690,
+        "Gender": 2,
+        "Class": 0,
+        "Race": 0,
+        "ExtraData": -1
+      }
+    ]
+  },
+  "Item": {
+    "Flags": 0,
+    "InventoryType": 14,
+    "ItemClass": 4,
+    "ItemSubClass": 6,
+    "HideGeosetMale": null,
+    "HideGeosetFemale": null,
+    "GeosetGroup": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "AttachGeosetGroup": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "GeosetGroupOverride": 0,
+    "ParticleColor": null
+  },
+  "Creature": null,
+  "RaceFlags": 0,
+  "ChrModelFlags": 0,
+  "Race": 0,
+  "Gender": 0,
+  "ItemEffects": null,
+  "Equipment": null,
+  "ComponentTextures": null,
+  "ComponentModels": {
+    "0": 3808
+  },
+  "stateKit": null,
+  "stateKits": null,
+  "Scale": 1.0
+}

@@ -14,7 +14,7 @@
             'Face_options': [0,0,0,0,0],
             'Proffesions': [0,0],
             'Name': "",
-            'Class': 1,
+            'Class': "Разбойник",
             'Race': 1,
             'Gender': 1,
             'Skin_Color': 1,
@@ -276,7 +276,7 @@
             <p>Имя</p>
             <div class="name-input" id="name-input">
 
-                <input id="input-char-name">
+                <input type="text" maxlength="15" id="input-char-name">
 
             </div>
 
@@ -351,9 +351,11 @@
 
     </div>
 
-    <div class="button_contiune" onclick="sendRequest()">
-        <p>Применить</p>
-    </div>
+    {% csrf_token %}
+        <div class="button_contiune" onclick="sendRequest()">
+            <p>Применить</p>
+        </div>
+
 </div>
 {% endblock %}
 
@@ -618,8 +620,14 @@
         data: JSON.stringify(data),
         headers: { 'X-CSRFToken': csrftoken }
         });
-
     };
+
+$(document).ajaxSuccess(function(event, request, settings) {
+    if (request.responseJSON['status'] == 'data was successfully saved') {
+       window.location.reload();
+    }
+});
+
 </script>
 
 {% endblock %}

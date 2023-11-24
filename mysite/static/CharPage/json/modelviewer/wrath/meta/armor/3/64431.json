@@ -1,0 +1,86 @@
+{
+  "Model": 0,
+  "Textures": {
+    "2": 338037
+  },
+  "Textures2": {
+    "2": 338037
+  },
+  "TextureFiles": null,
+  "ModelFiles": {
+    "2194": [
+      {
+        "FileDataId": 335617,
+        "Gender": 2,
+        "Class": 0,
+        "Race": 0,
+        "ExtraData": 1
+      },
+      {
+        "FileDataId": 336853,
+        "Gender": 2,
+        "Class": 0,
+        "Race": 0,
+        "ExtraData": 0
+      }
+    ]
+  },
+  "Item": {
+    "Flags": 0,
+    "InventoryType": 3,
+    "ItemClass": 4,
+    "ItemSubClass": 2,
+    "HideGeosetMale": null,
+    "HideGeosetFemale": null,
+    "GeosetGroup": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "AttachGeosetGroup": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "GeosetGroupOverride": 0,
+    "ParticleColor": {
+      "Id": 562,
+      "Start": [
+        4294146874,
+        4278190080,
+        4278190080
+      ],
+      "Mid": [
+        4289929743,
+        4278190080,
+        4278190080
+      ],
+      "End": [
+        4284033321,
+        4278190080,
+        4278190080
+      ]
+    }
+  },
+  "Creature": null,
+  "RaceFlags": 0,
+  "ChrModelFlags": 0,
+  "Race": 0,
+  "Gender": 0,
+  "ItemEffects": null,
+  "Equipment": null,
+  "ComponentTextures": null,
+  "ComponentModels": {
+    "0": 2194,
+    "1": 2194
+  },
+  "stateKit": null,
+  "stateKits": null,
+  "Scale": 1.0
+}

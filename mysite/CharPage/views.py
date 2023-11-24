@@ -1,12 +1,17 @@
 import json
+import time
 from datetime import timedelta, datetime
+from os.path import exists
+from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
+from django.conf import settings
+from django.urls import reverse
 from django.utils import timezone
 from django.core.handlers.asgi import ASGIRequest
 from django.db.models import QuerySet
-from django.http import HttpResponse, Http404, JsonResponse
+from django.http import HttpResponse, Http404, JsonResponse, HttpResponsePermanentRedirect
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView, View
 
@@ -24,24 +29,68 @@ class TestAnim(TemplateView):
     template_name = "testanim.html"
 
 
+# class ZamimgProxyView(View):
+#
+#     def get(self, request, *args, **kwargs):
+#         """Проксирует запрос к zamimg API через этот сервер,
+#         т.к. zamimg сервер не установил Cross-Origin Resource Sharing заголовки,
+#         для возможности отправки запроса со стороны клиента используя JavaScript.
+#         https://developer.mozilla.org/ru/docs/Web/HTTP/CORS"""
+#
+#         headers_get = {
+#             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
+#                 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36'
+#         }
+#         url = 'https://wow.zamimg.com/modelviewer/' + kwargs.get('modelviewer_path')
+#
+#         response = requests.get(url, headers=headers_get, timeout=5)
+#
+#         return HttpResponse(response.content)
+
+
 class ZamimgProxyView(View):
+    """Проксирует запрос к zamimg API через этот сервер,
+    т.к. zamimg сервер не установил Cross-Origin Resource Sharing заголовки,
+    для возможности отправки запроса со стороны клиента используя JavaScript.
+    https://developer.mozilla.org/ru/docs/Web/HTTP/CORS
+    И кэширует файлы локально для уменьшения количества запросов к zamimg API."""
 
     def get(self, request, *args, **kwargs):
-        """Проксирует запрос к zamimg API через этот сервер,
-        т.к. zamimg сервер не установил Cross-Origin Resource Sharing заголовки,
-        для возможности отправки запроса со стороны клиента используя JavaScript.
-        https://developer.mozilla.org/ru/docs/Web/HTTP/CORS"""
 
-        headers_get = {
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
-                AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36'
-        }
-        url = 'https://wow.zamimg.com/modelviewer/' + kwargs.get('modelviewer_path')
+        modelviewer_path: str = kwargs.get("modelviewer_path")
 
-        response = requests.get(url, headers=headers_get, timeout=5)
+        # Костыль для частичной работы "Нагрудников" на wrath патче
+        if modelviewer_path.startswith('wrath/meta/armor/5/'):
+            file_name = modelviewer_path.rsplit('/', 1)[-1]
+            modelviewer_path = f'live/meta/armor/5/{file_name}'
 
-        return HttpResponse(response.content)
+        # Костыль для работы "Шадоуморна" на лайв патче..
+        elif modelviewer_path == 'live/meta/item/65153.json':
+            modelviewer_path = 'wrath/meta/item/65153.json'
 
+        STATIC_ROOT = settings.BASE_DIR / 'static'
+        full_path = f'{STATIC_ROOT}/CharPage/json/modelviewer/{modelviewer_path}'
+
+        if not exists(full_path):
+
+            headers_get = {
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                              '(KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36'
+            }
+            zamimg_url = f'https://wow.zamimg.com/modelviewer/{modelviewer_path}'
+
+            response = requests.get(zamimg_url, headers=headers_get, timeout=5)
+
+            path_to_file, file_name = full_path.rsplit('/', maxsplit=1)
+            path_obj = Path(path_to_file)
+            path_obj.mkdir(parents=True, exist_ok=True)
+
+            with open(f'{path_to_file}/{file_name}', 'wb+') as file:
+                file.write(response.content)
+            return HttpResponse(response.content)
+
+        with open(full_path, 'rb') as file:
+            return HttpResponse(file.read())
 
 class CharPageView(View):
     """#### Представление которое генерирует uuid4\
@@ -79,9 +128,7 @@ class UniqueCharPageView(TemplateView):
     def _get_my_saved_rooms(self, creator: dict[str, str | User]
                            ) -> tuple[list[dict[str, str | int | bool]], QuerySet]:
         """Создание даты для отображения списка созданных комнат у текущего пользователя."""
-        print(creator)
         dressing_rooms = CharModel.objects.filter(creator=creator)
-        print(dressing_rooms)
         my_saved_rooms = []
 
         for room in dressing_rooms:
@@ -142,7 +189,6 @@ class UniqueCharPageView(TemplateView):
 
         # self.room_id = str(self.request.resolver_match.kwargs.get('room_id')) # <class 'uuid.UUID'>
         self.room_id = str(kwargs.get('room_id')) # <class 'uuid.UUID'>
-        print(CharModel.objects.filter(room_id=str(kwargs.get('room_id'))))
         self.dressing_room = CharModel.objects.filter(room_id=self.room_id)
 
         # Получаем все комнаты (если они существуют)
@@ -158,6 +204,8 @@ class UniqueCharPageView(TemplateView):
 
             self.is_room_creator = self.creator_id == self.request.user
             current_room = CharModel.objects.filter(room_id=self.room_id)
+            context['creating'] = getattr(current_room[0], 'creating')
+            context['class'] = getattr(current_room[0], 'creating')
             context['creating'] = getattr(current_room[0], 'creating')
             # Если пользователь авторизован
             if not self.request.user.is_anonymous:
@@ -264,14 +312,39 @@ class CreateCharView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         #Сделать в пост
-        # current_room = CharModel.objects.get(room_id=self.kwargs['room_id'])
+        self.room_id = self.kwargs['room_id']
+        current_room = CharModel.objects.get(room_id=self.kwargs['room_id'])
+        context['creating'] = getattr(current_room, 'creating')
         # setattr(current_room, 'creating', True)
         # current_room.save()
         # print(getattr(current_room, 'creating'))
         #----------------
         return context
 
-    def post(self, request: ASGIRequest, *args, **kwargs) -> JsonResponse:
-        print(json.loads(request.body))
+    def render_to_response(self, context, **response_kwargs):
+        if context['creating'] == True:
+            return redirect('char_page_room', self.room_id)
+        return super(CreateCharView, self).render_to_response(context, **response_kwargs)
+
+    def post(self, request: ASGIRequest, *args, **kwargs):
+        data: dict = json.loads(request.body)
+
+        current_room = CharModel.objects.get(room_id=self.kwargs['room_id'])
+        setattr(current_room, 'char_name', data['Name'])
+        setattr(current_room, 'proffesions', str(data['Proffesions']))
+        setattr(current_room, 'gender', data['Gender'])
+        setattr(current_room, 'race', data['Race'])
+        setattr(current_room, 'char_class', data['Class'])
+        setattr(current_room, 'face', ",".join(map(str, data['Face_options'])))
+        setattr(current_room, 'creating', True)
+        current_room.save()
+        # return redirect('char_page_room', self.kwargs['room_id'])
+
+        # return HttpResponsePermanentRedirect(
+        #     reverse('char_page_room', kwargs={'room_id': self.kwargs['room_id']})
+        # )
+
+        # return redirect(request.META.get('HTTP_REFERER'))
 
         return JsonResponse({'status': 'data was successfully saved'})
+

@@ -613,6 +613,7 @@ const RACES_WITHOUT_ICON = [
 const WRATH_MOUNTS_LEN = 290;
 const WRATH_ENCHANTS_LEN = 28;
 const charData = getCharDataFromContext();
+
 console.log("CHARDATA", charData)
 window.dressUI = {
     room_creator: charData.room_creator,
@@ -623,11 +624,12 @@ window.dressUI = {
         gender: charData.gender,
         items: charData.items,
         face: 1,
-        hair_color: 3,
-        hair_style: 1,
-        horn_style: 1,
-        piercings: 3,
-        skin_color: 1,
+        //hair_color: 3,
+        //hair_style: 1,
+        //horn_style: 1,
+        //piercings: 3,
+        //skin_color: 14,
+
         // 'Оружия ближнего боя':
         // 15, 22, 23 (лев. рука)
         // 13, 17, 21, 25, 26 (прав. рука)
@@ -775,7 +777,7 @@ const sendAjaxRequest = function (data) {
     });
 };
 
-const debounce_sendAjaxRequest = debounce(sendAjaxRequest, debug_mode ? 300 : 3000);
+const debounce_sendAjaxRequest = debounce(sendAjaxRequest, debug_mode ? 300 : 300);
 
 const IGNORED_WRAPPED_PROPS = [
     'gear', 'char', 'generalOptions'
@@ -826,6 +828,33 @@ function wrapDressUI(target) {
 };
 window.dressUI = wrapDressUI(window.dressUI);
 
+function set_face_options(){
+     console.log(1231231231323123)
+     findRaceGenderOptions(window.dressUI.model_opts['race'], window.dressUI.model_opts['gender']).then((fullOptions) => {
+            var full_options = fullOptions.Options;
+            for (let i = 0; i < full_options.length; i++) {
+                window.dressUI.model_opts[full_options[i]["Name"].replace(" ", "_").toLowerCase()] = parseInt(character_data['face'][i])
+            };
+
+            qwe();
+
+        });
+
+
+};
+
+async function qwe(){
+
+    let dc_model_opts = JSON.parse(JSON.stringify(window.dressUI.model_opts));
+
+    dc_model_opts.items = [];
+    dc_model_opts.items = window.dressUI.model_opts.items.map(item => [item[0], item[1]]);
+
+    console.log(dc_model_opts)
+    window.model = await generateModels('#model_3d', dc_model_opts);
+
+};
+
 function set_icon_onload(){
 
     for (let i = 0; i < character_data.items.length; i++) {
@@ -855,7 +884,6 @@ function set_icon_onload(){
 
 function getCharDataFromContext() {
     if (!character_data) return null;
-
     character_data = JSON.parse(character_data.replace(/&quot;/g, '"'));
     if (character_data.items === "") {
         character_data.items = [];
@@ -875,35 +903,13 @@ function getCharDataFromContext() {
         console.log("DATA IN GETCHARDATA", character_data.items)
         set_icon_onload();
     };
-
     character_data.face = character_data.face === ""
         ? []
         : character_data.face.split(',').map(x => parseInt(x));
     return character_data;
 };
+set_face_options();
 
-let dc_model_opts = JSON.parse(JSON.stringify(window.dressUI.model_opts));
-
-dc_model_opts.items = [];
-dc_model_opts.items = window.dressUI.model_opts.items.map(item => [item[0], item[1]]);
-
-
-    const character = {
-        "face": 1,
-        "gender": 1,
-        "generalOptions": {'mount': {"type": 8, "id": 0}},
-        "hair_color": 0,
-        "hair_style": 0,
-        "items": [],
-        "piercings": 0,
-        "race": 1,
-        "sheathMain": 8,
-        "sheathOff": 9,
-        "skin_color": 3
-
-    };
-
-    window.model = await generateModels('#model_3d', dc_model_opts);
     window.fullScreen = () => {
         model.setFullscreen(true)
     }

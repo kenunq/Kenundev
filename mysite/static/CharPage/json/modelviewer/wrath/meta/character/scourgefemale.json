@@ -1,0 +1,20 @@
+{
+  "Model": 121608,
+  "Textures": null,
+  "Textures2": null,
+  "TextureFiles": null,
+  "ModelFiles": null,
+  "Item": null,
+  "Creature": null,
+  "RaceFlags": 12,
+  "ChrModelFlags": 2,
+  "Race": 5,
+  "Gender": 1,
+  "ItemEffects": null,
+  "Equipment": null,
+  "ComponentTextures": null,
+  "ComponentModels": null,
+  "stateKit": null,
+  "stateKits": null,
+  "Scale": 1.0
+}

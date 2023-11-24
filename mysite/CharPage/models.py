@@ -85,6 +85,12 @@ class CharModel(models.Model):
 
     creating = models.BooleanField(verbose_name='Персонаж создан?', default=False)
 
+    char_name = models.CharField(max_length=32, verbose_name='Имя персонажа', default='')
+
+    proffesions = models.CharField(max_length=32, verbose_name='Профессии', default='')
+
+    char_class = models.CharField(max_length=32, verbose_name='Класс персонажа', default='')
+
     race = models.IntegerField(verbose_name='Раса')
 
     gender = models.IntegerField(verbose_name='Пол')
