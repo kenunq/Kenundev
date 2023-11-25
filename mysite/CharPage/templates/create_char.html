@@ -574,7 +574,7 @@
             document.querySelectorAll(`[prof_id="${data["Proffesions"][parseInt(current_proffesion)-1]}"]`)[0].style.display = "flex";
 
         };
-        data["Proffesions"][parseInt(current_proffesion)-1] = target.getAttribute("prof_id")
+        data["Proffesions"][parseInt(current_proffesion)-1] = parseInt(target.getAttribute("prof_id"))
 
         document.querySelector(".proffesions_list").style.display = "none";
     };

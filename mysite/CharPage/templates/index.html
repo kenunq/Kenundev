@@ -120,12 +120,12 @@ vertical-align: sub
             <div class="item-char-header">
 
             <div class="rass-char" id="head-item">
-                <img src="{% static 'img/rass/human-male.png' %}">
+                <img src="{{ race_image }}">
             </div>
 
-            <p class="char-name">Jojin</p>
+            <p class="char-name">{{ name }}</p>
 
-            <p class="char-info">Человек разбойник 80ур.</p>
+            <p class="char-info">{{ race }} {{ class }} 80ур.</p>
 
 
       </div>
@@ -182,7 +182,7 @@ vertical-align: sub
 
                 <a href="#">
                     <div class="char-list-item">
-                      <p class="char-list-info-name">Jojin</p>
+                      <p class="char-list-info-name">{{ name }}</p>
                       <p class="char-list-info-description">Человек разбойник 80ур.</p>
                     </div>
                 </a>
@@ -387,7 +387,7 @@ vertical-align: sub
                 </div>
 
             <div class="character-description">
-
+                    {% if proffesion1 %}
                     <div class="block-professions">
 
                         <div class="border-professions">
@@ -402,38 +402,39 @@ vertical-align: sub
 
                                 <div class="prof-image">
 
-                            <img src="{% static 'img/Professions/Engineering.jpg' %}">
+                                    <img src="{{ proffesion1_icon }}">
 
-                        </div>
+                                </div>
 
                                 <div class="test1">
 
                                     <div class="prof-name">
 
-                                <p>Портняжное дело</p>
+                                        <p>{{ proffesion1 }}</p>
 
-                            </div>
+                                    </div>
 
                                     <div class="progresbar">
 
-                                <div id="progresbar">
+                                    <div id="progresbar">
 
                                     <p>420</p>
 
                                 </div>
 
-                            </div>
+                                    </div>
 
                                 </div>
 
 
 
                             </div>
+                            {% if proffesion2 %}
                             <div class="prof">
 
                                 <div class="prof-image">
 
-                                    <img src="{% static 'img/Professions/Tailoring.jpg' %}">
+                                    <img src="{{ proffesion2_icon }}">
 
                                 </div>
 
@@ -441,7 +442,7 @@ vertical-align: sub
 
                                     <div class="prof-name">
 
-                                        <p>Портняжное дело</p>
+                                        <p>{{ proffesion2 }}</p>
 
                                     </div>
 
@@ -458,11 +459,11 @@ vertical-align: sub
                                 </div>
 
                             </div>
-
+                            {% endif %}
                         </div>
 
                     </div>
-
+                    {% endif %}
                     <div class="block-talents">
 
                         <div class="border-talents">

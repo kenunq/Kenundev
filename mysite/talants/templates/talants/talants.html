@@ -3,7 +3,7 @@
 
 {% block head %}
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{% static 'js/javascript/locale_ruru.js' %}"></script>
 <script src="{% static 'js/javascript/basic.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/javascript/global.js' %}" type="text/javascript"></script>
@@ -20,6 +20,7 @@
         var g_staticUrl = "static";
         var g_host = "";
         var g_dataKey = 's877LVqSDI4Awswmk4RcPCpHXhdaG2cl9Qox528t'
+        var data = {};
     </script>
 
 
@@ -96,7 +97,7 @@
 
             <div class="char_list_open" id="char_list_open" open="False">
                 {% for char in chars %}
-                    <div class="name_char" class_id="{{ char.char_class }}" onclick="enter_char_name(event)">
+                    <div class="name_char" class_id="{{ char.char_class }}" char_id="{{ char.room_id }}" onclick="enter_char_name(event)">
                         <img src="" onerror="this.onerror=null; this.src=return_icon_race({{ char.race }}, {{ char.gender }});" weigth="20" height="20">
                         <img src="" onerror="this.onerror=null; this.src=return_icon_class('{{ char.char_class }}');" weigth="20" height="20">
                         <p>{{ char.char_name }}</p>
@@ -108,7 +109,7 @@
         </div>
         <div class="btn-save">
 
-            <div class="btn-sav">
+            <div class="btn-sav" onclick="sendRequest()">
 
                 <p>Сохранить</p>
 
@@ -201,7 +202,9 @@ function return_icon_race(race, gender){
         var object = document.querySelector('.char_list p');
         var e = event || window.event;
         var target = e.target;
+        console.log(target)
         object.innerText = target.innerText;
+        data['char'] = target.getAttribute('char_id')
         addon_filter_open();
 
 
@@ -397,6 +400,27 @@ function return_icon_race(race, gender){
 
 
 //...............
+
+function sendRequest(){
+
+        data['name'] = document.querySelector("#input_name_talents").value
+        if (data['name'] == "") {
+
+            return;
+
+        };
+        data['url'] = document.URL;
+        const csrftoken = Cookies.get('csrftoken');
+        $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: document.URL,
+        data: JSON.stringify(data),
+        headers: { 'X-CSRFToken': csrftoken }
+        });
+
+        save_menu_hide()
+    };
 
 </script>
 {% endblock %}

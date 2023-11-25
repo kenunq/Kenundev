@@ -586,15 +586,14 @@ a:-webkit-any-link {
 }
 
 .border-professions {
-    border-top: 1px solid rgba(255, 255, 255, .4);
+    border-bottom: 1px solid rgba(255, 255, 255, .4);
     border-opacity: 0;
     margin-bottom: 30px;
 }
 
 .border-professions p {
-    position:absolute;
-    top: 220px;
-    margin-left: 85px;
+    text-align: center;
+    margin-bottom: 8px;
 
     color: #fff;
     font-family: 'Inter';
@@ -610,12 +609,12 @@ a:-webkit-any-link {
 
 .prof {
     display:flex;
-    margin-left: 23px;
+    margin-left: 18px;
     margin-bottom: 18px;
 }
 
 .prof img {
-    margin-right: 54px;
+    margin-right: 30px;
 }
 
 #progresbar {
@@ -663,16 +662,14 @@ a:-webkit-any-link {
 }
 
 .border-talents {
-    border-top: 1px solid rgba(255, 255, 255, .4);
+    border-bottom: 1px solid rgba(255, 255, 255, .4);
     border-opacity: 0;
     margin-bottom: 30px;
 }
 
 .border-talents p {
-    position:absolute;
-    top: 456px;
-    margin-left: 102px;
-
+    text-align: center;
+    margin-bottom: 8px;
     color: #fff;
     font-family: 'Inter';
     font-style: normal;

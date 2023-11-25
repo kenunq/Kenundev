@@ -928,11 +928,14 @@ h3 {
     border-bottom: 1px solid rgba(255, 255, 255);
     width: 259px;
     display: flex;
+    cursor: pointer;
 }
 
 .char_list_open div img{
     margin-left: 7px;
     margin-top: 6px;
+    pointer-events: none;
+    cursor: pointer;
 }
 
 .char_list_open div:last-child {
@@ -947,6 +950,8 @@ h3 {
 .char_list_open p{
     margin-left: 5px;
     width: max-content;
+    pointer-events: none;
+    cursor: pointer;
 
     color: #fff;
     font-family: 'Inter';
@@ -979,6 +984,8 @@ h3 {
 
 .btn-sav p {
     margin: 0;
+    pointer-events: none;
+    cursor: pointer;
 
     font-style: normal;
     font-weight: 400;

@@ -1,8 +1,12 @@
-from django.http import HttpResponse
+import json
+
+from django.core.handlers.asgi import ASGIRequest
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from CharPage.models import CharModel
+from talants.models import TalentsModel
 
 
 # Create your views here.
@@ -24,3 +28,12 @@ class TalantsView(TemplateView):
     #     req = super(TalantsView, self).get(request, *args, **kwargs)
     #     print(request)
     #     return req
+
+    def post(self, request: ASGIRequest, *args, **kwargs):
+        data: dict = json.loads(request.body)
+        print(data)
+        char = CharModel.objects.get(room_id=data['char'])
+        bids = TalentsModel(name=data['name'], char=char, url=data['url'])
+        bids.save()
+
+        return JsonResponse({'status': 'data was successfully saved'})

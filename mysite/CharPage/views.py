@@ -47,7 +47,37 @@ class TestAnim(TemplateView):
 #
 #         return HttpResponse(response.content)
 
+RACES = {
+    1: ["Человек", "race_human"],
+    2: ["Орк", "race_orc"],
+    3: ["Дворф", "race_dwarf"],
+    4: ["Ночной эльф", "race_nightelf"],
+    5: ["Нежить", "race_scourge"],
+    6: ["Таурен", "race_tauren"],
+    7: ["Гном", "race_gnome"],
+    8: ["Тролль", "race_trol"],
+    9: ["Гоблин", "race_goblin"],
+    10: ["Эльф крови", "race_bloodelf"],
+    11: ["Дреней", "race_draenei"]
+}
+GENDERS = {
+        0: 'male',
+        1: 'female'
+    }
 
+PROFFESIONS = {
+    1: ["Ювелирное дело", "Jewelcrafting"],
+    2: ["Инженерное дело", "Engineering"],
+    3: ["Кузнечное дело", "Blacksmithing"],
+    4: ["Портняжное дело", "Tailoring"],
+    5: ["Кожевничество", "Leatherworking"],
+    6: ["Травничество", "Herbalism"],
+    7: ["Наложение чар", "Enchanting"],
+    8: ["Алхимия", "Alchemy"],
+    9: ["Начертание", "Inscription"],
+    10: ["Горное дело", "Mining"],
+    11: ["Снятие шкур", "Skinning"]
+}
 class ZamimgProxyView(View):
     """Проксирует запрос к zamimg API через этот сервер,
     т.к. zamimg сервер не установил Cross-Origin Resource Sharing заголовки,
@@ -203,10 +233,28 @@ class UniqueCharPageView(TemplateView):
             self.creator_id = self.dressing_room[0].creator
 
             self.is_room_creator = self.creator_id == self.request.user
+
             current_room = CharModel.objects.filter(room_id=self.room_id)
             context['creating'] = getattr(current_room[0], 'creating')
-            context['class'] = getattr(current_room[0], 'creating')
-            context['creating'] = getattr(current_room[0], 'creating')
+            context['class'] = getattr(current_room[0], 'char_class').lower()
+            context['race'] = RACES[getattr(current_room[0], 'race')][0]
+            context['race_image'] = f"../static/img/rass/{GENDERS[getattr(current_room[0], 'gender')]}/{RACES[getattr(current_room[0], 'race')][1]}.jpg"
+            context['name'] = getattr(current_room[0], 'char_name')
+            print(eval(getattr(current_room[0], 'proffesions'))[0])
+            if eval(getattr(current_room[0], 'proffesions'))[0] == 0:
+                if eval(getattr(current_room[0], 'proffesions'))[1] == 0:
+                    pass
+                else:
+                    context['proffesion1_icon'] = f"../static/img/Professions/large/{PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[1]][1]}.jpg"
+                    context['proffesion1'] = PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[1]][0]
+            else:
+                context['proffesion1_icon'] = f"../static/img/Professions/large/{PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[0]][1]}.jpg"
+                context['proffesion1'] = PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[0]][0]
+                if not eval(getattr(current_room[0], 'proffesions'))[1] == 0:
+                    context['proffesion2_icon'] = f"../static/img/Professions/large/{PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[1]][1]}.jpg"
+                    context['proffesion2'] = PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[1]][0]
+
+
             # Если пользователь авторизован
             if not self.request.user.is_anonymous:
                 # Если в этой комнате не записан создатель
