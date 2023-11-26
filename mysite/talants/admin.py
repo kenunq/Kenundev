@@ -7,4 +7,6 @@ from talants.models import TalentsModel
 
 @admin.register(TalentsModel)
 class TalentsModelAdmin(admin.ModelAdmin):
-    list_display = ('name', 'char')
+    list_display = ('name',)
+
+    search_fields = ('name',)

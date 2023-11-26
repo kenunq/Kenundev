@@ -735,13 +735,13 @@ h3 {
 }
 
 .btn-access{
-    width: 100%;
+    width: 228px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
     top: 250px;
-    left: 305px;
+    left: 665px;
 }
 
 .btn-acc {

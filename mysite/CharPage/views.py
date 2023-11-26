@@ -240,7 +240,6 @@ class UniqueCharPageView(TemplateView):
             context['race'] = RACES[getattr(current_room[0], 'race')][0]
             context['race_image'] = f"../static/img/rass/{GENDERS[getattr(current_room[0], 'gender')]}/{RACES[getattr(current_room[0], 'race')][1]}.jpg"
             context['name'] = getattr(current_room[0], 'char_name')
-            print(eval(getattr(current_room[0], 'proffesions'))[0])
             if eval(getattr(current_room[0], 'proffesions'))[0] == 0:
                 if eval(getattr(current_room[0], 'proffesions'))[1] == 0:
                     pass
@@ -254,6 +253,8 @@ class UniqueCharPageView(TemplateView):
                     context['proffesion2_icon'] = f"../static/img/Professions/large/{PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[1]][1]}.jpg"
                     context['proffesion2'] = PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[1]][0]
 
+            context['talents'] = current_room[0].talents.all()
+            print(context['talents'])
 
             # Если пользователь авторизован
             if not self.request.user.is_anonymous:

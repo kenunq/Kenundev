@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+from talants.models import TalentsModel
 from user.models import User
 
 
@@ -88,6 +89,8 @@ class CharModel(models.Model):
     char_name = models.CharField(max_length=32, verbose_name='Имя персонажа', default='')
 
     proffesions = models.CharField(max_length=32, verbose_name='Профессии', default='')
+
+    talents = models.ManyToManyField(TalentsModel, null=True, verbose_name='Привязанные таланты')
 
     char_class = models.CharField(max_length=32, verbose_name='Класс персонажа', default='')
 

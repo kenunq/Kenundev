@@ -464,6 +464,7 @@ vertical-align: sub
 
                     </div>
                     {% endif %}
+
                     <div class="block-talents">
 
                         <div class="border-talents">
@@ -473,12 +474,14 @@ vertical-align: sub
                         </div>
 
                         <div class="talents">
-
-                            <div class="talent">
+                            {% if talents|length > 0 %}
+                                {% if talents|length > 1 %}
+                                    {% for talent in talents %}
+                                        <div class="talent">
 
                                 <div class="talent-image">
 
-                                    <img src="{% static 'img/Talents/Stealth.png' %}">
+                                    <img src="{{ talent.talent_spec }}">
 
                                 </div>
 
@@ -486,8 +489,8 @@ vertical-align: sub
 
                                     <div class="talents-name">
 
-                                        <a href="#">
-                                        <p>Скрытность 12/3/56</p>
+                                        <a href="{{ talent.url }}">
+                                        <p>{{ talent.name }}</p>
                                         </a>
 
                                     </div>
@@ -495,8 +498,32 @@ vertical-align: sub
                                 </div>
 
                             </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for talent in talents %}
+                                        <div class="talent">
 
-                            <div class="talent">
+                                <div class="talent-image">
+
+                                    <img src="{{ talent.talent_spec }}">
+
+                                </div>
+
+                                <div class="test1">
+
+                                    <div class="talents-name">
+
+                                        <a href="{{ talent.url }}">
+                                        <p>{{ talent.name }}</p>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                                    {% endfor %}
+                                    <div class="talent">
 
                                 <div class="talent-image">
 
@@ -509,7 +536,7 @@ vertical-align: sub
                                     <div class="talents-name">
 
                                         <a href="">
-                                        <p>Скрытность 12/3/56</p>
+                                        <p>Создать таланты</p>
                                         </a>
 
                                     </div>
@@ -517,6 +544,30 @@ vertical-align: sub
                                 </div>
 
                             </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="talent">
+
+                                <div class="talent-image">
+
+                                    <img src="{% static 'img/Talents/Stealth.png' %}">
+
+                                </div>
+
+                                <div class="test1">
+
+                                    <div class="talents-name">
+
+                                        <a href="">
+                                        <p>Создать таланты</p>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            {% endif %}
 
                         </div>
 

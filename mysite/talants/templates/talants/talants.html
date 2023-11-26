@@ -176,24 +176,26 @@ function return_icon_race(race, gender){
     function show_save(){
 
         var summary_style = document.querySelector('.talentcalc-button-summary').style.display;
-
+        var myElem = document.querySelector(".btn-acc");
         if(summary_style == '') {
-            var item = document.querySelector(".talentcalc-sidebar-anchor");
-             item.insertAdjacentHTML("beforeend", `
-             {% if user.is_authenticated %}
-                <div class="btn-access">
+            if(myElem === null){
+                var item = document.querySelector(".talentcalc-sidebar-anchor");
+                item.insertAdjacentHTML("beforeend", `
+                {% if user.is_authenticated %}
+                   <div class="btn-access">
 
-            <div class="btn-acc" id="btn-acc">
+                       <div class="btn-acc" id="btn-acc">
 
-                <p>Сохранить таланты</p>
+                       <p>Сохранить таланты</p>
 
-            </div>
+                       </div>
 
-        </div>
-        {% endif %}
-            `);
-        var objects = document.querySelectorAll(".btn-acc")
-        objects[objects.length - 1].addEventListener('click', save_menu_open);
+                   </div>
+                {% endif %}
+                `);
+                var objects = document.querySelectorAll(".btn-acc")
+                objects[objects.length - 1].addEventListener('click', save_menu_open);
+            }
         }
 
     };
@@ -400,7 +402,18 @@ function return_icon_race(race, gender){
 
 
 //...............
-
+url_to_class = {
+        "L":"warrior",
+        "j":"deathknight",
+        "0":"druid",
+        "c":"hunter",
+        "o":"mage",
+        "s":"paladin",
+        "b":"priest",
+        "f":"rogue",
+        "h":"shaman",
+        "I":"warlock"
+    };
 function sendRequest(){
 
         data['name'] = document.querySelector("#input_name_talents").value
@@ -410,6 +423,8 @@ function sendRequest(){
 
         };
         data['url'] = document.URL;
+        data['class'] = url_to_class[document.URL.split('#')[1][0]];
+        data['spec'] = get_spec();
         const csrftoken = Cookies.get('csrftoken');
         $.ajax({
         type: 'POST',
@@ -421,6 +436,14 @@ function sendRequest(){
 
         save_menu_hide()
     };
+
+function get_spec(){
+    var values = [0, 0, 0]
+    values[0] =  parseInt(document.querySelector(".talentcalc-lower-tree1 span").innerText[2]);
+    values[1] =  parseInt(document.querySelector(".talentcalc-lower-tree2 span").innerText[2]);
+    values[2] =  parseInt(document.querySelector(".talentcalc-lower-tree3 span").innerText[2]);
+    return `../static/img/Talents/trees/${url_to_class[document.URL.split('#')[1][0]]}_${values.indexOf(Math.max(...values)) + 1}.jpg`
+};
 
 </script>
 {% endblock %}
