@@ -21,6 +21,7 @@ class TalantsView(TemplateView):
         creator = self.request.user
         if not creator.is_anonymous:
             # отображаем персонажей у которых привязано меньше двух талантов
+            context['user_talents'] = reversed(TalentsModel.objects.filter(creator=creator))
             context['chars'] = reversed(CharModel.objects.annotate(num_talents=Count('talents')).filter(creator=creator, creating=True, num_talents__lt=2))
             # filter(proffesions__contains=0) отображать чаров у которых свободна одна или более проффесия
             print(context['chars'])
@@ -30,11 +31,15 @@ class TalantsView(TemplateView):
         data: dict = json.loads(request.body)
         creator = self.request.user
         print(data)
+        if data.get('deltalent_id'):
+            TalentsModel.objects.filter(id=data["deltalent_id"]).delete()
+            return JsonResponse({'status': 'data was successfully talent deleted'})
         if data.get('char'):
             char = CharModel.objects.get(room_id=data['char'])
-            bids = TalentsModel.objects.create(name=data['name'], creator=creator, url=data['url'], talent_class=data['class'], talent_spec=data['spec'])
-            bids.charmodel_set.add(char)
-            bids.save()
+            if char.talents.count() < 2:
+                bids = TalentsModel.objects.create(name=data['name'], creator=creator, url=data['url'], talent_class=data['class'], talent_spec=data['spec'])
+                bids.charmodel_set.add(char)
+                bids.save()
         else:
             bids = TalentsModel(name=data['name'], creator=creator, url=data['url'], talent_class=data['class'], talent_spec=data['spec'])
             bids.save()

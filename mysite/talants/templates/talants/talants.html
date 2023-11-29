@@ -31,9 +31,11 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="main" id="main">
 
     <div class="main-contents" id="main-contents">
+
 
         <script type="text/javascript">
                 Locale.set(8);
@@ -48,7 +50,29 @@
             </div>
         </div>
         <div id="tc-itself">
+            {% if user_talents %}
 
+        <div class="block_talents_list">
+                <p>Мои таланты</p>
+                <div class="talent_user_list">
+                    {% for talent in user_talents %}
+                    <div class="obj_talent">
+                        <a href="{{ talent.url }}">
+                        <img src="{{ talent.talent_class }}">
+                        <img src="{{ talent.talent_spec }}">
+                        <p>{{ talent.name }}</p>
+                        </a>
+                        <div class="del_image" talent_id="{{ talent.id }}" onclick="del_talent(event)">
+                        <img src="{% static 'img/other/del.png' %}" width="25" height="25" >
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            {% endif %}
         </div>
         <script type="text/javascript">
                 tc_init();
@@ -193,8 +217,10 @@ function return_icon_race(race, gender){
                    </div>
                 {% endif %}
                 `);
-                var objects = document.querySelectorAll(".btn-acc")
-                objects[objects.length - 1].addEventListener('click', save_menu_open);
+                {% if user.is_authenticated %}
+                var object = document.querySelector(".btn-acc")
+                object.addEventListener('click', save_menu_open);
+                {% endif %}
             }
         }
 
@@ -423,7 +449,7 @@ function sendRequest(){
 
         };
         data['url'] = document.URL;
-        data['class'] = url_to_class[document.URL.split('#')[1][0]];
+        data['class'] = `../static/img/classes/${url_to_class[document.URL.split('#')[1][0]]}.jpg`;
         data['spec'] = get_spec();
         const csrftoken = Cookies.get('csrftoken');
         $.ajax({
@@ -444,6 +470,25 @@ function get_spec(){
     values[2] =  parseInt(document.querySelector(".talentcalc-lower-tree3 span").innerText[2]);
     return `../static/img/Talents/trees/${url_to_class[document.URL.split('#')[1][0]]}_${values.indexOf(Math.max(...values)) + 1}.jpg`
 };
+
+function del_talent(event){
+    var e = event || window.event;
+    var target = e.target;
+    var talent_id = target.getAttribute('talent_id');
+    console.log(talent_id)
+    data['deltalent_id'] = talent_id
+    const csrftoken = Cookies.get('csrftoken');
+    $.ajax({
+    type: 'POST',
+    dataType: 'JSON',
+    url: document.URL,
+    data: JSON.stringify(data),
+    headers: { 'X-CSRFToken': csrftoken },
+    success: function(data, textStatus, jqXHR){
+            location.reload();
+        }
+    });
+}
 
 </script>
 {% endblock %}

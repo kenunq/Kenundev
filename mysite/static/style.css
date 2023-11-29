@@ -629,7 +629,7 @@ a:-webkit-any-link {
     content: '';
     display: block;
     background: #2D28FF;
-    width: 90%;
+    width: 100%;
     height: 100%;
     border-radius: 28px;
 }
@@ -1713,4 +1713,97 @@ a:-webkit-any-link {
     right: 0;
     font-size: 20px;
     opacity: 0.5;
+}
+
+.lightbox-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #000;
+    opacity: .8;
+    filter: alpha(opacity=80);
+    z-index: 50
+}
+
+
+.enter_talent {
+    display: none;
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding: 25px;
+    z-index: 100;
+    text-align: center;
+    width: 50vh;
+
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.enter_talent p:first-child {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+    margin-bottom: 30px;
+}
+
+.talent_list {
+    overflow-y: auto;
+
+    height: 28vh;
+}
+
+.talent_obj {
+    display: flex;
+    margin-bottom: 15px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.talent_obj img{
+    pointer-events: none;
+}
+
+.talent_obj:hover{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.talent_obj img:first-child{
+    margin-right: 10px;
+}
+
+.talent_obj p{
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    pointer-events: none;
+    height: min-content;
+    text-align: center;
+    margin: 15px auto;
+}
+
+.del_talent{
+    width: 24px;
+    height: min-content;
+    margin-left: auto;
+    margin-right: 0;
+    margin-top: 15px;
+
+    cursor: pointer
+}
+
+.del_talent img {
+    pointer-events: none;
 }

@@ -18,6 +18,7 @@ from django.views.generic.base import TemplateView, View
 import requests
 
 from CharPage.models import CharModel
+from talants.models import TalentsModel
 from user.models import User
 
 
@@ -254,7 +255,8 @@ class UniqueCharPageView(TemplateView):
                     context['proffesion2'] = PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[1]][0]
 
             context['talents'] = current_room[0].talents.all()
-            print(context['talents'])
+            if not self.request.user.is_anonymous:
+                context['talents_all'] = reversed(TalentsModel.objects.filter(creator=self.request.user))
 
             # Если пользователь авторизован
             if not self.request.user.is_anonymous:
@@ -344,6 +346,18 @@ class UniqueCharPageView(TemplateView):
 
         # data: dict = [json.loads(key) for key in request.POST.keys()][0]
         data: dict = json.loads(request.body)
+
+        if data.get('talent_id'):
+            if self.dressing_room[0].talents.count() < 2:
+                talent = TalentsModel.objects.get(id=int(data['talent_id']))
+                talent.charmodel_set.add(self.dressing_room[0])
+                return JsonResponse({'status': 'data was successfully update talent'})
+
+        if data.get('deltalent_id'):
+            if self.dressing_room[0].talents.count() > 0:
+                talent = TalentsModel.objects.get(id=int(data['deltalent_id']))
+                talent.charmodel_set.remove(self.dressing_room[0])
+                return JsonResponse({'status': 'data was successfully delete talent'})
 
         if data.get('delete_room'):
             dressing_room = CharModel.objects.get(room_id=data['delete_room'])

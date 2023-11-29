@@ -11,7 +11,7 @@ class TalentsModel(models.Model):
     url = models.URLField(max_length=250)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                                 verbose_name='Создатель талантов')
-    talent_class = models.CharField(max_length=32, verbose_name='Класс', default='')
+    talent_class = models.CharField(max_length=128, verbose_name='Класс', default='')
     talent_spec = models.CharField(max_length=128, verbose_name='Путь до изображения спецификации', default='')
 
     class Meta:

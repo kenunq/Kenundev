@@ -9,6 +9,67 @@
     <script src="{% static 'js/javascript/wow-model-viewer/viewer_wrath.min.js' %}"></script>
     <script src="{% static 'js/javascript/wow-model-viewer/model_viewer_utils.js' %}"></script>
     <script>const whTooltips = {colorLinks: false, iconize: 'large', renameLinks: false};</script>
+    <script>
+    var data = {};
+    const csrftoken = Cookies.get('csrftoken');
+    function add_talent_open(){
+    document.querySelector(".enter_talent").style.display = "block";
+    document.querySelector(".lightbox-overlay").style.display = "block";
+
+    document.addEventListener('keydown', function(event) {
+        if (event.code == 'Escape') {
+            save_menu_hide()
+        }
+    });
+
+};
+
+function save_menu_hide(){
+    document.querySelector(".enter_talent").style.display = "none";
+    document.querySelector(".lightbox-overlay").style.display = "none";
+
+};
+
+function send_data_talent(event){
+     var e = event || window.event;
+     var target = e.target;
+     var talent_id = target.getAttribute("talent_id")
+     data["talent_id"] = talent_id
+
+      $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: document.URL,
+        data: JSON.stringify(data),
+        headers: { 'X-CSRFToken': csrftoken },
+
+        success: function(data, textStatus, jqXHR){
+            location.reload();
+        }
+        });
+};
+
+function send_data_deltalent(event){
+     var e = event || window.event;
+     var target = e.target;
+     var talent_id = target.getAttribute("talent_id")
+     data["deltalent_id"] = talent_id
+
+      $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: document.URL,
+        data: JSON.stringify(data),
+        headers: { 'X-CSRFToken': csrftoken },
+
+        success: function(data, textStatus, jqXHR){
+            location.reload();
+        }
+        });
+};
+
+
+</script>
 <script>
   let character_data = "{{ character_data }}";
   let char_items2 = [];
@@ -418,7 +479,7 @@ vertical-align: sub
 
                                     <div id="progresbar">
 
-                                    <p>420</p>
+                                    <p>450</p>
 
                                 </div>
 
@@ -450,7 +511,7 @@ vertical-align: sub
 
                                         <div id="progresbar">
 
-                                            <p>420</p>
+                                            <p>450</p>
 
                                         </div>
 
@@ -497,6 +558,12 @@ vertical-align: sub
 
                                 </div>
 
+                                            <div class="del_talent" talent_id="{{ talent.id }}" onclick="send_data_deltalent(event)">
+
+                                                <img src="{% static 'img/other/del.png' %}">
+
+                                            </div>
+
                             </div>
                                     {% endfor %}
                                 {% else %}
@@ -521,9 +588,15 @@ vertical-align: sub
 
                                 </div>
 
+                                            <div class="del_talent" talent_id="{{ talent.id }}" onclick="send_data_deltalent(event)">
+
+                                                <img src="{% static 'img/other/del.png' %}">
+
+                                            </div>
+
                             </div>
                                     {% endfor %}
-                                    <div class="talent">
+                                    <div class="talent" onclick="add_talent_open()" style="cursor: pointer;">
 
                                 <div class="talent-image">
 
@@ -535,9 +608,9 @@ vertical-align: sub
 
                                     <div class="talents-name">
 
-                                        <a href="">
-                                        <p>Создать таланты</p>
-                                        </a>
+
+                                        <p>Добавить таланты</p>
+
 
                                     </div>
 
@@ -546,9 +619,9 @@ vertical-align: sub
                             </div>
                                 {% endif %}
                             {% else %}
-                                <div class="talent">
+                                <div class="talent" onclick="add_talent_open()" style="cursor: pointer;">
 
-                                <div class="talent-image">
+                                <div class="talent-image" onclick="add_talent_open()">
 
                                     <img src="{% static 'img/Talents/Stealth.png' %}">
 
@@ -558,9 +631,7 @@ vertical-align: sub
 
                                     <div class="talents-name">
 
-                                        <a href="">
-                                        <p>Создать таланты</p>
-                                        </a>
+                                        <p>Добавить таланты</p>
 
                                     </div>
 
@@ -579,11 +650,32 @@ vertical-align: sub
 
 
     </div>
+<div class="lightbox-overlay" style="height: 100%; display: none;"></div>
 
+<div class="enter_talent">
+    <p>Выберите таланты</p>
+    <div class="talent_list">
+        <div class="talent_obj">
+            <img src="{% static 'img/classes/druid.jpg' %}">
+            <img src="{% static 'img/Talents/trees/druid_1.jpg' %}">
+            <p>Название талантов</p>
+        </div>
+        {% for talent in talents_all %}
+        <div class="talent_obj" talent_id="{{ talent.id }}" onclick="send_data_talent(event)">
+            <img src="{{ talent.talent_class }}">
+            <img src="{{ talent.talent_spec }}">
+            <p>{{ talent.name }}</p>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
 {% endblock %}
 
 {% block js %}
 <script type="module">
+
+
 
 function debounce(func, timeout = 300){
   let timer;
@@ -807,7 +899,7 @@ const get_actual_dressUI = () => {
         face: window.dressUI.face.current.join(),
     };
 };
-const csrftoken = Cookies.get('csrftoken');
+
 const sendAjaxRequest = function (data) {
     $('.save-char-opts-icon').css('display', 'block');
     $.ajax({
@@ -836,7 +928,18 @@ const IGNORED_WRAPPED_PROPS = [
 ];
 const IGNORED_PROPS = [
     'active_cat', 'sheathMain', 'sheathOff', 'AnimIsPaused', 'saved_rooms', 'show',
-    'game_patch' // игнорирую изменение свойства, вручную отправляю Ajax Request без задержки из хендлера
+    'game_patch', 'skin_color', 'face',
+            'hair_style',
+            'hair_color',
+            'facial_hair',
+            'markings',
+            'horn_style',
+            'horn_color',
+            'hair',
+            'features',
+            'earrings',
+            'tusks',
+            'piercings', 'length', '0' // игнорирую изменение свойства, вручную отправляю Ajax Request без задержки из хендлера
 ];
 
 function wrapDressUI(target) {
@@ -871,7 +974,11 @@ function wrapDressUI(target) {
             target[property] = newValue;
 
             if (IGNORED_PROPS.indexOf(property) === -1) {
-                if (window.dressUI.room_creator || window.dressUI.allow_edit) debounce_sendAjaxRequest(get_actual_dressUI());
+
+                if (window.dressUI.room_creator || window.dressUI.allow_edit){
+                 add_items_in_window_items()
+                 debounce_sendAjaxRequest(get_actual_dressUI());
+                 }
             };
             return true;
         }
@@ -881,7 +988,6 @@ function wrapDressUI(target) {
 window.dressUI = wrapDressUI(window.dressUI);
 
 function set_face_options(){
-     console.log(1231231231323123)
      findRaceGenderOptions(window.dressUI.model_opts['race'], window.dressUI.model_opts['gender']).then((fullOptions) => {
             var full_options = fullOptions.Options;
             for (let i = 0; i < full_options.length; i++) {
@@ -1469,6 +1575,9 @@ set_face_options();
     }
 
 //..................................
+
+
+document.querySelector(".lightbox-overlay").addEventListener('click', save_menu_hide);
 
 
 </script>

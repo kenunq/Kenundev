@@ -993,3 +993,76 @@ h3 {
     line-height: 19px;
     color: #fff;
 }
+
+.block_talents_list{
+    width: min-content;
+    height: min-content;
+    position: absolute;
+    left: 200px;
+    top: 175px;
+    text-align: center;
+    padding: 30px 15px 20px 15px;
+
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid rgba(255, 255, 255, 1);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+}
+
+.block_talents_list p {
+    margin-bottom: 20px;
+    white-space: nowrap;
+
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 33px;
+}
+
+.talent_user_list{
+    padding: 5px 10px 5px 10px;
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+.obj_talent {
+    cursor: pointer;
+    display: flex;
+    text-align: center;
+    padding: 5px 5px 5px 10px;
+    width: 37vh;
+    margin-bottom: 20px;
+
+    background: rgba(88, 84, 84, .18);
+    border: 1px solid rgba(255, 255, 255, 1);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+}
+
+.obj_talent img {
+    pointer-events: none;
+    margin-right: 10px;
+}
+
+.obj_talent img:last-child {
+    margin-top: 13px;
+}
+
+.obj_talent p {
+    color: #fff;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 33px;
+
+    margin: 10px auto;
+    pointer-events: none;
+}
+
+.obj_talent a {
+    display:flex;
+    width: 35vh;
+}
