@@ -240,21 +240,22 @@ vertical-align: sub
         </div>
 
             </div>
-
-                <a href="#">
-                    <div class="char-list-item">
-                      <p class="char-list-info-name">{{ name }}</p>
-                      <p class="char-list-info-description">Человек разбойник 80ур.</p>
-                    </div>
-                </a>
-
-                <a href="#">
-                    <div class="char-list-item">
-                      <p class="char-list-info-name">Kenunhero</p>
-                      <p class="char-list-info-description">Человек жрица 80ур.</p>
-                    </div>
-                </a>
-
+                <div class="user-char-list">
+                  {% for char in user_chars %}
+    <a href="/char/{{ char.room_id }}">
+                      <div class="char-list-item">
+                        <p class="char-list-info-name">{{ char.char_name }}</p>
+    <p class="char-list-info-description">{% get_race_name_rus char.race %} {{ char.char_class }} 80ур.</p>
+                      </div>
+                  </a>
+                  {% endfor %}
+                  <a href="#">
+                      <div class="char-list-item">
+                        <p class="char-list-info-name">Kenunhero</p>
+                        <p class="char-list-info-description">Человек жрица 80ур.</p>
+                      </div>
+                  </a>
+                </div>
           </div>
 
             <div class="character">
@@ -1416,6 +1417,7 @@ set_face_options();
             window.WH.Tooltips.init();
             document.querySelector(".edit-slot").style.display = "block";
             document.querySelector(".char-list").style.marginRight = "10px";
+            document.querySelector(".user-char-list").style.display = "none";
             var charlist = document.querySelectorAll('.char-list-item');
             for (var i = 0; i < buttons.length; ++i) {
             charlist[i].style.display = "none";
@@ -1427,11 +1429,13 @@ set_face_options();
 
      function changeItemMenuHide() {
          document.querySelector(".edit-slot").style.display = "none";
-           document.querySelector(".char-list").style.marginRight = "100px";
-           var charlist = document.querySelectorAll('.char-list-item');
-           for (var i = 0; i < buttons.length; ++i) {
-           charlist[i].style.display = "block";
-           };
+  
+         document.querySelector(".user-char-list").style.display = "block";
+         document.querySelector(".char-list").style.marginRight = "100px";
+         var charlist = document.querySelectorAll('.char-list-item');
+         for (var i = 0; i < buttons.length; ++i) {
+            charlist[i].style.display = "block";
+         };
      };
 
      document.querySelector(".btn-close").addEventListener('click', changeItemMenuHide.bind(null));

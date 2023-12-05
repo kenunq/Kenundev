@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load char_page_tags %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'charlist.css' %}">
+<script>
+
+    function return_icon_race(race, gender){
+     RACES = {
+        1: "race_human",
+        2: "race_orc",
+        3: "race_dwarf",
+        4: "race_nightelf",
+        5: "race_scourge",
+        6: "race_tauren",
+        7: "race_gnome",
+        8: "race_trol",
+        9: "race_goblin",
+        10: "race_bloodelf",
+        11: "race_draenei"
+        }
+    GENDERS = {
+        0: 'male',
+        1: 'female'
+    }
+
+    return `../static/img/rass/${GENDERS[gender]}/${RACES[race]}.jpg`
+
+};
+
+    function return_icon_class(class_id){
+    CLASSES = {
+        "Воин":"warrior",
+        "Рыцарь смерти":"deathknight",
+        "Друид":"druid",
+        "Охотник":"hunter",
+        "Маг":"mage",
+        "Паладин":"paladin",
+        "Жрец":"priest",
+        "Разбойник":"rogue",
+        "Шаман":"shaman",
+        "Чернокнижник":"warlock"
+    };
+    return `../static/img/classes/${CLASSES[class_id]}.jpg`
+
+};
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="block_main">
+
+  <p>Мои персонажи</p>
+
+  <div class="class_list">
+      <div class="class_obj" class_name="Воин" onclick="">
+        <img src="{% static 'img/classes/warrior.jpg' %}" width="36" height="36">
+      </div>
+      <div class="class_obj" class_name="Друид" onclick="">
+        <img src="{% static 'img/classes/druid.jpg' %}" width="36" height="36">
+      </div>
+      <div class="class_obj" class_name="Жрец" onclick="">
+        <img src="{% static 'img/classes/priest.jpg' %}" width="36" height="36">
+      </div>
+    <div class="class_obj" class_name="Маг" onclick="">
+        <img src="{% static 'img/classes/mage.jpg' %}" width="36" height="36">
+      </div>
+    <div class="class_obj" class_name="Охотник" onclick="">
+        <img src="{% static 'img/classes/hunter.jpg' %}" width="36" height="36">
+      </div>
+    <div class="class_obj" class_name="Паладин" onclick="">
+        <img src="{% static 'img/classes/paladin.jpg' %}" width="36" height="36">
+      </div>
+    <div class="class_obj" class_name="Разбойник" onclick="">
+        <img src="{% static 'img/classes/rogue.jpg' %}" width="36" height="36">
+      </div>
+    <div class="class_obj" class_name="Рыцарь смерти" onclick="">
+        <img src="{% static 'img/classes/deathknight.jpg' %}" width="36" height="36">
+      </div>
+    <div class="class_obj" class_name="Чернокнижник" onclick="">
+        <img src="{% static 'img/classes/warlock.jpg' %}" width="36" height="36">
+      </div>
+    <div class="class_obj" class_name="Шаман" onclick="">
+        <img src="{% static 'img/classes/shaman.jpg' %}" width="36" height="36">
+      </div>
+  </div>
+
+    <div class="char-search">
+
+             <div class="seacrh-item" id="search-item">
+
+
+                <div class="seacrh-input" id="seacrh-input" style="margin-right: 0px;">
+
+                    <p id="placeholder-search">Поиск</p>
+                    <input id="input-item-id">
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    <div class="char_list">
+        <a href="/char/">
+            <div class="block_create_char">
+                <p>Создать персонажа</p>
+            </div>
+        </a>
+        {% for char in all_chars %}
+        <div class="block_char_obj">
+                <a href="/char/{{ char.room_id }}">
+                <img src="" onerror="this.onerror=null; this.src=return_icon_race({{ char.race }}, {{ char.gender }});" height="36" width="36">
+                <img src="" onerror="this.onerror=null; this.src=return_icon_class('{{ char.char_class }}');" height="36" width="36">
+                <p>{{ char.char_name }}</p>
+                 {% get_prof_html char.proffesions %}
+                    </a>
+                <div class="del_image">
+                <img src="{% static 'img/other/del.png' %}" width=28 height="28">
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+// input anim...............................................................................................
+
+        function inputcheck(textid, input) {
+            var text = document.getElementById(`${textid}`);
+            let coords = {top: text.offsetTop, left: text.offsetLeft};
+            console.log(coords);
+
+            var top = text.offsetTop;
+            var left = text.offsetLeft;
+
+            console.log(text.offsetLeft, text.offsetTop);
+            var fsize = 15;
+            if(window.getComputedStyle(text, null).fontSize == fsize + "px"){
+
+            var topy = setInterval(topfunc, 10);
+            var leftx = setInterval(leftfunc, 23);
+            var fsizex = setInterval(fsizefunc, 23);
+            function topfunc() {
+                var direction = 1;
+                if(top == coords.top - 19) {
+                    clearInterval(topy);
+                }else {
+                    console.log(1);
+                    top -= 1 * direction;
+                    text.style.top = top + "px";
+                }
+                }
+
+            function leftfunc() {
+                var direction = 1;
+                if(left == coords.left - 5) {
+                    clearInterval(leftx);
+                }else {
+                     left -= 1 * direction;
+                    text.style.left = left + "px";
+                }
+                }
+
+            function fsizefunc() {
+                var bttn = document.getElementById(`${input}`);
+                var direction = 1;
+                if(fsize == 10) {
+                    bttn.disabled = false;
+                    clearInterval(fsizex);
+                }else {
+                    fsize -= 1 * direction;
+                    text.style.fontSize = fsize + "px";
+                }
+                }
+                }
+        }
+
+        function inputout(idtext, input) {
+            var text = document.getElementById(`${idtext}`);
+
+            //console.log(document.getElementById(`${input}`).value) //--- чтение из инпута
+            if(document.getElementById(`${input}`).value == ""){
+
+            let coords = {top: text.offsetTop, left: text.offsetLeft};
+            //console.log(coords);
+
+            var top = text.offsetTop;
+            var left = text.offsetLeft;
+
+            //console.log(text.offsetLeft, text.offsetTop);
+            var fsize = 10;
+            if(window.getComputedStyle(text, null).fontSize == fsize + "px"){
+
+
+            var topy = setInterval(topfunc, 10);
+            var leftx = setInterval(leftfunc, 23);
+            var fsizex = setInterval(fsizefunc, 25);
+
+                function topfunc() {
+                    var direction = -1;
+                    if(top == coords.top + 19) {
+                        clearInterval(topy);
+                    }else {
+                        top -= 1 * direction;
+                        text.style.top = top + "px";
+                    }
+                    }
+
+                function leftfunc() {
+                    var direction = -1;
+                    if(left == coords.left + 5) {
+                        clearInterval(leftx);
+                    }else {
+                         left -= 1 * direction;
+                        text.style.left = left + "px";
+                    }
+                    }
+
+                function fsizefunc() {
+                    var bttn = document.getElementById(`${input}`);
+                    var direction = -1;
+                    if(fsize == 15) {
+                        bttn.disabled = false;
+                        clearInterval(fsizex);
+                    }else {
+                        bttn.disabled = true;
+                        fsize -= 1 * direction;
+                        text.style.fontSize = fsize + "px";
+                    }
+                    }
+                    }
+            }
+
+
+        }
+
+        // вызов функции на нажатие инпут
+        document.getElementById("input-item-id").addEventListener('mousedown', inputcheck.bind(null, "placeholder-search", "input-item-id"));
+
+        // вызов функции при ухода из инпута
+        document.getElementById("input-item-id").addEventListener('focusout', inputout.bind(null, "placeholder-search", "input-item-id"));
+
+//..........................
+
+</script>
+{% endblock %}

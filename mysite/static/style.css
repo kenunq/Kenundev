@@ -1807,3 +1807,10 @@ a:-webkit-any-link {
 .del_talent img {
     pointer-events: none;
 }
+
+.user-char-list{
+  margin-left: 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 58vh;
+}

@@ -1,0 +1,148 @@
+.block_main {
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    width: 65vh;
+}
+
+.block_main p {
+    color: #fff;
+    font-family: Inter;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    margin-bottom: 40px;
+}
+
+.class_list{
+    display: flex;
+    margin-bottom: 35px;
+
+    -webkit-box-align:center;
+    -webkit-box-pack:center;
+    display:-webkit-box;
+}
+
+.class_list div {
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+.class_list div:last-child {
+    margin-right: 0px;
+}
+
+.char-search{
+    margin: 0 auto;
+    width: 26vh;
+}
+
+.seacrh-item{
+    display:flex;
+    width: 100%;
+    height: 30px;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.seacrh-input{
+    display:flex;
+    position: relative;
+    width: 100%;
+    height: 30px;
+    margin-right: 14px;
+}
+
+.seacrh-input input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+}
+
+#placeholder-search{
+    color: #fff;
+    opacity: 0.5;
+    pointer-events: none;
+    position: absolute;
+    left: 10px;
+    top: 3px;
+    font-size: 15px;
+}
+
+.char_list{
+    margin-top: 35px;
+    max-height: 55vh;
+    overflow-y: auto;
+
+}
+
+.char_list p{
+    color: #fff;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    margin: 12px auto;
+}
+
+.block_create_char{
+    width: 100%;
+    height: 50px;
+    margin-bottom: 30px;
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.block_char_obj{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    margin-bottom: 30px;
+    padding: 6px 15px 7px 15px;
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.block_char_obj:last-child{
+    margin-bottom: 1px;
+}
+
+.block_char_obj p{
+    margin: 6px auto;
+}
+
+.block_char_obj a{
+    display: flex;
+    width: 100%;
+}
+
+.block_char_obj img{
+    margin-right: 10px;
+}
+
+.del_image{
+    padding-top: 3px;
+    cursor: pointer;
+
+}
+
+.del_image img{
+    margin-right: 0px;
+}
