@@ -243,18 +243,12 @@ vertical-align: sub
                 <div class="user-char-list">
                   {% for char in user_chars %}
     <a href="/char/{{ char.room_id }}">
-                      <div class="char-list-item">
+                      <div class="char-list-item" char_id="{{ char.room_id }}">
                         <p class="char-list-info-name">{{ char.char_name }}</p>
     <p class="char-list-info-description">{% get_race_name_rus char.race %} {{ char.char_class }} 80ур.</p>
                       </div>
                   </a>
                   {% endfor %}
-                  <a href="#">
-                      <div class="char-list-item">
-                        <p class="char-list-info-name">Kenunhero</p>
-                        <p class="char-list-info-description">Человек жрица 80ур.</p>
-                      </div>
-                  </a>
                 </div>
           </div>
 
@@ -527,6 +521,7 @@ vertical-align: sub
                     </div>
                     {% endif %}
 
+                    {% if talents|length > 0 or is_creator %}
                     <div class="block-talents">
 
                         <div class="border-talents">
@@ -536,6 +531,7 @@ vertical-align: sub
                         </div>
 
                         <div class="talents">
+                    {% endif %}
                             {% if talents|length > 0 %}
                                 {% if talents|length > 1 %}
                                     {% for talent in talents %}
@@ -558,12 +554,13 @@ vertical-align: sub
                                     </div>
 
                                 </div>
-
+                                {% if is_creator %}
                                             <div class="del_talent" talent_id="{{ talent.id }}" onclick="send_data_deltalent(event)">
 
                                                 <img src="{% static 'img/other/del.png' %}">
 
                                             </div>
+                                {% endif %}
 
                             </div>
                                     {% endfor %}
@@ -588,15 +585,17 @@ vertical-align: sub
                                     </div>
 
                                 </div>
-
+                                {% if is_creator %}
                                             <div class="del_talent" talent_id="{{ talent.id }}" onclick="send_data_deltalent(event)">
 
                                                 <img src="{% static 'img/other/del.png' %}">
 
                                             </div>
+                                {% endif %}
 
                             </div>
                                     {% endfor %}
+                                    {% if is_creator %}
                                     <div class="talent" onclick="add_talent_open()" style="cursor: pointer;">
 
                                 <div class="talent-image">
@@ -618,9 +617,11 @@ vertical-align: sub
                                 </div>
 
                             </div>
+                                    {% endif %}
                                 {% endif %}
                             {% else %}
-                                <div class="talent" onclick="add_talent_open()" style="cursor: pointer;">
+                                {% if is_creator %}
+                                    <div class="talent" onclick="add_talent_open()" style="cursor: pointer;">
 
                                 <div class="talent-image" onclick="add_talent_open()">
 
@@ -639,6 +640,7 @@ vertical-align: sub
                                 </div>
 
                             </div>
+                                {% endif %}
                             {% endif %}
 
                         </div>
@@ -1583,6 +1585,17 @@ set_face_options();
 
 document.querySelector(".lightbox-overlay").addEventListener('click', save_menu_hide);
 
+
+function search_char_url(){
+    var list_obj = document.querySelectorAll(".char-list-item")
+    list_obj.forEach(function (elem) {
+                if(elem.getAttribute("char_id") == "{{room_id}}"){
+
+                    elem.classList.add("selected")
+                }
+            });
+}
+search_char_url()
 
 </script>
 {% endblock %}

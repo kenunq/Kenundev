@@ -4,8 +4,12 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'charlist.css' %}">
-<script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script>
+    var char_id = ''
+    const csrftoken = Cookies.get('csrftoken');
+    var data = {}
     function return_icon_race(race, gender){
      RACES = {
         1: "race_human",
@@ -45,6 +49,83 @@
     return `../static/img/classes/${CLASSES[class_id]}.jpg`
 
 };
+
+    function get_chars_to_class(event){
+        var e = event || window.event;
+        var target = e.target;
+        var search_class = "";
+        if (target.classList[1] == "selected"){
+            target.classList.remove("selected")
+        }
+        else {
+            var obj_list = document.querySelectorAll('.class_obj');
+            obj_list.forEach(function (elem) {
+                elem.classList.remove("selected")
+            });
+            target.classList.add("selected")
+            search_class = target.getAttribute("class_name");
+        }
+
+        obj_list = document.querySelectorAll('.char_list div');
+         if (search_class != '') {
+
+            obj_list.forEach(function (elem) {
+
+                if(elem.classList[0] == "block_char_obj"){
+
+                    if (elem.getAttribute("class_name").search(search_class) == -1){
+
+                        elem.classList.add('hide');
+
+                    }
+                    else {
+                        elem.classList.remove('hide');
+                    }
+                }
+            });
+        }
+        else {
+            obj_list.forEach(function (elem) {
+                elem.classList.remove('hide');
+            });
+        }
+    }
+
+    function show_del_block(room_id, name, char_class){
+        char_id = room_id
+        document.querySelector('.del_description').innerText = `${name}, ${char_class} 80-го уровня`
+        document.querySelector('.char_delete').style.display = 'block'
+        document.querySelector('.lightbox-overlay').style.display = 'block'
+
+        document.addEventListener('keydown', function(event) {
+            if (event.code == 'Escape') {
+                hide_del_block()
+            }
+        });
+        document.querySelector(".lightbox-overlay").addEventListener('click', hide_del_block);
+    }
+
+    function hide_del_block(){
+        document.querySelector('.char_delete').style.display = 'none'
+        document.querySelector('.lightbox-overlay').style.display = 'none'
+    }
+
+    function send_data_delchar(){
+     data["delchar_id"] = char_id
+
+      $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: document.URL,
+        data: JSON.stringify(data),
+        headers: { 'X-CSRFToken': csrftoken },
+
+        success: function(data, textStatus, jqXHR){
+            location.reload();
+        }
+        });
+};
+
 </script>
 {% endblock %}
 
@@ -54,34 +135,34 @@
   <p>Мои персонажи</p>
 
   <div class="class_list">
-      <div class="class_obj" class_name="Воин" onclick="">
+      <div class="class_obj" class_name="Воин" onclick="get_chars_to_class(event)">
         <img src="{% static 'img/classes/warrior.jpg' %}" width="36" height="36">
       </div>
-      <div class="class_obj" class_name="Друид" onclick="">
+      <div class="class_obj" class_name="Друид" onclick="get_chars_to_class(event)">
         <img src="{% static 'img/classes/druid.jpg' %}" width="36" height="36">
       </div>
-      <div class="class_obj" class_name="Жрец" onclick="">
+      <div class="class_obj" class_name="Жрец" onclick="get_chars_to_class(event)">
         <img src="{% static 'img/classes/priest.jpg' %}" width="36" height="36">
       </div>
-    <div class="class_obj" class_name="Маг" onclick="">
+    <div class="class_obj" class_name="Маг" onclick="get_chars_to_class(event)">
         <img src="{% static 'img/classes/mage.jpg' %}" width="36" height="36">
       </div>
-    <div class="class_obj" class_name="Охотник" onclick="">
+    <div class="class_obj" class_name="Охотник" onclick="get_chars_to_class(event)">
         <img src="{% static 'img/classes/hunter.jpg' %}" width="36" height="36">
       </div>
-    <div class="class_obj" class_name="Паладин" onclick="">
+    <div class="class_obj" class_name="Паладин" onclick="get_chars_to_class(event)">
         <img src="{% static 'img/classes/paladin.jpg' %}" width="36" height="36">
       </div>
-    <div class="class_obj" class_name="Разбойник" onclick="">
+    <div class="class_obj" class_name="Разбойник" onclick="get_chars_to_class(event)">
         <img src="{% static 'img/classes/rogue.jpg' %}" width="36" height="36">
       </div>
-    <div class="class_obj" class_name="Рыцарь смерти" onclick="">
+    <div class="class_obj" class_name="Рыцарь смерти" onclick="get_chars_to_class(event)">
         <img src="{% static 'img/classes/deathknight.jpg' %}" width="36" height="36">
       </div>
-    <div class="class_obj" class_name="Чернокнижник" onclick="">
+    <div class="class_obj" class_name="Чернокнижник" onclick="get_chars_to_class(event)">
         <img src="{% static 'img/classes/warlock.jpg' %}" width="36" height="36">
       </div>
-    <div class="class_obj" class_name="Шаман" onclick="">
+    <div class="class_obj" class_name="Шаман" onclick="get_chars_to_class(event)">
         <img src="{% static 'img/classes/shaman.jpg' %}" width="36" height="36">
       </div>
   </div>
@@ -110,21 +191,50 @@
             </div>
         </a>
         {% for char in all_chars %}
-        <div class="block_char_obj">
+        <div class="block_char_obj" class_name="{{ char.char_class }}">
                 <a href="/char/{{ char.room_id }}">
                 <img src="" onerror="this.onerror=null; this.src=return_icon_race({{ char.race }}, {{ char.gender }});" height="36" width="36">
                 <img src="" onerror="this.onerror=null; this.src=return_icon_class('{{ char.char_class }}');" height="36" width="36">
                 <p>{{ char.char_name }}</p>
                  {% get_prof_html char.proffesions %}
                     </a>
-                <div class="del_image">
+                <div class="del_image" onclick="show_del_block('{{ char.room_id }}', '{{ char.char_name }}', '{{ char.char_class }}')">
                 <img src="{% static 'img/other/del.png' %}" width=28 height="28">
                     </div>
             </div>
         {% endfor %}
     </div>
 
+
 </div>
+<div class="lightbox-overlay" style="height: 100%; display: none;"></div>
+
+    <div class="char_delete">
+        <p class="del_header">Запрос на удаление персонажа:</p>
+        <p class="del_description">Хожупоогню, Разбойница 80-го уровня</p>
+        <div class="del_footer">
+            <img src="{% static 'img/other/warning.png' %}" height="64" width="64">
+            <p>Для подтверждения введите слово "УДАЛИТЬ".</p>
+        </div>
+        <div class="del_search">
+            <div class="confirn_del">
+
+                <div class="confirn-input">
+                    <input id="confirn_del_input" placeholder="">
+
+                </div>
+
+            </div>
+        </div>
+        <div class="del_buttons">
+        <div class="button_del disabled" onclick="send_data_delchar()">
+            <p>ОК</p>
+        </div>
+        <div class="button_cancel" onclick="hide_del_block()">
+            <p>Отменить</p>
+        </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
@@ -247,6 +357,55 @@
         document.getElementById("input-item-id").addEventListener('focusout', inputout.bind(null, "placeholder-search", "input-item-id"));
 
 //..........................
+// search...............................................................................................
 
+//input_id = input-item-id
+
+
+    document.querySelector('#input-item-id').oninput = function () {
+        var val = this.value.toLowerCase().trim();
+        var obj_list = document.querySelectorAll('.char_list div');
+
+        if (val != '') {
+
+            obj_list.forEach(function (elem) {
+
+                if(elem.classList[0] == "block_char_obj"){
+
+                    if (elem.innerText.search(val) == -1){
+
+                        elem.classList.add('hide');
+
+                    }
+                    else {
+                        elem.classList.remove('hide');
+                    }
+                }
+            });
+        }
+        else {
+            obj_list.forEach(function (elem) {
+                elem.classList.remove('hide');
+            });
+        }
+    }
+
+//..................................
+
+    function enable_buttom_del(){
+        var cur_text = document.querySelector('#confirn_del_input').value;
+        if(cur_text.toLowerCase() == "удалить"){
+            if(document.querySelector('.button_del').classList.value.search('disabled') != -1){
+                document.querySelector('.button_del').classList.remove('disabled')
+            }
+        }
+        else {
+            if(document.querySelector('.button_del').classList.value.search('disabled') == -1){
+                document.querySelector('.button_del').classList.add('disabled')
+            }
+
+        }
+    }
+    document.getElementById("confirn_del_input").addEventListener('input', enable_buttom_del.bind(null));
 </script>
 {% endblock %}

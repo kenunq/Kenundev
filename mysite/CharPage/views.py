@@ -246,6 +246,7 @@ class UniqueCharPageView(TemplateView):
             context["creating"] = getattr(current_room[0], "creating")
             context["class"] = getattr(current_room[0], "char_class").lower()
             context["race"] = RACES[getattr(current_room[0], "race")][0]
+            context["is_creator"] = self.is_room_creator
             context[
                 "race_image"
             ] = f"../static/img/rass/{GENDERS[getattr(current_room[0], 'gender')]}/{RACES[getattr(current_room[0], 'race')][1]}.jpg"
@@ -335,14 +336,15 @@ class UniqueCharPageView(TemplateView):
             current_room = CharModel.objects.filter(room_id=self.room_id)
             context["creating"] = getattr(current_room[0], "creating")
 
+
         character_data.update({"my_saved_rooms": my_saved_rooms})
 
         context.update({"character_data": json.dumps(character_data)})
-        print(context)
+
         return context
 
     def render_to_response(self, context, **response_kwargs):
-        if context["creating"] == False:
+        if not context["creating"]:
             return redirect("createchar", self.room_id)
         return super(UniqueCharPageView, self).render_to_response(
             context, **response_kwargs
@@ -373,27 +375,29 @@ class UniqueCharPageView(TemplateView):
 
         # data: dict = [json.loads(key) for key in request.POST.keys()][0]
         data: dict = json.loads(request.body)
+        if self.request.user == self.dressing_room[0].creator:
+            if data.get("talent_id"):
+                if self.dressing_room[0].talents.count() < 2:
+                    talent = TalentsModel.objects.get(id=int(data["talent_id"]))
+                    talent.charmodel_set.add(self.dressing_room[0])
+                    return JsonResponse({"status": "data was successfully update talent"})
 
-        if data.get("talent_id"):
-            if self.dressing_room[0].talents.count() < 2:
-                talent = TalentsModel.objects.get(id=int(data["talent_id"]))
-                talent.charmodel_set.add(self.dressing_room[0])
-                return JsonResponse({"status": "data was successfully update talent"})
+            if data.get("deltalent_id"):
+                if self.dressing_room[0].talents.count() > 0:
+                    talent = TalentsModel.objects.get(id=int(data["deltalent_id"]))
+                    talent.charmodel_set.remove(self.dressing_room[0])
+                    return JsonResponse({"status": "data was successfully delete talent"})
 
-        if data.get("deltalent_id"):
-            if self.dressing_room[0].talents.count() > 0:
-                talent = TalentsModel.objects.get(id=int(data["deltalent_id"]))
-                talent.charmodel_set.remove(self.dressing_room[0])
-                return JsonResponse({"status": "data was successfully delete talent"})
+            if data.get("delete_room"):
+                dressing_room = CharModel.objects.get(room_id=data["delete_room"])
+                dressing_room.delete()
+                return JsonResponse({"status": "data was successfully deleted"})
 
-        if data.get("delete_room"):
-            dressing_room = CharModel.objects.get(room_id=data["delete_room"])
-            dressing_room.delete()
-            return JsonResponse({"status": "data was successfully deleted"})
+            self.dressing_room.update(**data)
 
-        self.dressing_room.update(**data)
+            return JsonResponse({"status": "data was successfully saved"})
 
-        return JsonResponse({"status": "data was successfully saved"})
+        return JsonResponse({"status": "access error"})
 
 
 class CreateCharView(TemplateView):
@@ -412,7 +416,7 @@ class CreateCharView(TemplateView):
         return context
 
     def render_to_response(self, context, **response_kwargs):
-        if context["creating"] == True:
+        if context["creating"]:
             return redirect("char_page_room", self.room_id)
         return super(CreateCharView, self).render_to_response(
             context, **response_kwargs
@@ -450,3 +454,19 @@ class CharListPageView(TemplateView):
             context['all_chars'] = reversed(CharModel.objects.filter(creator=self.request.user, creating=True))
 
         return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.user.is_anonymous:
+            return redirect("char")
+
+        return super(CharListPageView, self).render_to_response(
+            context, **response_kwargs
+        )
+
+    def post(self, request: ASGIRequest, *args, **kwargs):
+        data: dict = json.loads(request.body)
+
+        if data.get('delchar_id'):
+            char_id = data.get('delchar_id')
+            CharModel.objects.get(room_id=char_id).delete()
+            return JsonResponse({"status": "data was successfully deleted"})
