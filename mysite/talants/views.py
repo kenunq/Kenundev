@@ -24,7 +24,6 @@ class TalantsView(TemplateView):
             context['user_talents'] = reversed(TalentsModel.objects.filter(creator=creator))
             context['chars'] = reversed(CharModel.objects.annotate(num_talents=Count('talents')).filter(creator=creator, creating=True, num_talents__lt=2))
             # filter(proffesions__contains=0) отображать чаров у которых свободна одна или более проффесия
-            print(context['chars'])
         return context
 
     def post(self, request: ASGIRequest, *args, **kwargs):

@@ -30,6 +30,7 @@ urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
     path('user/', include('user.urls', namespace='user')),
     path('addons/', include('addons.urls', namespace='addons')),
+    path('services/', include('services.urls', namespace='services')),
     path('char/', CharPageView.as_view(), name='char'),
     path('charlist/', CharListPageView.as_view(), name='char_list'),
     path('createchar/<uuid:room_id>/', CreateCharView.as_view(), name='createchar'),

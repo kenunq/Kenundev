@@ -112,7 +112,7 @@ vertical-align: sub
            <a class='nav-item' href="{% url 'char_list' %}">Персонаж</a>
            <a class='nav-item' href="{% url 'talants' %}">Таланты</a>
            <a class='nav-item' href="{% url 'addons:shop' %}">Аддоны</a>
-           <a class='nav-item' href="@">Услуги</a>
+           <a class='nav-item' href="{% url 'services:services' %}">Услуги</a>
 
 
          </div>
@@ -168,9 +168,6 @@ vertical-align: sub
 
   {% endblock %}
 
-  {% block footer %}
-
-  {% endblock %}
 
 </body>
 

@@ -26,11 +26,11 @@ class AddonsView(ListView):
         if filter:
             list_filter = {'price': 'price', '-price': '-price', "popular": "name"}
             print(1111)
-            return queryset.filter(category__id=category_id).order_by(
-                    list_filter.get(filter, "")) if category_id else queryset.order_by(
+            return queryset.filter(category__id=category_id, is_published=True).order_by(
+                    list_filter.get(filter, "")) if category_id else queryset.filter(is_published=True).order_by(
                     list_filter.get(filter, ""))
         else:
-            return queryset.filter(category__id=category_id) if category_id else queryset
+            return queryset.filter(category__id=category_id, is_published=True) if category_id else queryset.filter(is_published=True)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(AddonsView, self).get_context_data()

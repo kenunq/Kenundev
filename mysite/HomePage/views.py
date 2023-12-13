@@ -14,9 +14,9 @@ class HomePageView(TemplateView):
         print(request.GET.get('data'))
         id_class = request.GET.get('class')
         if request.GET.get('data') == 'talents':
-            return HttpResponse(open(f'E:\project\mysite\static\js\javascript\data-class={id_class}.js', 'r', encoding="utf-8"), content_type="application/x-javascript; charset=utf-8")
+            return HttpResponse(open(f'.\static\js\javascript\data-class={id_class}.js', 'r', encoding="utf-8"), content_type="application/x-javascript; charset=utf-8")
 
         if request.GET.get('data') == 'item-scaling':
-            return HttpResponse(open('E:\project\mysite\static\js\javascript\data-item-scaling.js', 'r', encoding="utf-8"),
+            return HttpResponse(open('.\static\js\javascript\data-item-scaling.js', 'r', encoding="utf-8"),
                                 content_type="application/x-javascript; charset=utf-8")
         return resp

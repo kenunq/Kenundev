@@ -1,0 +1,237 @@
+.main {
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+    padding: 35px 50px 35px 50px;
+
+    background: rgba(88, 84, 84, .18);
+    border: 2px solid rgba(255, 255, 255, 1);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+}
+
+.serv_header{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 40px;
+
+    color: #fff;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.serv_content{
+    display:flex;
+    margin-bottom: 45px;
+
+    color: #fff;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.block_left{
+    display: flex;
+    margin-right: 205px;
+}
+
+.field_name{
+    margin-right: 15px;
+}
+
+.field_name p{
+    margin-bottom: 43px;
+}
+
+.field_name p:last-child{
+    margin-bottom: 0px;
+}
+
+.set_value{
+    display: flex;
+
+    margin-bottom: 38px;
+    padding: 4px 12px 4px 12px;
+    width: 207px;
+    cursor: pointer;
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+
+    color: #fff;
+    font-family: Inter;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.set_value:last-child{
+    margin-bottom: 0px;
+}
+
+.set_value img{
+    margin-left: 58%;
+}
+
+
+
+.block_right{
+    display: flex;
+}
+
+.username-input{
+    display:flex;
+    position: relative;
+    width: 207px;
+    height: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.username-input input{
+
+    width: 207px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+}
+
+.additional_comment{
+    margin: 0 auto;
+    width: min-content;
+    margin-bottom: 35px;
+
+    color: #fff;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.additional_comment p{
+    margin-bottom: 5px;
+}
+
+.comment-input{
+    display:flex;
+    width: 302px;
+    height: 85px;
+}
+
+.comment-input textarea{
+    resize: none;
+    width: 302px;
+    height: 85px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+}
+
+.send_button {
+    margin: 0 auto;
+    background: #0057FF;
+    border-radius: 10px;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    text-align: center;
+    width: 216px;
+    padding: 5px 7px 6px 7px;
+    height: 30px;
+    cursor: pointer;
+
+}
+
+.send_button p{
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.content_block{
+    display: none;
+    position: absolute;
+/*    padding: 35px 24px 20px 24px;*/
+    height: min-content;
+    overflow-y: autp;
+    min-height: 50px;
+    backdrop-filter: blur(15px);
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+
+}
+
+.content_block div{
+    border-bottom: 1px solid rgba(255, 255, 255);
+    width: 207px;
+    text-align: center;
+    display: flex;
+    cursor: pointer;
+}
+
+.content_block div:last-child {
+    border-bottom: 0px solid rgba(255, 255, 255);
+}
+
+.content_block div:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.content_block div p{
+    pointer-events: none;
+    margin: 0 auto;
+}
+
+#type{
+    left: 177px;
+    top: 141px;
+}
+
+#server{
+    left: 177px;
+    top: 208px;
+}
+
+#fraction{
+    left: 177px;
+    top: 275px;
+}
+
+#class{
+    left: 177px;
+    top: 343px;
+}
+
+#mentor{
+    left: 790px;
+    top: 141px;
+}
+
+#communication{
+    left: 790px;
+    top: 208px;
+}

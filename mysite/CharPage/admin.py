@@ -14,9 +14,7 @@ class CharModelAdmin(admin.ModelAdmin):
 
     raw_id_fields = ('creator',)
 
-    list_display = ('get_short_room_id', 'allow_edit', 'get_race_name', 'get_gender_name', 'last_update_time')
-
-    list_editable = ('allow_edit',)
+    list_display = ('get_short_room_id', 'char_name', 'get_race_name', 'get_gender_name', 'last_update_time')
 
     search_fields = ('room_id',)
 

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'addons',
     'HomePage',
     'talants',
+    'services',
 ]
 
 MIDDLEWARE = [

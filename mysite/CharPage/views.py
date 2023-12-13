@@ -388,11 +388,6 @@ class UniqueCharPageView(TemplateView):
                     talent.charmodel_set.remove(self.dressing_room[0])
                     return JsonResponse({"status": "data was successfully delete talent"})
 
-            if data.get("delete_room"):
-                dressing_room = CharModel.objects.get(room_id=data["delete_room"])
-                dressing_room.delete()
-                return JsonResponse({"status": "data was successfully deleted"})
-
             self.dressing_room.update(**data)
 
             return JsonResponse({"status": "data was successfully saved"})
@@ -468,5 +463,8 @@ class CharListPageView(TemplateView):
 
         if data.get('delchar_id'):
             char_id = data.get('delchar_id')
-            CharModel.objects.get(room_id=char_id).delete()
-            return JsonResponse({"status": "data was successfully deleted"})
+            obj_char = CharModel.objects.get(room_id=char_id)
+            # Если пользователь является создателем персонажа
+            if self.request.user == obj_char.creator:
+                obj_char.delete()
+                return JsonResponse({"status": "data was successfully deleted"})
