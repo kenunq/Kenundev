@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'services.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<div class="success_add">
+    <div class="success_add_header">
+        <p>Ваша заявка доставлена</p>
+    </div>
+    <div class="success_add_content">
+        <p>В скором времени с вами свяжется {{ mentor }} для уточнения дополнительной информации</p>
+    </div>
+    <div class="success_add_end">
+        <a href="{% url 'home' %}">На главную</a>
+    </div>
+</div>
+{% endblock %}

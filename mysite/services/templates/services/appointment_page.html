@@ -3,6 +3,21 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'services.css' %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script>
+    const csrftoken = Cookies.get('csrftoken');
+    var data = {
+        "type": "",
+        "server": "",
+        "fraction": "",
+        "class": "",
+        "mentor": "",
+        "username": "",
+        "communication": ""
+    }
+</script>
 {% endblock %}
 
 {% block content %}
@@ -20,19 +35,19 @@
                 <p>Класс:</p>
             </div>
             <div class="field_input">
-                <div class="set_value" onclick="content_block_show('type', 1)">
+                <div class="set_value" id="set_value_type" onclick="content_block_show('type', 1)"id="set_value_type" >
                     <p>Выбрать</p>
                     <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle1">
                 </div>
-                <div class="set_value" onclick="content_block_show('server', 2)">
+                <div class="set_value" id="set_value_server" onclick="content_block_show('server', 2)">
                     <p>Выбрать</p>
                     <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle2">
                 </div>
-                <div class="set_value" onclick="content_block_show('fraction', 3)">
+                <div class="set_value" id="set_value_fraction" onclick="content_block_show('fraction', 3)">
                     <p>Выбрать</p>
                     <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle3">
                 </div>
-                <div class="set_value" onclick="content_block_show('class', 4)">
+                <div class="set_value" id="set_value_class" onclick="content_block_show('class', 4)">
                     <p>Выбрать</p>
                     <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle4">
                 </div>
@@ -45,84 +60,60 @@
                 <p>Имя пользователя:</p>
             </div>
             <div class="field_input">
-                <div class="set_value" onclick="content_block_show('mentor', 5)">
+                <div class="set_value" id="set_value_mentor" onclick="content_block_show('mentor', 5)">
                     <p>Выбрать</p>
                     <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle5">
                 </div>
-                <div class="set_value" onclick="content_block_show('communication', 6)">
+                <div class="set_value" id="set_value_communication" onclick="content_block_show('communication', 6)">
                     <p>Выбрать</p>
                     <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle6">
                 </div>
-                <div class="username-input" id="username-input">
+                <div class="username-input" id="username-input" >
                     <input type="text" id="input-username">
                 </div>
             </div>
         </div>
         <div class="content_block" open="False" id="type">
-            <div class="content_obj">
-                <p>123</p>
+            {% for type in types %}
+            <div class="content_obj" onclick="enter_content_obj(event)">
+                <p>{{ type.name }}</p>
             </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
+            {% endfor %}
         </div>
         <div class="content_block" open="False" id="server">
-            <div class="content_obj">
-                <p>123</p>
+            {% for server in servers %}
+            <div class="content_obj" onclick="enter_content_obj(event)">
+                <p>{{ server.name }}</p>
             </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
+            {% endfor %}
         </div>
         <div class="content_block" open="False" id="fraction">
-        <div class="content_obj">
-                <p>123</p>
+            {% for fraction in fractions %}
+            <div class="content_obj" onclick="enter_content_obj(event)">
+                <p>{{ fraction.name }}</p>
             </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
+            {% endfor %}
         </div>
         <div class="content_block" open="False" id="class">
-            <div class="content_obj">
-                <p>123</p>
+            {% for class in classes %}
+            <div class="content_obj" onclick="enter_content_obj(event)">
+                <p>{{ class.name }}</p>
             </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
+            {% endfor %}
         </div>
         <div class="content_block" open="False" id="mentor">
-          <div class="content_obj">
-                <p>123</p>
+            {% for mentor in mentors %}
+            <div class="content_obj" onclick="enter_content_obj(event)">
+                <p>{{ mentor.name }}</p>
             </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
+            {% endfor %}
         </div>
         <div class="content_block" open="False" id="communication">
-          <div class="content_obj">
-                <p>123</p>
+            {% for communication in communications %}
+          <div class="content_obj" onclick="enter_content_obj(event)">
+                <p>{{ communication.name }}</p>
             </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
-            <div class="content_obj">
-                <p>123</p>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
@@ -144,8 +135,13 @@
 
     function content_block_show(block_id, tringle_id){
         var obj = document.querySelector(`#${block_id}`)
+        var all_obj = document.querySelectorAll('.content_block')
         //obj.style.display = "block";
         var attr = obj.getAttribute("open")
+        all_obj.forEach(function (elem) {
+            elem.setAttribute("open", "False")
+            elem.style.display = "none"
+        });
         if(attr == "False"){
             rotate_tringle(0, tringle_id);
             obj.setAttribute("open", "True")
@@ -181,6 +177,48 @@
             },4);
         };
     };
+
+    function enter_content_obj(event){
+        var e = event || window.event;
+        var target = e.target;
+
+        var parent = target.parentElement;
+        var type = parent.getAttribute('id');
+        var set_value = document.querySelector(`#set_value_${type}`)
+        var tringle_id = parseInt(document.querySelector(`#set_value_${type} img`).getAttribute("id").slice(-1));
+
+        var value = target.innerText;
+        if (type == "communication"){
+            document.querySelector(`#input-username`).style.pointerEvents = "auto"
+            document.querySelector(`#input-username`).style.opacity = 1
+        }
+        data[type] = value;
+        set_value.childNodes[1].innerText = value;
+        rotate_tringle(180, tringle_id);
+        parent.setAttribute("open", "False")
+        parent.style.display = "none"
+
+    }
+
+    function sendRequest(){
+        data["username"] = document.querySelector("#input-username").value
+        if(document.querySelector("#input-comment").value != "") data["comment"] = document.querySelector("#input-comment").value
+        if(Object.values(data).includes("") == false){
+            $.ajax({
+                type: 'POST',
+                dataType: 'JSON',
+                url: document.URL,
+                data: JSON.stringify(data),
+                headers: { 'X-CSRFToken': csrftoken },
+            });
+        }
+    }
+
+    $(document).ajaxSuccess(function(event, request, settings) {
+        if (request.responseJSON['status'] == 'data was successfully saved') {
+           window.location.replace(document.URL+ "success");
+        }
+    });
 
 </script>
 {% endblock %}

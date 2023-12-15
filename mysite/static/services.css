@@ -57,7 +57,7 @@
 
 .set_value{
     display: flex;
-
+    justify-content: space-between;
     margin-bottom: 38px;
     padding: 4px 12px 4px 12px;
     width: 207px;
@@ -81,7 +81,7 @@
 }
 
 .set_value img{
-    margin-left: 58%;
+/*    margin-left: 58%;*/
 }
 
 
@@ -100,7 +100,8 @@
 }
 
 .username-input input{
-
+    pointer-events: none;
+    opacity: .3;
     width: 207px;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid #FFFFFF;
@@ -174,15 +175,15 @@
     position: absolute;
 /*    padding: 35px 24px 20px 24px;*/
     height: min-content;
-    overflow-y: autp;
-    min-height: 50px;
+    overflow-y: auto;
+/*    min-height: 50px;*/
+    max-height: 200px;
     backdrop-filter: blur(15px);
 
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
-
 }
 
 .content_block div{
@@ -191,6 +192,7 @@
     text-align: center;
     display: flex;
     cursor: pointer;
+
 }
 
 .content_block div:last-child {
@@ -202,8 +204,15 @@
 }
 
 .content_block div p{
+    color: #FFF;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
     pointer-events: none;
     margin: 0 auto;
+
 }
 
 #type{
@@ -234,4 +243,54 @@
 #communication{
     left: 790px;
     top: 208px;
+}
+
+
+
+
+.success_add {
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    padding: 30px 175px 35px 175px;
+
+    background: rgba(88, 84, 84, .18);
+    border: 2px solid rgba(255, 255, 255, 1);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+}
+
+.success_add_header{
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    margin-bottom: 30px;
+}
+
+.success_add_content{
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    margin-bottom: 30px;
+    width: 352px;
+}
+
+.success_add_end a{
+    color: #001AFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }

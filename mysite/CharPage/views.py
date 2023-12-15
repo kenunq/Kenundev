@@ -247,9 +247,7 @@ class UniqueCharPageView(TemplateView):
             context["class"] = getattr(current_room[0], "char_class").lower()
             context["race"] = RACES[getattr(current_room[0], "race")][0]
             context["is_creator"] = self.is_room_creator
-            context[
-                "race_image"
-            ] = f"../static/img/rass/{GENDERS[getattr(current_room[0], 'gender')]}/{RACES[getattr(current_room[0], 'race')][1]}.jpg"
+            context["race_image"] = f"../static/img/rass/{GENDERS[getattr(current_room[0], 'gender')]}/{RACES[getattr(current_room[0], 'race')][1]}.jpg"
             context["name"] = getattr(current_room[0], "char_name")
             if eval(getattr(current_room[0], "proffesions"))[0] == 0:
                 if eval(getattr(current_room[0], "proffesions"))[1] == 0:
