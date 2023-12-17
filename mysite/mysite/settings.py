@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_recaptcha',
+
     'CharPage',
     'user',
     'addons',
@@ -143,3 +145,6 @@ AUTH_USER_MODEL = 'user.User'
 LOGIN_URL = '/user/login/'
 LOGOUT_REDIRECT_URL = "/user/login/"
 LOGIN_REDIRECT_URL = '/'
+
+RECAPTCHA_PUBLIC_KEY = '6LdV7zIpAAAAAGbJFz3JWZ9cIrQNJbh6NDF1Oj2t'
+RECAPTCHA_PRIVATE_KEY = '6LdV7zIpAAAAAErXXt8MVWvPIeAWa5ns8G5b1kXS'

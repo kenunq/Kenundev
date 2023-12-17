@@ -11,6 +11,7 @@ from django.conf import settings
 from user.forms import UserRegistrationForm, UserLoginForm
 from user.models import User
 
+
 class RegistrationView(SuccessMessageMixin, CreateView):
 	model = User
 	form_class = UserRegistrationForm
@@ -18,20 +19,12 @@ class RegistrationView(SuccessMessageMixin, CreateView):
 	success_url = reverse_lazy('user:login')
 	success_message = 'Вы успешно зарегистрировались!'
 
+
 class UserLoginView(LoginView):
 	template_name = 'login.html'
 	form_class = UserLoginForm
 
 
-# class UserLogout(LogoutView):
-#
-# 	def get(self, request, *args, **kwargs):
-# 		return HttpResponseRedirect(request.META['HTTP_REFERER'])
-#
-# 	def get_success_url(self):
-# 		return reverse_lazy('home')
-
-def UserLogout(request):
-	print(request.META)
+def userlogout(request):
 	auth.logout(request)
 	return HttpResponseRedirect(request.META['HTTP_REFERER'])

@@ -16,7 +16,7 @@
     </div>
 
     <div class="input-block">
-    <form action="{% url 'user:registration' %}" method="post">
+    <form action="{% url 'user:registration' %}" method="post" >
         {% csrf_token %}
     <div class="login-input" id="login-input">
 
@@ -42,6 +42,55 @@
         {{ form.email }}
 
     </div>
+            <script type="text/javascript">
+        function flash_captcha(){
+            var state = 'show'
+            // повторить с интервалом .2 секунды
+            let timerId = setInterval(() => {
+                if(state == 'show'){
+                    document.querySelector('#RecaptchaField1').style.opacity = 0
+                    state = 'hide'
+                }
+                else {
+                   document.querySelector('#RecaptchaField1').style.opacity = 1
+                    state = 'show'
+                }
+            }, 200);
+
+            // остановить вывод через 1.2  секунд
+            setTimeout(() => clearInterval(timerId), 1200);
+        }
+        var verifyCallback = function(response) {
+            console.log('captchacallback')
+            var captcha = grecaptcha.getResponse()
+            var button = document.querySelector('.button_register')
+            if (captcha.length){
+                button.setAttribute('type', 'submit');
+                button.setAttribute('onclick', '');
+            }
+      };
+//        var onloadCallback = function() {
+//       grecaptcha.render(document.getElementById('RecaptchaField1'), {
+//          'sitekey' : '6LdV7zIpAAAAAGbJFz3JWZ9cIrQNJbh6NDF1Oj2t',
+//          'callback' : verifyCallback,
+//          'theme' : 'light'
+//        });
+//    alert("grecaptcha is ready!");
+//  };
+
+//        var onloadCallback = function() {
+//
+//    if ( $('#RecaptchaField1').length ) {
+//        grecaptcha.render('RecaptchaField1', {
+//            'sitekey' : '6LdV7zIpAAAAAGbJFz3JWZ9cIrQNJbh6NDF1Oj2t',
+//            'theme': 'light',
+//            'callback': 'verifyCallback'
+//        });
+//    }
+//};
+</script>
+
+        {{ form.captcha }}
 
     </div>
 
@@ -53,19 +102,23 @@
 
 
 
-        <script src='https://www.google.com/recaptcha/api.js'></script>
-        <div class="form-group g-recaptcha" data-sitekey="6LdV7zIpAAAAAGbJFz3JWZ9cIrQNJbh6NDF1Oj2t" data-theme="light" style="margin: 0px 25px 26px 25px;"></div>
+<!--        <script src='https://www.google.com/recaptcha/api.js'></script>-->
+<!--        <div class="g-recaptcha" id="RecaptchaField1" data-sitekey="6LdV7zIpAAAAAGbJFz3JWZ9cIrQNJbh6NDF1Oj2t" render="explicit" data-theme="light" style="margin: 0px 25px 26px 25px;"></div>-->
+
+<!--        <div id="RecaptchaField1" style="margin: 0px 25px 26px 25px;"></div>-->
 
         <div class="btn-registration">
 
-        <button type="submit" value="Регистрация">Регистрация</button>
+        <button type="button" class="button_register" onclick="flash_captcha()">Регистрация</button>
 
         </div>
 
 
 
     </form>
-
+<!--<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"-->
+<!--        async defer>-->
+    </script>
     <div class="href-login">
         <p>Уже есть аккаунт?</p>
         <a href="{% url 'user:login' %}">Войти</a>
@@ -198,6 +251,7 @@
         document.getElementById("input-repeat-password").addEventListener('focus', inputcheck.bind(null, "placeholder-repeat-password", "input-repeat-password"));
         document.getElementById("input-email").addEventListener('mousedown', inputcheck.bind(null, "placeholder-email", "input-email"));
         document.getElementById("input-email").addEventListener('focus', inputcheck.bind(null, "placeholder-email", "input-email"));
+
 
         // вызов функции при ухода из инпута
         document.getElementById("input-login").addEventListener('focusout', inputout.bind(null, "placeholder-login", "input-login"));
