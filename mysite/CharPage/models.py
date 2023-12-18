@@ -98,7 +98,7 @@ class CharModel(models.Model):
 
     gender = models.IntegerField(verbose_name='Пол')
 
-    items = models.CharField(max_length=300, verbose_name='Экипировка', blank=True)
+    items = models.CharField(max_length=1024, verbose_name='Экипировка', blank=True)
 
     face = models.CharField(max_length=150, verbose_name='Внешность')
 
@@ -111,3 +111,4 @@ class CharModel(models.Model):
     class Meta:
         verbose_name = 'Персонажу'
         verbose_name_plural = 'Персонажи'
+

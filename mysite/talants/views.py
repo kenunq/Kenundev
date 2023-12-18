@@ -20,10 +20,12 @@ class TalantsView(TemplateView):
         context = super(TalantsView, self).get_context_data(**kwargs)
         creator = self.request.user
         if not creator.is_anonymous:
+
+            # оборачиваем в лист для корректной работы {% if user_talents|length > 0 %}
+            context['user_talents'] = list(reversed(TalentsModel.objects.filter(creator=creator)))
             # отображаем персонажей у которых привязано меньше двух талантов
-            context['user_talents'] = reversed(TalentsModel.objects.filter(creator=creator))
             context['chars'] = reversed(CharModel.objects.annotate(num_talents=Count('talents')).filter(creator=creator, creating=True, num_talents__lt=2))
-            # filter(proffesions__contains=0) отображать чаров у которых свободна одна или более проффесия
+            # filter(proffesions__contains=0) отображать чаров у которых свободна одна или более профессия
         return context
 
     def post(self, request: ASGIRequest, *args, **kwargs):
@@ -42,8 +44,5 @@ class TalantsView(TemplateView):
         else:
             bids = TalentsModel(name=data['name'], creator=creator, url=data['url'], talent_class=data['class'], talent_spec=data['spec'])
             bids.save()
-
-        # print(bids.charmodel_set.all()) #получить всех персонажей привязанных к данным талантам
-        # print(char.talents.all()) #получить все таланты привязанные к данному персонажу
 
         return JsonResponse({'status': 'data was successfully saved'})

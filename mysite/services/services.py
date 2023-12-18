@@ -1,9 +1,7 @@
 import threading
 import telebot
 
-from services.models import MentorModel
-
-bot = telebot.TeleBot('6929955302:AAFOVMfLFwB4TAx3foB22QEBzbVen6QLbxQ')
+bot = telebot.TeleBot('6929955302:AAHZGMlL0tYSb0YElMEjiKSe9APIBIjYwtY')
 
 
 @bot.message_handler(content_types=['text'])
@@ -37,4 +35,6 @@ class AsyncActionGetGameChatData(threading.Thread):
 
 #создаем экземпляр класса отправки меседжей
 async_action_get_game_chat_data = AsyncActionGetGameChatData()
+print(22222)
 async_action_get_game_chat_data.start()
+

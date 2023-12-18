@@ -1,6 +1,7 @@
 import json
-import time
-from .services import send_message_zapis
+# from .services import send_message_zapis
+from .tasks import send_telegram_message
+
 
 from django.contrib import messages
 from django.core.handlers.asgi import ASGIRequest
@@ -58,7 +59,10 @@ class ServicesView(TemplateView):
         )
         bids.save()
         messages.success(request, data['mentor'])
-        send_message_zapis(telegram_id, data)
+
+        # send_message_zapis(telegram_id, data)
+        send_telegram_message.delay(telegram_id, data)
+
         return JsonResponse({"status": "data was successfully saved"})
 
 

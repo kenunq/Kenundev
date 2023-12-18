@@ -50,10 +50,12 @@
             </div>
         </div>
         <div id="tc-itself">
-            {% if user_talents %}
+
+            {% if user_talents|length > 0 %}
 
         <div class="block_talents_list">
                 <p>Мои таланты</p>
+
                 <div class="talent_user_list">
                     {% for talent in user_talents %}
                     <div class="obj_talent">

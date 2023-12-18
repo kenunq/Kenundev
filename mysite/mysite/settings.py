@@ -84,10 +84,13 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mysite1',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }}
 
 
 # Password validation
@@ -114,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow' # UTC+3
 
 USE_I18N = True
 
@@ -146,5 +149,21 @@ LOGIN_URL = '/user/login/'
 LOGOUT_REDIRECT_URL = "/user/login/"
 LOGIN_REDIRECT_URL = '/'
 
+#captcha
+
 RECAPTCHA_PUBLIC_KEY = '6LdV7zIpAAAAAGbJFz3JWZ9cIrQNJbh6NDF1Oj2t'
 RECAPTCHA_PRIVATE_KEY = '6LdV7zIpAAAAAErXXt8MVWvPIeAWa5ns8G5b1kXS'
+
+#redis
+
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = '6379'
+
+#celery
+
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

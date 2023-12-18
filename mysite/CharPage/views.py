@@ -444,7 +444,7 @@ class CharListPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(CharListPageView, self).get_context_data(**kwargs)
         if not self.request.user.is_anonymous:
-            context['all_chars'] = reversed(CharModel.objects.filter(creator=self.request.user, creating=True))
+            context['all_chars'] = list(reversed(CharModel.objects.filter(creator=self.request.user, creating=True)))
 
         return context
 
