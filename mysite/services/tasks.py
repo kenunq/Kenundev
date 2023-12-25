@@ -1,4 +1,3 @@
-
 from mysite.celery import app
 from services.services import send_message_zapis
 

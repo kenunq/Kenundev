@@ -11,7 +11,6 @@
 
       <base href="/" />
       <link rel="shortcut icon" href="#">
-
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
 
@@ -20,9 +19,8 @@
       <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,200;0,400;0,600;1,200;1,300&display=swap" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Kenunchik</title>
-
     <link rel="stylesheet" href="{% static 'style.css' %}">
        {% block head %}
 
@@ -117,47 +115,96 @@ vertical-align: sub
 
          </div>
 
-
-
-        <nav _ngcontent-gox-c59="" class="navbar navbar-expand-xl navbar-dark bg-navbar select-none">
-          <div _ngcontent-gox-c59="" id="nav-menu" class="collapse navbar-collapse">
               {% if user.is_authenticated %}
-                    <a class='nav-item' href="{% url 'user:login' %}" style="font-size: 18px;     margin-right: 10px;
-    color: #fff;
-    font-size: 16px;
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;">{{ user }}</a>
+                    <div class="block_user_name" onclick="show_user_list()">
+                    <p>{{ user }}</p>
+                    </div>
               {% else %}
-                    <a class='nav-item' href="{% url 'user:login' %}" style="font-size: 18px;    margin-right: 10px; color: #fff;font-size: 16px;font-family: Inter;font-style: normal;font-weight: 400;line-height: normal;">Войти</a>
+           <a href="{% url 'user:login' %}">
+                    <div class="block_user_login">
+                        <p>Войти</p>
+                    </div>
+               </a>
               {% endif %}
-            <div _ngcontent-gox-c59="" class="dropdown float-left d-none d-xl-inline">
-              <button _ngcontent-gox-c59="" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-select-lang dropdown-toggle">
-                <img _ngcontent-gox-c59="" src="{% static 'img/langue/RU.svg' %}">
-              </button>
 
-              <div _ngcontent-gox-c59="" aria-labelledby="dropdownMenuButton" class="dropdown-menu">
-                  <span _ngcontent-gox-c59="" class="dropdown-item">
-                    <form action="https://frishub.ru/i18n/setlang/" method="POST">
-                      <input type="hidden" name="csrfmiddlewaretoken" value="Ndcf8DyDe3PA6WdlG4NW1aEuhlZonnitVPlue1mbMKPgtBcbVQ1vkoDJRvtGDJHL">
-                      <input _ngcontent-gox-c59="" class="russian-btn" type="hidden" name="language" value="ru">
-                      <input _ngcontent-gox-c59="" class="russian-btn" value="Русский" type="button">
-                    </form>
-                  </span>
+           <div class="block_user_list">
+               <a href="#"><p>Профиль</p></a>
+               <div class="report_of_bug" onclick="show_report_of_bug()">
+                   <p>Сообщить об ошибке</p>
+               </div>
 
-                  <span _ngcontent-gox-c59="" class="dropdown-item">
-                    <form action="https://frishub.ru/i18n/setlang/" method="POST">
-                      <input type="hidden" name="csrfmiddlewaretoken" value="Ndcf8DyDe3PA6WdlG4NW1aEuhlZonnitVPlue1mbMKPgtBcbVQ1vkoDJRvtGDJHL">
-                      <input _ngcontent-gox-c59="" class="english-btn" type="hidden" name="language" value="en">
-                      <input _ngcontent-gox-c59="" class="english-btn" value="English" type="submit">
-                    </form>
-                  </span>
+               <a href="{% url 'user:logout' %}">
+                <button class="Btn">
 
-              </div>
-            </div>
-          </div>
-        </nav>
+                <div class="sign"><svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg></div>
+                <div class="text">Logout</div>
+</button>
+                   </a>
+           </div>
+            <div class="background_filter" style="height: 100%; display: none;"></div>
+           <div class="report_of_bug_block">
+
+               <div class="report_header">
+                    <p>Сообщить об ошибке</p>
+                   <div class="close_report_of_bug" onclick="hide_report_of_bug()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+<path d="M14.4052 4.65525C14.5418 4.5138 14.6174 4.32435 14.6157 4.1277C14.614 3.93105 14.5351 3.74294 14.3961 3.60389C14.257 3.46483 14.0689 3.38595 13.8722 3.38424C13.6756 3.38254 13.4861 3.45813 13.3447 3.59475L8.99994 7.9395L4.65519 3.59475C4.51374 3.45813 4.32429 3.38254 4.12764 3.38424C3.93099 3.38595 3.74288 3.46483 3.60382 3.60389C3.46477 3.74294 3.38589 3.93105 3.38418 4.1277C3.38247 4.32435 3.45807 4.5138 3.59469 4.65525L7.93944 9L3.59469 13.3447C3.52306 13.4139 3.46592 13.4967 3.42661 13.5882C3.38731 13.6797 3.36662 13.7781 3.36575 13.8777C3.36489 13.9773 3.38386 14.076 3.42157 14.1682C3.45928 14.2604 3.51497 14.3441 3.58539 14.4145C3.65581 14.485 3.73955 14.5407 3.83172 14.5784C3.9239 14.6161 4.02266 14.6351 4.12224 14.6342C4.22182 14.6333 4.32024 14.6126 4.41174 14.5733C4.50325 14.534 4.586 14.4769 4.65519 14.4053L8.99994 10.0605L13.3447 14.4053C13.4861 14.5419 13.6756 14.6175 13.8722 14.6158C14.0689 14.614 14.257 14.5352 14.3961 14.3961C14.5351 14.2571 14.614 14.0689 14.6157 13.8723C14.6174 13.6757 14.5418 13.4862 14.4052 13.3447L10.0604 9L14.4052 4.65525Z" fill="white" fill-opacity="0.7"/>
+</svg>
+                       </div>
+               </div>
+                <form method="post" enctype="multipart/form-data" id="form1">
+                    {% csrf_token %}
+               <div class="report_content">
+                   <div class="report_text">
+                   <textarea placeholder="Расскажите подробнее о проблеме"></textarea>
+                       </div>
+                   <div class="add_files" onclick="document.querySelector('#file-input').click();">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M16.617 14.496C16.8056 14.3138 17.0582 14.213 17.3204 14.2153C17.5826 14.2176 17.8334 14.3228 18.0189 14.5082C18.2043 14.6936 18.3094 14.9444 18.3117 15.2066C18.314 15.4688 18.2132 15.7214 18.031 15.91L14.849 19.092C13.5362 20.4048 11.7556 21.1423 9.89904 21.1423C8.04243 21.1423 6.26186 20.4048 4.94904 19.092C3.63622 17.7792 2.89868 15.9986 2.89868 14.142C2.89868 12.2854 3.63622 10.5048 4.94904 9.19199L10.607 3.53599C11.0683 3.05844 11.62 2.67753 12.23 2.41549C12.84 2.15344 13.4961 2.01551 14.16 2.00974C14.8239 2.00397 15.4823 2.13048 16.0968 2.38188C16.7113 2.63329 17.2696 3.00455 17.739 3.47402C18.2085 3.94348 18.5797 4.50174 18.8311 5.11622C19.0826 5.7307 19.2091 6.3891 19.2033 7.053C19.1975 7.7169 19.0596 8.373 18.7975 8.98302C18.5355 9.59304 18.1546 10.1448 17.677 10.606L12.021 16.264C11.4584 16.8266 10.6953 17.1427 9.89954 17.1427C9.10382 17.1427 8.3407 16.8266 7.77804 16.264C7.21538 15.7013 6.89928 14.9382 6.89928 14.1425C6.89928 13.3468 7.21538 12.5836 7.77804 12.021L12.374 7.42499C12.4669 7.33208 12.5771 7.25837 12.6985 7.20806C12.8198 7.15775 12.9498 7.13184 13.0812 7.13179C13.2125 7.13174 13.3426 7.15757 13.464 7.20779C13.5853 7.25801 13.6956 7.33165 13.7885 7.42449C13.8814 7.51734 13.9552 7.62757 14.0055 7.74891C14.0558 7.87024 14.0817 8.00029 14.0817 8.13164C14.0818 8.26299 14.056 8.39306 14.0057 8.51443C13.9555 8.63579 13.8819 8.74608 13.789 8.83899L9.19204 13.435C9.0992 13.5279 9.02556 13.6382 8.97534 13.7596C8.92512 13.8809 8.89929 14.011 8.89934 14.1423C8.89938 14.2737 8.9253 14.4037 8.97561 14.5251C9.02592 14.6464 9.09963 14.7566 9.19254 14.8495C9.28545 14.9423 9.39574 15.016 9.51711 15.0662C9.63847 15.1164 9.76854 15.1422 9.89989 15.1422C10.0312 15.1421 10.1613 15.1162 10.2826 15.0659C10.404 15.0156 10.5142 14.9419 10.607 14.849L16.263 9.19199C16.5496 8.91525 16.7781 8.58422 16.9353 8.21821C17.0926 7.85219 17.1753 7.45853 17.1788 7.0602C17.1823 6.66186 17.1063 6.26682 16.9555 5.89813C16.8047 5.52944 16.5819 5.19449 16.3002 4.91281C16.0185 4.63113 15.6836 4.40837 15.3149 4.25753C14.9462 4.10669 14.5512 4.03078 14.1528 4.03424C13.7545 4.0377 13.3608 4.12046 12.9948 4.27769C12.6288 4.43492 12.2978 4.66346 12.021 4.94999L6.36404 10.607C5.44604 11.5487 4.93602 12.8141 4.94444 14.1292C4.95287 15.4443 5.47907 16.7031 6.40906 17.633C7.33904 18.5628 8.59793 19.0888 9.91301 19.0971C11.2281 19.1053 12.4935 18.5951 13.435 17.677L16.617 14.496Z" fill="white" fill-opacity="0.8"/>
+                        </svg>
+                       <p>Прикрепить фото или видео</p>
+                       <input id="file-input" type="file" name="file1" accept=".mp4, .mov, .png, .jpg" style="display: none;" />
+                   </div>
+                   <div class="added_files">
+                   </div>
+
+               </div>
+
+               <div class="button_submit" onclick="sendRequest()">
+                    <p>Отправить</p>
+               </div>
+            </form>
+           </div>
+
+<!--        <nav _ngcontent-gox-c59="" class="navbar navbar-expand-xl navbar-dark bg-navbar select-none">-->
+<!--          <div _ngcontent-gox-c59="" id="nav-menu" class="collapse navbar-collapse">-->
+<!--              -->
+<!--            <div _ngcontent-gox-c59="" class="dropdown float-left d-none d-xl-inline">-->
+<!--              <button _ngcontent-gox-c59="" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-select-lang dropdown-toggle">-->
+<!--                <img _ngcontent-gox-c59="" src="{% static 'img/langue/RU.svg' %}">-->
+<!--              </button>-->
+
+<!--              <div _ngcontent-gox-c59="" aria-labelledby="dropdownMenuButton" class="dropdown-menu">-->
+<!--                  <span _ngcontent-gox-c59="" class="dropdown-item">-->
+<!--                    <form action="https://frishub.ru/i18n/setlang/" method="POST">-->
+<!--                      <input type="hidden" name="csrfmiddlewaretoken" value="Ndcf8DyDe3PA6WdlG4NW1aEuhlZonnitVPlue1mbMKPgtBcbVQ1vkoDJRvtGDJHL">-->
+<!--                      <input _ngcontent-gox-c59="" class="russian-btn" type="hidden" name="language" value="ru">-->
+<!--                      <input _ngcontent-gox-c59="" class="russian-btn" value="Русский" type="button">-->
+<!--                    </form>-->
+<!--                  </span>-->
+
+<!--                  <span _ngcontent-gox-c59="" class="dropdown-item">-->
+<!--                    <form action="https://frishub.ru/i18n/setlang/" method="POST">-->
+<!--                      <input type="hidden" name="csrfmiddlewaretoken" value="Ndcf8DyDe3PA6WdlG4NW1aEuhlZonnitVPlue1mbMKPgtBcbVQ1vkoDJRvtGDJHL">-->
+<!--                      <input _ngcontent-gox-c59="" class="english-btn" type="hidden" name="language" value="en">-->
+<!--                      <input _ngcontent-gox-c59="" class="english-btn" value="English" type="submit">-->
+<!--                    </form>-->
+<!--                  </span>-->
+
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </nav>-->
 
 
          </div>
@@ -170,7 +217,112 @@ vertical-align: sub
 
 
 </body>
+<script>
+    function show_user_list(){
+        console.log(11111)
+        obj = document.querySelector('.block_user_list')
+        if (obj.style.display == 'none' || obj.style.display == ''){
+            obj.style.display = 'block'
+        }
+        else{
+            obj.style.display = 'none'
+        }
+    }
 
+    function hide_report_of_bug(){
+        document.querySelector('.background_filter').style.display = 'none'
+        document.querySelector('.report_of_bug_block').style.display = 'none'
+        $(document).unbind('scroll');
+        $('body').css({'overflow':'visible'});
+        document.querySelector('.report_text textarea').value = ""
+        document.getElementById('file-input').value = ""
+        formData_fake = {}
+        var deleteElement = document.querySelectorAll('.file_block');
+        for (let i = 0; i < deleteElement.length; i++) {
+          deleteElement[i].remove();
+        }
+    }
+
+    function show_report_of_bug(){
+        document.querySelector('.background_filter').style.display = 'block'
+        document.querySelector('.report_of_bug_block').style.display = 'block'
+        document.querySelector('.block_user_list').style.display = 'none'
+
+        $(document).bind('scroll',function () {
+             window.scrollTo(0,0);
+        });
+    }
+
+//    var formData = new FormData()
+    var formData_fake = {}
+    var image = '<svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1 2.503a1.5 1.5 0 011.5-1.5h11a1.5 1.5 0 011.5 1.5v11a1.5 1.5 0 01-1.5 1.5h-11a1.5 1.5 0 01-1.5-1.5v-11zm3.487 6.696a.5.5 0 01.7-.168l1.91 1.215a.5.5 0 00.677-.135l2.656-3.794a.5.5 0 01.884.128l1.967 5.9a.5.5 0 01-.475.658H3.124a.5.5 0 01-.43-.754L4.486 9.2zM6 4.503a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" fill="#000"></path></svg>'
+    var video = '<svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 12.582a1 1 0 01-1.573.82l-3.411-2.388a.01.01 0 00-.016.008v1.48a1.5 1.5 0 01-1.5 1.5h-8a1.5 1.5 0 01-1.5-1.5v-9a1.5 1.5 0 011.5-1.5h8a1.5 1.5 0 011.5 1.5v1.482c0 .008.01.012.016.008l3.41-2.388a1 1 0 011.574.82v9.158z" fill="#000"></path></svg>'
+
+    document.getElementById('file-input').addEventListener('change', function(e) {
+      if (e.target.files[0]) {
+          if(e.target.files[0].size > 20000000){
+              return;
+          }
+          var types = {"mp4": video, "mov": video, "png": image, "jpg": image}
+          var file_name = e.target.files[0].name
+          var file_type = e.target.files[0].name.split('.').at(-1)
+          var html_obj = document.querySelector('.added_files')
+          if(file_type in types){
+              formData_fake[`file${Object.keys(formData_fake).length}`] = e.target.files[0]
+              html_obj.insertAdjacentHTML( 'beforeend', `
+                <div class="file_block">
+                           <div class="block_start">
+                                ${types[file_type]}
+                                <p>${file_name}</p>
+                           </div>
+                           <div class="block_end" onclick="delete_file(event)">
+                               <svg class="Attach-FilePreviewDelete" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 16.003a8 8 0 100-16 8 8 0 000 16zm2.404-11.819A1 1 0 1111.818 5.6L9.414 8.003l2.404 2.404a1 1 0 01-1.414 1.414L8 9.417l-2.404 2.404a1 1 0 01-1.414-1.414l2.404-2.404-2.404-2.404a1 1 0 011.414-1.415L8 6.59l2.404-2.405z" fill="#000"></path></svg>
+                           </div>
+                </div>
+              ` );
+          }
+      }
+    });
+
+    function delete_file(event){
+        var e = event || window.event;
+        var target = e.target;
+        var file_name = target.parentElement.children[0].children[1].innerText
+        target.parentElement.remove()
+
+        for(var key in formData_fake){
+            if(formData_fake[key].name == file_name){
+                console.log(key)
+                delete formData_fake[key]
+                return;
+            }
+        }
+    }
+    const csrftoken = Cookies.get('csrftoken');
+    function sendRequest(){
+        var formData = new FormData;
+
+        for(var key in formData_fake){
+            formData.append(key, formData_fake[key])
+        }
+        var comment = document.querySelector('.report_text textarea').value
+        formData.append("comment", comment)
+
+        $.ajax({
+        type: 'POST',
+        url: document.URL,
+        data: formData,
+        processData: false,
+        contentType: false,
+        cache: false,
+        enctype: 'multipart/form-data',
+        headers: { 'X-CSRFToken': csrftoken }
+        });
+
+        hide_report_of_bug()
+    };
+
+</script>
 {% block js %}
 
 {% endblock %}

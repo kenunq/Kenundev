@@ -1,7 +1,9 @@
 import threading
 import telebot
 
-bot = telebot.TeleBot('6929955302:AAHZGMlL0tYSb0YElMEjiKSe9APIBIjYwtY')
+from django.conf import settings
+
+bot = telebot.TeleBot(settings.TELEBOT_ID)
 
 
 @bot.message_handler(content_types=['text'])
@@ -15,6 +17,7 @@ def get_text_messages(message):
 
 
 def send_message_zapis(telegram_id, data):
+    comment = data.get('comment', '')
     bot.send_message(telegram_id, f"Тип: {data['type']} \n"
                                   f"Сервер: {data['server']} \n"
                                   f"Фракция: {data['fraction']} \n"
@@ -22,8 +25,7 @@ def send_message_zapis(telegram_id, data):
                                   f"Учитель: {data['mentor']} \n"
                                   f"Способ связи: {data['communication']} \n"
                                   f"Ник: {data['username']} \n"
-                                  f"Комментарий: {data['comment']}")
-    # bot.send_message(723479509, f"Сенсей: {text}") # ->Бонжур
+                                  f"Комментарий: {comment}")
 
 
 class AsyncActionGetGameChatData(threading.Thread):
