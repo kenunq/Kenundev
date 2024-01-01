@@ -108,6 +108,7 @@ class ZamimgProxyView(View):
                 "(KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
             }
             zamimg_url = f"https://wow.zamimg.com/modelviewer/{modelviewer_path}"
+            # zamimg_url = f"https://frishub.ru/api/modelviewer/{modelviewer_path}"
 
             response = requests.get(zamimg_url, headers=headers_get, timeout=5)
 
@@ -247,7 +248,9 @@ class UniqueCharPageView(TemplateView):
             context["class"] = getattr(current_room[0], "char_class").lower()
             context["race"] = RACES[getattr(current_room[0], "race")][0]
             context["is_creator"] = self.is_room_creator
-            context["race_image"] = f"../static/img/rass/{GENDERS[getattr(current_room[0], 'gender')]}/{RACES[getattr(current_room[0], 'race')][1]}.jpg"
+            context[
+                "race_image"
+            ] = f"../static/img/rass/{GENDERS[getattr(current_room[0], 'gender')]}/{RACES[getattr(current_room[0], 'race')][1]}.jpg"
             context["name"] = getattr(current_room[0], "char_name")
             if eval(getattr(current_room[0], "proffesions"))[0] == 0:
                 if eval(getattr(current_room[0], "proffesions"))[1] == 0:
@@ -334,7 +337,6 @@ class UniqueCharPageView(TemplateView):
             current_room = CharModel.objects.filter(room_id=self.room_id)
             context["creating"] = getattr(current_room[0], "creating")
 
-
         character_data.update({"my_saved_rooms": my_saved_rooms})
 
         context.update({"character_data": json.dumps(character_data)})
@@ -378,13 +380,17 @@ class UniqueCharPageView(TemplateView):
                 if self.dressing_room[0].talents.count() < 2:
                     talent = TalentsModel.objects.get(id=int(data["talent_id"]))
                     talent.charmodel_set.add(self.dressing_room[0])
-                    return JsonResponse({"status": "data was successfully update talent"})
+                    return JsonResponse(
+                        {"status": "data was successfully update talent"}
+                    )
 
             if data.get("deltalent_id"):
                 if self.dressing_room[0].talents.count() > 0:
                     talent = TalentsModel.objects.get(id=int(data["deltalent_id"]))
                     talent.charmodel_set.remove(self.dressing_room[0])
-                    return JsonResponse({"status": "data was successfully delete talent"})
+                    return JsonResponse(
+                        {"status": "data was successfully delete talent"}
+                    )
 
             self.dressing_room.update(**data)
 
@@ -439,12 +445,16 @@ class CreateCharView(TemplateView):
 
 
 class CharListPageView(TemplateView):
-    template_name = 'char_list_page.html'
+    template_name = "char_list_page.html"
 
     def get_context_data(self, **kwargs):
         context = super(CharListPageView, self).get_context_data(**kwargs)
         if not self.request.user.is_anonymous:
-            context['all_chars'] = list(reversed(CharModel.objects.filter(creator=self.request.user, creating=True)))
+            context["all_chars"] = list(
+                reversed(
+                    CharModel.objects.filter(creator=self.request.user, creating=True)
+                )
+            )
 
         return context
 
@@ -459,10 +469,11 @@ class CharListPageView(TemplateView):
     def post(self, request: ASGIRequest, *args, **kwargs):
         data: dict = json.loads(request.body)
 
-        if data.get('delchar_id'):
-            char_id = data.get('delchar_id')
+        if data.get("delchar_id"):
+            char_id = data.get("delchar_id")
             obj_char = CharModel.objects.get(room_id=char_id)
             # Если пользователь является создателем персонажа
             if self.request.user == obj_char.creator:
                 obj_char.delete()
                 return JsonResponse({"status": "data was successfully deleted"})
+

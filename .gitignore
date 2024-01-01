@@ -1,6 +1,8 @@
 .env
 db.sqlite3
 venv
+static
+media
 
 .git
 

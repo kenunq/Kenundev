@@ -37,6 +37,5 @@ class AsyncActionGetGameChatData(threading.Thread):
 
 #создаем экземпляр класса отправки меседжей
 async_action_get_game_chat_data = AsyncActionGetGameChatData()
-print(22222)
 async_action_get_game_chat_data.start()
 

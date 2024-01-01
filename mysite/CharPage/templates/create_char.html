@@ -3,7 +3,7 @@
 
 
 {% block head %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
     <script src="{% static 'js/javascript/zamimg_power.min.js' %}"></script>
     <script src="{% static 'js/javascript/wow-model-viewer/viewer_wrath.min.js' %}"></script>
     <script src="{% static 'js/javascript/wow-model-viewer/model_viewer_utils.js' %}"></script>
@@ -66,7 +66,7 @@
 
         <div class="races_alliance">
 
-            <img src="{% static 'img/other/Alliance-Logo.png' %}" height="56" width="56">
+            <img src="{% static 'img/other/Alliance-Logo.PNG' %}" height="56" width="56">
             <div class="race_image selected" onclick="change_race(event)" race_name="Человек" race_id="1">
                 <ins style="background-image: url(&quot;{% static 'img/rass/female/race_human.jpg' %}&quot;);"></ins>
                 <del></del>
@@ -97,7 +97,7 @@
 
         <div class="races_horde">
 
-            <img src="{% static 'img/other/Horde-Logo.png' %}" height="56" width="56">
+            <img src="{% static 'img/other/Horde-Logo.PNG' %}" height="56" width="56">
             <div class="race_image" onclick="change_race(event)" race_name="Орк" race_id="2">
                 <ins style="background-image: url(&quot;{% static 'img/rass/female/race_orc.jpg' %}&quot;);"></ins>
                 <del></del>
@@ -612,7 +612,7 @@
 
         };
 
-        const csrftoken = Cookies.get('csrftoken');
+
         $.ajax({
         type: 'POST',
         dataType: 'JSON',

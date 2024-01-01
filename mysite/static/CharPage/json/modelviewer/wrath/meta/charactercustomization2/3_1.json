@@ -12024,29 +12024,6 @@
       }
     ]
   },
-  "Materials": [
-    {
-      "TextureType": 1,
-      "Width": 512,
-      "Height": 512,
-      "Flags": 0,
-      "Unk_34615_1": -1
-    },
-    {
-      "TextureType": 6,
-      "Width": 256,
-      "Height": 256,
-      "Flags": 0,
-      "Unk_34615_1": -1
-    },
-    {
-      "TextureType": 8,
-      "Width": 256,
-      "Height": 256,
-      "Flags": 0,
-      "Unk_34615_1": -1
-    }
-  ],
   "TextureLayers": [
     {
       "TextureType": 1,

@@ -13,18 +13,22 @@
       <link rel="shortcut icon" href="#">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,200;0,400;0,600;1,200;1,300&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Kenunchik</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
+      <script>
+          const csrftoken = Cookies.get('csrftoken');
+      </script>
        {% block head %}
 
   {% endblock %}
+
     <style>
    /* main box settings */
 .dropdown[_ngcontent-gox-c59] img[_ngcontent-gox-c59] {
@@ -128,7 +132,7 @@ vertical-align: sub
               {% endif %}
 
            <div class="block_user_list">
-               <a href="#"><p>Профиль</p></a>
+               <a href="{% url 'user:profile' %}"><p>Профиль</p></a>
                <div class="report_of_bug" onclick="show_report_of_bug()">
                    <p>Сообщить об ошибке</p>
                </div>
@@ -170,7 +174,7 @@ vertical-align: sub
 
                </div>
 
-               <div class="button_submit" onclick="sendRequest()">
+               <div class="button_submit" onclick="sendReport()">
                     <p>Отправить</p>
                </div>
             </form>
@@ -217,7 +221,12 @@ vertical-align: sub
 
 
 </body>
+
+{% block js %}
+
+{% endblock %}
 <script>
+
     function show_user_list(){
         console.log(11111)
         obj = document.querySelector('.block_user_list')
@@ -298,8 +307,7 @@ vertical-align: sub
             }
         }
     }
-    const csrftoken = Cookies.get('csrftoken');
-    function sendRequest(){
+    function sendReport(){
         var formData = new FormData;
 
         for(var key in formData_fake){
@@ -310,7 +318,7 @@ vertical-align: sub
 
         $.ajax({
         type: 'POST',
-        url: document.URL,
+        url: "http://127.0.0.1:8000/",
         data: formData,
         processData: false,
         contentType: false,
@@ -323,8 +331,4 @@ vertical-align: sub
     };
 
 </script>
-{% block js %}
-
-{% endblock %}
-
 </html>

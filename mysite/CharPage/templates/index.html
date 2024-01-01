@@ -5,13 +5,11 @@
 
 {% block head %}
     <script src="{% static 'js/javascript/zamimg_power.min.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static 'js/javascript/wow-model-viewer/viewer_wrath.min.js' %}"></script>
     <script src="{% static 'js/javascript/wow-model-viewer/model_viewer_utils.js' %}"></script>
     <script>const whTooltips = {colorLinks: false, iconize: 'large', renameLinks: false};</script>
     <script>
     var data = {};
-    const csrftoken = Cookies.get('csrftoken');
     function add_talent_open(){
     document.querySelector(".enter_talent").style.display = "block";
     document.querySelector(".lightbox-overlay").style.display = "block";
@@ -1514,15 +1512,15 @@ set_face_options();
 
                 if(window.dressUI.model_opts.items[i][0] == 1){
                     var displayId = window.dressUI.model_opts.items[i][1]
+                    model.renderer.viewer.method("setItems", [[{
+                        slot: 1,
+                        display: displayId,
+                        visual: 0
+                    }]])
                 }
 
             };
 
-            model.renderer.viewer.method("setItems", [[{
-                slot: 1,
-                display: displayId,
-                visual: 0
-            }]])
         };
     };
 
@@ -1536,10 +1534,14 @@ set_face_options();
 
                 if(window.dressUI.model_opts.items[i][0] == 16){
                     var displayId = window.dressUI.model_opts.items[i][1]
+                    model.renderer.viewer.method("setItems", [[{
+                        slot: 16,
+                        display: displayId,
+                        visual: 0
+                    }]])
                 }
 
             };
-            window.setItems(16, displayId, 0);
         };
     };
 
