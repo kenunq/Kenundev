@@ -3,6 +3,9 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'profile.css' %}">
+<script>
+    data = {}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -27,7 +30,7 @@
                 {% if user.discord %}
                 <div class="discord_name">
                     <p>{{ user.discord }}</p>
-                    <div class="discord_edit">
+                    <div class="discord_edit" onclick="show_update_discord()">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="18" height="18" viewBox="0,0,256,256">
 <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(9.84615,9.84615)"><path d="M20.09375,0.25c-0.59375,-0.00391 -1.17578,0.20703 -1.625,0.65625l-1,1.03125l6.59375,6.625l1,-1.03125c0.90234,-0.90234 0.91016,-2.36719 0,-3.28125l-3.3125,-3.3125c-0.45703,-0.45703 -1.0625,-0.68359 -1.65625,-0.6875zM16.34375,2.84375l-1.5625,1.5l6.875,6.875l1.59375,-1.46875zM13.78125,5.4375l-10.8125,10.71875c-0.25,0.12891 -0.42969,0.35547 -0.5,0.625l-2.3125,7.84375c-0.10547,0.34375 -0.01172,0.72266 0.24219,0.97656c0.25391,0.25391 0.63281,0.34766 0.97656,0.24219l7.84375,-2.3125c0.36328,-0.05469 0.66406,-0.30859 0.78125,-0.65625l10.65625,-10.5625l-1.46875,-1.46875l-10.9375,10.96875l-4.40625,1.28125l-0.9375,-0.9375l1.34375,-4.59375l10.84375,-10.8125zM16.15625,7.84375l-10.96875,11l1.59375,0.34375l0.21875,1.46875l11,-10.96875z"></path></g></g>
 </svg>
@@ -35,7 +38,8 @@
                 </div>
                 {% else %}
                 <div class="discord_name">
-                    <div class="discord_edit">
+                    <p></p>
+                    <div class="discord_edit" onclick="show_update_discord()">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="18" height="18" viewBox="0,0,256,256">
 <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(9.84615,9.84615)"><path d="M20.09375,0.25c-0.59375,-0.00391 -1.17578,0.20703 -1.625,0.65625l-1,1.03125l6.59375,6.625l1,-1.03125c0.90234,-0.90234 0.91016,-2.36719 0,-3.28125l-3.3125,-3.3125c-0.45703,-0.45703 -1.0625,-0.68359 -1.65625,-0.6875zM16.34375,2.84375l-1.5625,1.5l6.875,6.875l1.59375,-1.46875zM13.78125,5.4375l-10.8125,10.71875c-0.25,0.12891 -0.42969,0.35547 -0.5,0.625l-2.3125,7.84375c-0.10547,0.34375 -0.01172,0.72266 0.24219,0.97656c0.25391,0.25391 0.63281,0.34766 0.97656,0.24219l7.84375,-2.3125c0.36328,-0.05469 0.66406,-0.30859 0.78125,-0.65625l10.65625,-10.5625l-1.46875,-1.46875l-10.9375,10.96875l-4.40625,1.28125l-0.9375,-0.9375l1.34375,-4.59375l10.84375,-10.8125zM16.15625,7.84375l-10.96875,11l1.59375,0.34375l0.21875,1.46875l11,-10.96875z"></path></g></g>
 </svg>
@@ -44,10 +48,10 @@
                 {% endif %}
             </div>
         </div>
-        <div class="edit_email" onclick="">
+        <div class="edit_email" onclick="show_update_email()">
             <p>Изменить почту</p>
         </div>
-        <div class="edit_password" onclick="">
+        <div class="edit_password" onclick="show_update_password()">
             <p>Изменить пароль</p>
         </div>
     </div>
@@ -62,7 +66,6 @@
                     <img src="{% static 'img/other/download.png' %}" alt="Скачать аддон" width="32" height="32">
                 </div>
             </div>
-
         </div>
     </div>
     <div class="my_services">
@@ -98,10 +101,125 @@
         </div>
     </div>
 </div>
+
+<div class="lightbox-overlay" style="height: 100%; display: none;"></div>
+<div class="update_discord">
+    <div class="update_discrod_header">
+        <p>Изменить Discord</p>
+    </div>
+    <div class="update_discrod_main">
+                <div class="new_discord_input">
+                    <input id="discord_input" placeholder="">
+                </div>
+    </div>
+    <div class="update_discord_footer">
+         <div class="button_update" onclick="send_data_update_discord()">
+            <p>Сохранить</p>
+        </div>
+    </div>
+</div>
+<div class="update_password_block">
+    <div class="update_password_header">
+        <p>Смена пароля</p>
+    </div>
+    <div class="update_password_main">
+        <div class="update_password_inputs_desc">
+            <p>Введите текущий пароль</p>
+            <p>Введите новый пароль</p>
+            <p>Подтвердите новый пароль</p>
+        </div>
+        <div class="update_password_inputs">
+            <div class="old_password">
+                    <input type="password" autocomplete="new-password" id="old_password_input" placeholder="">
+                </div>
+            <div class="new_password">
+                    <input type="password" id="new_password_input" placeholder="">
+                </div>
+            <div class="confirm_new_password">
+                    <input type="password" id="confirm_new_password_input" placeholder="">
+                </div>
+        </div>
+    </div>
+    <div class="update_password_footer">
+         <div class="button_update_password disabled" onclick="send_data_update_password()">
+            <p>Изменить</p>
+        </div>
+    </div>
+</div>
+<div class="update_email_block">
+    <div class="update_email_header">
+        <p>Изменение почты</p>
+    </div>
+    <div class="update_email_main">
+        <div class="update_email_input_desc">
+            <p>Введите новую почту</p>
+        </div>
+        <div class="update_email_input">
+            <div class="new_email">
+                    <input type="email" id="new_email_input" placeholder="">
+                </div>
+        </div>
+    </div>
+    <div class="update_email_footer">
+        <div class="button_update_email disabled" onclick="send_data_update_email()">
+            <p>Изменить</p>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block js %}
 <script>
+    function show_update_discord(){
+        document.querySelector("#discord_input").value = document.querySelector(".discord_name").childNodes[1].innerText
+        document.querySelector(".lightbox-overlay").style.display = "block"
+        document.querySelector(".update_discord").style.display = "block"
+        document.addEventListener('keydown', function(event) {
+            if (event.code == 'Escape') {
+                hide_update_discord()
+            }
+        });
+        document.querySelector(".lightbox-overlay").addEventListener('click', hide_update_discord);
+    }
+
+    function hide_update_discord(){
+        document.querySelector(".lightbox-overlay").style.display = "none"
+        document.querySelector(".update_discord").style.display = "none"
+    }
+
+    function show_update_password(){
+        document.querySelector(".lightbox-overlay").style.display = "block"
+        document.querySelector(".update_password_block").style.display = "block"
+        document.addEventListener('keydown', function(event) {
+            if (event.code == 'Escape') {
+                hide_update_password()
+            }
+        });
+        document.querySelector(".lightbox-overlay").addEventListener('click', hide_update_password);
+    }
+
+    function hide_update_password(){
+        document.querySelector(".lightbox-overlay").style.display = "none"
+        document.querySelector(".update_password_block").style.display = "none"
+    }
+
+    function show_update_email(){
+        document.querySelector(".lightbox-overlay").style.display = "block"
+        document.querySelector(".update_email_block").style.display = "block"
+        document.addEventListener('keydown', function(event) {
+            if (event.code == 'Escape') {
+                hide_update_email()
+            }
+        });
+        document.querySelector(".lightbox-overlay").addEventListener('click', hide_update_email);
+    }
+
+    function hide_update_email(){
+        document.querySelector(".lightbox-overlay").style.display = "none"
+        document.querySelector(".update_email_block").style.display = "none"
+    }
+
     function show_service(event){
         var e = event || window.event;
         var target = e.target;
@@ -141,5 +259,99 @@
             },4);
         };
     };
+
+    function enable_button_update_password(){
+        var old_pass_text = document.querySelector('#old_password_input').value;
+        var pass_text = document.querySelector('#new_password_input').value;
+        var cur_text = document.querySelector('#confirm_new_password_input').value;
+        if(cur_text == pass_text && old_pass_text != "" && pass_text != ""){
+            if(document.querySelector('.button_update_password').classList.value.search('disabled') != -1){
+                document.querySelector('.button_update_password').classList.remove('disabled')
+            }
+        }
+        else {
+            if(document.querySelector('.button_update_password').classList.value.search('disabled') == -1){
+                document.querySelector('.button_update_password').classList.add('disabled')
+            }
+
+        }
+    }
+
+    document.querySelector("#old_password_input").addEventListener('input', enable_button_update_password);
+    document.querySelector("#new_password_input").addEventListener('input', enable_button_update_password);
+    document.querySelector("#confirm_new_password_input").addEventListener('input', enable_button_update_password);
+
+    function enable_button_update_email(){
+        var cur_text = document.querySelector('#new_email_input').value;
+        if(cur_text.includes("@")){
+            if(document.querySelector('.button_update_email').classList.value.search('disabled') != -1){
+                document.querySelector('.button_update_email').classList.remove('disabled')
+            }
+        }
+        else {
+            if(document.querySelector('.button_update_email').classList.value.search('disabled') == -1){
+                document.querySelector('.button_update_email').classList.add('disabled')
+            }
+
+        }
+    }
+
+    document.querySelector("#new_email_input").addEventListener('input', enable_button_update_email);
+
+    function send_data_update_discord(){
+        data["update_discord"] = document.querySelector("#discord_input").value
+
+        $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: document.URL,
+        data: JSON.stringify(data),
+        headers: { 'X-CSRFToken': csrftoken },
+
+        success: function(data, textStatus, jqXHR){
+            document.querySelector(".discord_name").childNodes[1].innerText = document.querySelector("#discord_input").value
+            hide_update_discord()
+            data = {}
+        }
+        });
+    }
+
+    function send_data_update_password(){
+        data["old_password"] = document.querySelector("#old_password_input").value
+        data["update_password"] = document.querySelector("#new_password_input").value
+
+        $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: document.URL,
+        data: JSON.stringify(data),
+        headers: { 'X-CSRFToken': csrftoken },
+
+        success: function(data, textStatus, jqXHR){
+            hide_update_password()
+            data = {}
+        }
+        });
+    }
+
+    function send_data_update_email(){
+        data["update_email"] = document.querySelector("#new_email_input").value
+
+        $.ajax({
+        type: 'POST',
+        dataType: 'JSON',
+        url: document.URL,
+        data: JSON.stringify(data),
+        headers: { 'X-CSRFToken': csrftoken },
+
+        success: function(data, textStatus, jqXHR){
+            hide_update_email()
+            document.querySelector("#new_email_input").value = ""
+            data = {}
+        }
+        });
+    }
+
+
 </script>
 {% endblock %}

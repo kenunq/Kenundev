@@ -349,7 +349,6 @@ class UniqueCharPageView(TemplateView):
         return super(UniqueCharPageView, self).render_to_response(
             context, **response_kwargs
         )
-        # return redirect('createchar', uuid4())
 
     def post(self, request: ASGIRequest, *args, **kwargs) -> JsonResponse:
         """Получает character_data с фронта и на её основе обновляет запись в БД."""
@@ -369,11 +368,6 @@ class UniqueCharPageView(TemplateView):
                 # Тогда получаем creator_id из БД вместо Cookie
                 creator_id = self.dressing_room[0].creator
 
-        # print(f'room_creator_id: {self.dressing_room[0].room_creator_id}',
-        #       f'creator_id: {creator_id}',
-        #       f'allow_edit: {self.dressing_room[0].allow_edit}', sep='\n')
-
-        # data: dict = [json.loads(key) for key in request.POST.keys()][0]
         data: dict = json.loads(request.body)
         if self.request.user == self.dressing_room[0].creator:
             if data.get("talent_id"):
@@ -404,14 +398,11 @@ class CreateCharView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Сделать в пост
+
         self.room_id = self.kwargs["room_id"]
         current_room = CharModel.objects.get(room_id=self.kwargs["room_id"])
         context["creating"] = getattr(current_room, "creating")
-        # setattr(current_room, 'creating', True)
-        # current_room.save()
-        # print(getattr(current_room, 'creating'))
-        # ----------------
+
         return context
 
     def render_to_response(self, context, **response_kwargs):
@@ -433,13 +424,6 @@ class CreateCharView(TemplateView):
         setattr(current_room, "face", ",".join(map(str, data["Face_options"])))
         setattr(current_room, "creating", True)
         current_room.save()
-        # return redirect('char_page_room', self.kwargs['room_id'])
-
-        # return HttpResponsePermanentRedirect(
-        #     reverse('char_page_room', kwargs={'room_id': self.kwargs['room_id']})
-        # )
-
-        # return redirect(request.META.get('HTTP_REFERER'))
 
         return JsonResponse({"status": "data was successfully saved"})
 
