@@ -240,8 +240,10 @@ class UniqueCharPageView(TemplateView):
         # Если эта комната записана в БД
         if self.dressing_room:
             self.creator_id = self.dressing_room[0].creator
-
-            self.is_room_creator = self.creator_id == self.request.user
+            if self.creator_id is None:
+                self.is_room_creator = True
+            else:
+                self.is_room_creator = self.creator_id == self.request.user
 
             current_room = CharModel.objects.filter(room_id=self.room_id)
             context["creating"] = getattr(current_room[0], "creating")
@@ -286,22 +288,22 @@ class UniqueCharPageView(TemplateView):
                     CharModel.objects.filter(creator=self.request.user, creating=True)
                 )
 
-            # Если пользователь авторизован
-            if not self.request.user.is_anonymous:
-                # Если в этой комнате не записан создатель
-                if not self.dressing_room[0].creator:
-                    # Если creator_id из БД равен creator_id из Cookie
-                    if self.is_room_creator:
-                        # Записываем текущего пользователя как создателя этой комнаты
-                        # т.к. id из его Cookie равен id записанному в БД
-                        self.dressing_room.update(creator=self.request.user)
-                # Иначе если какой-либо пользователь записан в этой комнате
-                # сравниваем его с текущим пользователем который послал GET запрос
-                # и понимаем является ли он создателем этой комнаты
-                else:
-                    self.is_room_creator = (
-                        self.dressing_room[0].creator == self.request.user
-                    )
+            # # Если пользователь авторизован
+            # if not self.request.user.is_anonymous:
+            #     # Если в этой комнате не записан создатель
+            #     if not self.dressing_room[0].creator:
+            #         # Если creator_id из БД равен creator_id из Cookie
+            #         if self.is_room_creator:
+            #             # Записываем текущего пользователя как создателя этой комнаты
+            #             # т.к. id из его Cookie равен id записанному в БД
+            #             self.dressing_room.update(creator=self.request.user)
+            #     # Иначе если какой-либо пользователь записан в этой комнате
+            #     # сравниваем его с текущим пользователем который послал GET запрос
+            #     # и понимаем является ли он создателем этой комнаты
+            #     else:
+            #         self.is_room_creator = (
+            #             self.dressing_room[0].creator == self.request.user
+            #         )
 
             self._time_checking()
 
@@ -386,6 +388,10 @@ class UniqueCharPageView(TemplateView):
                         {"status": "data was successfully delete talent"}
                     )
 
+            self.dressing_room.update(**data)
+
+            return JsonResponse({"status": "data was successfully saved"})
+        elif creator_id is None:
             self.dressing_room.update(**data)
 
             return JsonResponse({"status": "data was successfully saved"})

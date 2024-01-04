@@ -1390,8 +1390,6 @@ a:-webkit-any-link {
 }
 
 .forgot-pass a{
-    color: #fff;
-    pointer: cursor;
     color: #2929ff;
 }
 

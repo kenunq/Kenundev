@@ -38,7 +38,7 @@
 
         </div>
 
-        <a href="@">Забыли пароль?</a>
+        <a href="{% url 'user:reset_password' %}">Забыли пароль?</a>
 
     </div>
 
@@ -56,10 +56,11 @@
     </form>
 </div>
     </div>
+
 {% endblock %}
 
 {% block js %}
-<script type="module">
+<script>
 
     // input anim...............................................................................................
 
@@ -173,7 +174,9 @@
         }
         // вызов функции на нажатие инпут
         document.getElementById("input-login").addEventListener('mousedown', inputcheck.bind(null, "placeholder-login", "input-login"));
+        document.getElementById("input-login").addEventListener('focus', inputcheck.bind(null, "placeholder-login", "input-login"));
         document.getElementById("input-password").addEventListener('mousedown', inputcheck.bind(null, "placeholder-password", "input-password"));
+        document.getElementById("input-password").addEventListener('focus', inputcheck.bind(null, "placeholder-password", "input-password"));
 
         // вызов функции при ухода из инпута
         document.getElementById("input-login").addEventListener('focusout', inputout.bind(null, "placeholder-login", "input-login"));

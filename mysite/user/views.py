@@ -1,55 +1,112 @@
 import json
+from datetime import timedelta
 
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, \
+    PasswordResetDoneView, PasswordResetCompleteView
 from django.contrib.sites.models import Site
+from django.core.exceptions import ValidationError
 from django.core.handlers.asgi import ASGIRequest
 from django.http import JsonResponse
 from django.shortcuts import HttpResponseRedirect, redirect
 from django.shortcuts import render, resolve_url
 from django.contrib.messages.views import SuccessMessageMixin
+from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 from django.urls import reverse, reverse_lazy
 from django.views.generic.base import TemplateView, View
 from django.conf import settings
 
 from services.models import ServicesModel
-from user.forms import UserRegistrationForm, UserLoginForm
+from user.forms import UserRegistrationForm, UserLoginForm, PasswordResetCustomForm
 from user.models import User
 from user.tasks import send_update_email_message
+from user.utils import RedirectAuthUser
 
 
-class RegistrationView(SuccessMessageMixin, CreateView):
+class RegistrationView(RedirectAuthUser, SuccessMessageMixin, CreateView):
     model = User
     form_class = UserRegistrationForm
     template_name = "registration.html"
     success_url = reverse_lazy("user:login")
     success_message = "Вы успешно зарегистрировались!"
+    redirect_auth_user_url = 'user:profile'
 
-    def render_to_response(self, context, **response_kwargs):
-        if not self.request.user.is_anonymous:
-            return redirect("user:profile")
+    def form_invalid(self, form: UserRegistrationForm):
+        print(form.errors)
 
-        return super(RegistrationView, self).render_to_response(
-            context, **response_kwargs
-        )
+        return self.render_to_response(self.get_context_data(form=form))
 
 
-class UserLoginView(LoginView):
+class UserLoginView(RedirectAuthUser, LoginView):
     template_name = "login.html"
     form_class = UserLoginForm
 
-    def render_to_response(self, context, **response_kwargs):
-        if not self.request.user.is_anonymous:
-            return redirect("user:profile")
+    redirect_auth_user_url = 'user:profile'
 
-        return super(UserLoginView, self).render_to_response(
+
+class UserResetPasswordView(RedirectAuthUser, PasswordResetView):
+    template_name = "reset_password.html"
+    form_class = PasswordResetCustomForm
+    email_template_name = 'emails/password_reset_email.html'
+    html_email_template_name = 'emails/password_reset_email.html'
+    redirect_auth_user_url = 'user:profile'
+
+    def get_success_url(self):
+        messages.info(self.request, 'Письмо успешно отправлено.')
+        return reverse_lazy('user:password_reset_confirm')
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.COOKIES.get('reset_password'):
+            return redirect("user:login")
+        return super(UserResetPasswordView, self).render_to_response(
             context, **response_kwargs
         )
+
+
+class UserResetPasswordView2(RedirectAuthUser, TemplateView):
+    template_name = 'reset_password_sended.html'
+    redirect_auth_user_url = 'user:profile'
+
+
+class PasswordResetConfirmCustomView(RedirectAuthUser, PasswordResetConfirmView):
+    """#### Представление обрабатывающее страницу с формой для ввода нового пароля."""
+
+    form_class = SetPasswordForm
+    redirect_auth_user_url = 'user:profile'
+    template_name='password_reset_confirm.html'
+
+    # автоматическая аутентификация пользователя после успешного сброса пароля
+    # post_reset_login = True
+
+    def get_success_url(self):
+        messages.success(self.request, 'Новый пароль успешно сохранён!')
+        return reverse_lazy('user:password_reset_complete')
+
+
+class PasswordResetCompleteCustomView(RedirectAuthUser, PasswordResetCompleteView):
+    """#### Представление обрабатывающее страницу с сообщением об успешной смене пароля."""
+
+    redirect_auth_user_url = 'user:profile'
+
+    template_name = 'reset_password_complete.html'
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super(PasswordResetCompleteCustomView, self).render_to_response(context, **response_kwargs)
+        time_delta = timedelta(minutes=15)
+        response.set_cookie(
+            key='reset_password',
+            value=timezone.now(),
+            expires=timezone.now()+time_delta,
+            domain=settings.PARENT_DOMAIN
+        )
+        return response
 
 
 def userlogout(request):
@@ -57,8 +114,9 @@ def userlogout(request):
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
-class ProfileView(TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "profile.html"
+    login_url = reverse_lazy('user:login')
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -66,14 +124,6 @@ class ProfileView(TemplateView):
             return context
         context['user_services'] = list(reversed(ServicesModel.objects.filter(creator=self.request.user)))
         return context
-
-    def render_to_response(self, context, **response_kwargs):
-        if self.request.user.is_anonymous:
-            return redirect("home")
-
-        return super(ProfileView, self).render_to_response(
-            context, **response_kwargs
-        )
 
     def post(self, request: ASGIRequest, *args, **kwargs):
         data: dict = json.loads(request.body)

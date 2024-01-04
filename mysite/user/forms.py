@@ -1,12 +1,19 @@
+from typing import Callable
+
 from django import forms
+from django.conf import settings
 from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
-                                       UserCreationForm)
+                                       UserCreationForm, PasswordResetForm, SetPasswordForm)
+from django.core.exceptions import ValidationError
+from django.core.mail import EmailMultiAlternatives
+from django.template import loader
 from django_recaptcha import widgets
 
 from user.models import User
 
 from django_recaptcha.fields import ReCaptchaField
 
+from mysite.celery import app as celery_app
 
 class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(widget=forms.TextInput(
@@ -35,11 +42,19 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'email')
+        fields = ('username', 'password1', 'password2', 'email', 'captcha')
 
     def save(self, commit=True):
         user = super(UserRegistrationForm, self).save(commit=True)
         return user
+
+    def clean_email(self) -> str:
+        new_email = self.cleaned_data.get('email', False)
+
+        if new_email:
+            if User.objects.filter(email=new_email).exists():
+                raise ValidationError('Такой почтовый адрес уже существует.')
+            return new_email
 
 
 class UserLoginForm(AuthenticationForm):
@@ -55,3 +70,71 @@ class UserLoginForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ('username', 'password')
+
+
+def password_reset_send_mail_override(func: Callable) -> Callable:
+    def wrap(*args, **kwargs):
+        args = list(args)
+
+        args[0] = 'PasswordResetCustomForm'
+        args[3]['username'] = args[3]['user'].get_username()
+        args[4] = settings.EMAIL_HOST_USER
+        del args[3]['user']
+        func.delay(*args, **kwargs)
+    return wrap
+
+
+class PasswordResetCustomForm(PasswordResetForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['email'].widget.attrs['id'] = 'forgot_pass_input'
+        self.fields['email'].widget.attrs['onfocus'] = 'this.removeAttribute("readonly")'
+        self.fields['email'].label = ''
+
+    class Meta:
+        fields = ('email',)
+
+    @password_reset_send_mail_override
+    @celery_app.task
+    def send_mail(self, subject_template_name, email_template_name,
+                  context, from_email, to_email, html_email_template_name=None):
+        """
+        Send a django.core.mail.EmailMultiAlternatives to `to_email`.
+        """
+        subject = loader.render_to_string(subject_template_name, context)
+        # Email subject *must not* contain newlines
+        subject = ''.join(subject.splitlines())
+        body = loader.render_to_string(email_template_name, context)
+
+        context.update({'btn_name': subject.rsplit(' ', 2)[0]})
+
+        email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
+        if html_email_template_name is not None:
+            html_email = loader.render_to_string(html_email_template_name, context)
+            email_message.attach_alternative(html_email, 'text/html')
+
+        email_message.send()
+
+    def clean_email(self) -> str:
+        new_email = self.cleaned_data.get('email', False)
+
+        if new_email:
+            if not User.objects.filter(email=new_email).exists():
+                raise ValidationError('Такого почтового адреса не существует.')
+
+            return new_email
+
+
+class PasswordResetConfirmForm(SetPasswordForm):
+    """#### Форма для страницы ввода нового пароля."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['new_password1'].widget.attrs['class'] = 'new_password1_input'
+        self.fields['new_password2'].widget.attrs['class'] = 'new_password2_input'
+
+    class Meta:
+        fields = ('new_password1', 'new_password2')

@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'email-confirmed.css' %}">
+{% endblock %}
+
 {% block content %}
-Почта не изменена
+<div class="confirmed_email">
+    <p>Почта не изменена!</p>
+</div>
 {% endblock %}
