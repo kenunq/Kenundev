@@ -22,7 +22,7 @@ class ServicesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ServicesView, self).get_context_data(**kwargs)
-
+        # TODO сделать проверку на дискорд, если есть то предвписывать его. Избавиться от того что написано ниже
         context['types'] = TypeModel.objects.all()
 
         context['servers'] = ServerModel.objects.all()
@@ -58,7 +58,9 @@ class ServicesView(TemplateView):
             time_of_create=timezone.now()
         )
         bids.save()
-        messages.success(request, data['mentor'])
+
+        # messages.success(request, data['mentor'])
+        request.session['mentor'] = data['mentor']
 
         # send_message_zapis(telegram_id, data)
         send_telegram_message.delay(telegram_id, data)
@@ -79,7 +81,8 @@ class SuccessAddView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(SuccessAddView, self).get_context_data(**kwargs)
-        for i in messages.get_messages(self.request):
-            context['mentor'] = i
+        if self.request.session.get('mentor'):
+            context['mentor'] = self.request.session['mentor']
+            del self.request.session['mentor']
         return context
 

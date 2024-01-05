@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="main-login-block">
+
 <div class="login-block">
 
     <div class="create-acc-text">
@@ -33,7 +33,7 @@
 
         <div class="remember-me">
 
-            <input type="checkbox">
+            {{ form.remember_me }}
             <p>Запомнить меня</p>
 
         </div>
@@ -53,15 +53,14 @@
         <a href="{% url 'user:registration' %}">Зарегистрироваться</a>
 
     </div>
+
     </form>
 </div>
-    </div>
 
 {% endblock %}
 
 {% block js %}
 <script>
-
     // input anim...............................................................................................
 
         function inputcheck(textid, input) {

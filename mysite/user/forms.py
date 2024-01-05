@@ -3,9 +3,10 @@ from typing import Callable
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
-                                       UserCreationForm, PasswordResetForm, SetPasswordForm)
+                                       UserCreationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm)
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
+from django.forms import CheckboxInput, BooleanField
 from django.template import loader
 from django_recaptcha import widgets
 
@@ -61,15 +62,18 @@ class UserLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
         'id': 'input-login'
     }))
+
     password = forms.CharField(widget=forms.PasswordInput({
         'id': 'input-password',
         'readonly': None,
         'onfocus': "this.removeAttribute('readonly')"
     }))
 
+    remember_me = BooleanField(required=False, widget=CheckboxInput())
+
     class Meta:
         model = User
-        fields = ('username', 'password')
+        fields = ('username', 'password', 'remember_me')
 
 
 def password_reset_send_mail_override(func: Callable) -> Callable:
@@ -122,7 +126,7 @@ class PasswordResetCustomForm(PasswordResetForm):
 
         if new_email:
             if not User.objects.filter(email=new_email).exists():
-                raise ValidationError('Такого почтового адреса не существует.')
+                raise ValidationError('Указанная электронная почта не привязана ни к одному аккаунту.')
 
             return new_email
 
@@ -138,3 +142,24 @@ class PasswordResetConfirmForm(SetPasswordForm):
 
     class Meta:
         fields = ('new_password1', 'new_password2')
+
+
+class PasswordChangeForm(PasswordChangeForm):
+    """#### Форма для изменения пароля."""
+
+    old_password = forms.CharField(widget=forms.PasswordInput({
+        'id': 'old_password_input',
+        'autocomplete': "new-password"
+    }))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['new_password1'].widget.attrs['id'] = 'new_password_input'
+        self.fields['new_password2'].widget.attrs['id'] = 'confirm_new_password_input'
+
+    class Meta:
+        fields = ('old_password', 'new_password1', 'new_password2')
+
+
+

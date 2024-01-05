@@ -214,6 +214,9 @@ vertical-align: sub
          </div>
 
        </div>
+    <div class="notification-box">
+  <!-- Notification container -->
+</div>
 
   {% block content %}
 
@@ -222,13 +225,92 @@ vertical-align: sub
 
 </body>
 
+  <script>
+          // alerts .............................................................
+{% if messages %}
+
+    {% for message in messages %}
+        sendNotification('{{ message.tags }}', '{{ message }}')
+    {% endfor %}
+
+{% endif %}
+
+{% for mykey,myvalue in form.errors.items %}
+        {% for er in myvalue %}
+        sendNotification('error', '{{ er }}')
+        {% endfor %}
+    {% endfor %}
+
+function sendNotification(type, text) {
+  let notificationBox = document.querySelector(".notification-box");
+  const alerts = {
+    info: {
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" style="width: 22px; height: 22px; margin: 10px; min-width: 22px;">
+  <path stroke-linecap="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>`,
+      color: "rgba(135, 206, 250, 0.28)"
+    },
+    error: {
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" style="width: 22px; height: 22px; margin: 10px; min-width: 22px;">
+  <path stroke-linecap="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>`,
+      color: "rgba(255, 40, 0, 0.28)"
+    },
+    warning: {
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" style="width: 22px; height: 22px; margin: 10px; min-width: 22px;">
+  <path stroke-linecap="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+</svg>`,
+      color: "rgba(215, 110, 0, 0.28)"
+    },
+    success: {
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" style="width: 22px; height: 22px; margin: 10px; min-width: 22px;">
+  <path stroke-linecap="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>`,
+      color: "rgba(0, 79, 0, 0.28)"
+    }
+  };
+  let component = document.createElement("div");
+  component.className = `message-box`;
+  component.style.display = `flex`;
+  component.style.backgroundColor = `${alerts[type].color}`;
+  component.innerHTML = `${alerts[type].icon}<p>${text}</p>`;
+
+  //notificationBox.appendChild(component);
+  notificationBox.style.top = notificationBox.offsetTop - 59 + 'px'
+  notificationBox.insertBefore(component, notificationBox.firstChild);
+
+  setTimeout(() => {
+    component.classList.remove("opacity-0");
+    component.classList.add("opacity-1");
+
+  }, 1); //1ms For fixing opacity on new element
+  setTimeout(() => {
+    component.classList.remove("opacity-1");
+    component.classList.add("opacity-0");
+    //component.classList.add("-translate-y-80"); //it's a little bit buggy when send multiple alerts
+    component.style.margin = 0;
+    component.style.padding = 0;
+    component.style.setProperty("height", "0", "important");
+    notificationBox.style.top = notificationBox.offsetTop + 59 + 'px'
+  }, 7000);
+  setTimeout(() => {
+    component.style.setProperty("height", "0", "important");
+  }, 7100);
+  setTimeout(() => {
+    notificationBox.removeChild(component);
+  }, 7700);
+  //If you can do something more elegant than timeouts, please do, but i can't
+}
+
+// ..............................................................................................
+  </script>
+
 {% block js %}
 
 {% endblock %}
 <script>
 
     function show_user_list(){
-        console.log(11111)
         obj = document.querySelector('.block_user_list')
         if (obj.style.display == 'none' || obj.style.display == ''){
             obj.style.display = 'block'
@@ -329,6 +411,8 @@ vertical-align: sub
 
         hide_report_of_bug()
     };
+
+
 
 </script>
 </html>

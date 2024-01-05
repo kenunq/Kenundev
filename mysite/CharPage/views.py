@@ -359,19 +359,25 @@ class UniqueCharPageView(TemplateView):
 
         self.dressing_room = CharModel.objects.filter(room_id=room_id)
 
+        creator_id = self.dressing_room[0].creator
+
+        if creator_id is None:
+            self.is_room_creator = True
+        else:
+            self.is_room_creator = creator_id == self.request.user
+
         if not self.dressing_room:
             raise Http404
 
-        creator_id = self.dressing_room[0].creator
+
         # Если пользователь авторизован и в этой комнате записан создатель
         if not request.user.is_anonymous and self.dressing_room[0].creator:
             # Если создатель этой комнаты равен текущему пользователю
             if self.dressing_room[0].creator == request.user:
-                # Тогда получаем creator_id из БД вместо Cookie
                 creator_id = self.dressing_room[0].creator
 
         data: dict = json.loads(request.body)
-        if self.request.user == self.dressing_room[0].creator:
+        if self.is_room_creator:
             if data.get("talent_id"):
                 if self.dressing_room[0].talents.count() < 2:
                     talent = TalentsModel.objects.get(id=int(data["talent_id"]))

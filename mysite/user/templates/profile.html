@@ -118,6 +118,8 @@
         </div>
     </div>
 </div>
+<form method="POST" action="{% url 'user:profile2' %}">
+    {% csrf_token %}
 <div class="update_password_block">
     <div class="update_password_header">
         <p>Смена пароля</p>
@@ -130,22 +132,21 @@
         </div>
         <div class="update_password_inputs">
             <div class="old_password">
-                    <input type="password" autocomplete="new-password" id="old_password_input" placeholder="">
+                {{ PasswordChangeForm.old_password }}
                 </div>
             <div class="new_password">
-                    <input type="password" id="new_password_input" placeholder="">
+                {{ PasswordChangeForm.new_password1 }}
                 </div>
             <div class="confirm_new_password">
-                    <input type="password" id="confirm_new_password_input" placeholder="">
+                {{ PasswordChangeForm.new_password2 }}
                 </div>
         </div>
     </div>
     <div class="update_password_footer">
-         <div class="button_update_password disabled" onclick="send_data_update_password()">
-            <p>Изменить</p>
-        </div>
+        <button type="submit">Изменить пароль</button>
     </div>
 </div>
+    </form>
 <div class="update_email_block">
     <div class="update_email_header">
         <p>Изменение почты</p>
@@ -171,6 +172,13 @@
 
 {% block js %}
 <script>
+    {% if PasswordChangeFormerrors %}
+    {% for mykey,myvalue in PasswordChangeFormerrors.items %}
+        {% for er in myvalue %}
+        sendNotification('error', '{{ er }}')
+        {% endfor %}
+    {% endfor %}
+    {% endif %}
     function show_update_discord(){
         document.querySelector("#discord_input").value = document.querySelector(".discord_name").childNodes[1].innerText
         document.querySelector(".lightbox-overlay").style.display = "block"
@@ -260,26 +268,6 @@
         };
     };
 
-    function enable_button_update_password(){
-        var old_pass_text = document.querySelector('#old_password_input').value;
-        var pass_text = document.querySelector('#new_password_input').value;
-        var cur_text = document.querySelector('#confirm_new_password_input').value;
-        if(cur_text == pass_text && old_pass_text != "" && pass_text != ""){
-            if(document.querySelector('.button_update_password').classList.value.search('disabled') != -1){
-                document.querySelector('.button_update_password').classList.remove('disabled')
-            }
-        }
-        else {
-            if(document.querySelector('.button_update_password').classList.value.search('disabled') == -1){
-                document.querySelector('.button_update_password').classList.add('disabled')
-            }
-
-        }
-    }
-
-    document.querySelector("#old_password_input").addEventListener('input', enable_button_update_password);
-    document.querySelector("#new_password_input").addEventListener('input', enable_button_update_password);
-    document.querySelector("#confirm_new_password_input").addEventListener('input', enable_button_update_password);
 
     function enable_button_update_email(){
         var cur_text = document.querySelector('#new_email_input').value;
@@ -311,24 +299,6 @@
         success: function(data, textStatus, jqXHR){
             document.querySelector(".discord_name").childNodes[1].innerText = document.querySelector("#discord_input").value
             hide_update_discord()
-            data = {}
-        }
-        });
-    }
-
-    function send_data_update_password(){
-        data["old_password"] = document.querySelector("#old_password_input").value
-        data["update_password"] = document.querySelector("#new_password_input").value
-
-        $.ajax({
-        type: 'POST',
-        dataType: 'JSON',
-        url: document.URL,
-        data: JSON.stringify(data),
-        headers: { 'X-CSRFToken': csrftoken },
-
-        success: function(data, textStatus, jqXHR){
-            hide_update_password()
             data = {}
         }
         });
