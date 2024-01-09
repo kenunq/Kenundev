@@ -412,7 +412,32 @@ function sendNotification(type, text) {
         hide_report_of_bug()
     };
 
+$(document).ajaxSuccess(function(event, request, settings) {
+    if (request.responseJSON['status'] == 'email details were successfully updated') {
+       sendNotification('success', 'На вашу текущую электронную почту отправленно письмо для подтверждения смены электронной почты!');
+    }
 
+    if (request.responseJSON['status'] == 'the specified mailing address is already in use') {
+       sendNotification('error', 'Указанная электронная почта привязанная к другому аккаунту.');
+    }
+
+    if (request.responseJSON['status'] == 'talents are successfully saved and tied to the character') {
+       sendNotification('success', 'Таланты успешно сохранены и привязаны к персонажу.');
+    }
+
+    if (request.responseJSON['status'] == 'talents successfully saved') {
+       sendNotification('success', 'Таланты успешно сохранены.');
+    }
+
+    if (request.responseJSON['status'] == 'complaint sent successfully') {
+       sendNotification('success', 'Спасибо за ваше обращение, в близжайшее время мы постараемся все исправить.');
+    }
+
+    if (request.responseJSON['status'] == 'complaint not sent') {
+       sendNotification('error', 'Для отправки неоходимо заполнить хотя бы одно поле.');
+    }
+
+});
 
 </script>
 </html>

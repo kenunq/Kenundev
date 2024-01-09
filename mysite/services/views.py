@@ -22,7 +22,7 @@ class ServicesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ServicesView, self).get_context_data(**kwargs)
-        # TODO сделать проверку на дискорд, если есть то предвписывать его. Избавиться от того что написано ниже
+        # TODO Избавиться от того что написано ниже
         context['types'] = TypeModel.objects.all()
 
         context['servers'] = ServerModel.objects.all()

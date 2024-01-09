@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    volumes:
+      - /var/lib/postgres/data/:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${POSTGRES_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    networks:
+      - back
+
+
+  redis:
+    container_name: redis
+    image: redis
+    restart: unless-stopped
+    command: redis-server
+#    volumes:
+#      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+    networks:
+      - back
+  web:
+    build: .
+#    command: python manage.py runserver 0.0.0.0:8000
+    entrypoint: ./docker/backend/web-entrypoint.sh
+    volumes:
+      - static_volume:/mysite/static
+      - media_volume:/mysite/media
+      - .:/mysite # автоматическая перезагрузка при изменении файлов
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - front
+      - back
+
+
+  celery-worker:
+    build: .
+    entrypoint: ./docker/backend/celery-worker-entrypoint.sh
+    volumes:
+      - /var/log/celery:/var/run/celery
+    environment:
+      CELERY_APP: ${CELERY_APP}
+      REDIS_HOST: ${REDIS_HOST}
+    depends_on:
+      - postgres
+      - redis
+    #            - rabbitmq
+    networks:
+      - back
+
+
+  celery-flower:
+    container_name: celery-flower
+    build: .
+    entrypoint: ./docker/backend/celery-flower-entrypoint.sh
+    volumes:
+      - /var/log/celery:/var/run/celery
+    environment:
+      CELERY_APP: ${CELERY_APP}
+      CELERY_FLOWER_URL_PREFIX: ${CELERY_FLOWER_URL_PREFIX}
+      CELERY_FLOWER_ADDRESS: ${CELERY_FLOWER_ADDRESS}
+      CELERY_FLOWER_PORT: ${CELERY_FLOWER_PORT}
+    ports:
+      - 5555:5555
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - back
+
+
+volumes:
+    postgres_data:
+    static_volume:
+    media_volume:
+
+
+networks:
+    front:
+    back:

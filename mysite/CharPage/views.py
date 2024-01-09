@@ -6,6 +6,7 @@ from typing import Any
 from uuid import uuid4
 
 from django.conf import settings
+from django.contrib import messages
 from django.utils import timezone
 from django.core.handlers.asgi import ASGIRequest
 from django.db.models import QuerySet
@@ -471,5 +472,6 @@ class CharListPageView(TemplateView):
             # Если пользователь является создателем персонажа
             if self.request.user == obj_char.creator:
                 obj_char.delete()
-                return JsonResponse({"status": "data was successfully deleted"})
+                messages.success(self.request, 'Персонаж успешно удален.')
+                return JsonResponse({"status": "The character has been successfully deleted"})
 

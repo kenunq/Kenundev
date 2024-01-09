@@ -5,6 +5,10 @@
 <link rel="stylesheet" href="{% static 'services.css' %}">
 
 <script>
+    communication_type = ""
+    {% if user.discord != "" %}
+        communication_type = "Discord"
+    {% endif %}
     var data = {
         "type": "",
         "server": "",
@@ -12,7 +16,7 @@
         "class": "",
         "mentor": "",
         "username": "",
-        "communication": ""
+        "communication": communication_type
     }
 </script>
 {% endblock %}
@@ -61,13 +65,24 @@
                     <p>Выбрать</p>
                     <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle5">
                 </div>
+                {% if user.discord %}
+                <div class="set_value" id="set_value_communication" onclick="content_block_show('communication', 6)">
+                    <p>Discord</p>
+                    <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle6">
+                </div>
+                <div class="username-input" id="username-input">
+                    <input type="text" id="input-username" value="{{ user.discord }}" style="opacity: 1; pointer-events: auto;">
+                </div>
+                {% else %}
                 <div class="set_value" id="set_value_communication" onclick="content_block_show('communication', 6)">
                     <p>Выбрать</p>
                     <img src="{% static 'img/other/white_triangle.png' %}" width="17" height="17" id="tringle6">
                 </div>
-                <div class="username-input" id="username-input" >
-                    <input type="text" id="input-username">
+                <div class="username-input" id="username-input">
+                    <input type="text" id="input-username" style="pointer-events: none; opacity: 0.3;">
                 </div>
+                {% endif %}
+
             </div>
         </div>
         <div class="content_block" open="False" id="type">
@@ -186,8 +201,8 @@
 
         var value = target.innerText;
         if (type == "communication"){
-            document.querySelector(`#input-username`).style.pointerEvents = "auto"
-            document.querySelector(`#input-username`).style.opacity = 1
+            document.querySelector(`#input-username`).style.pointerEvents = "auto";
+            document.querySelector(`#input-username`).style.opacity = 1;
         }
         data[type] = value;
         set_value.childNodes[1].innerText = value;
@@ -208,6 +223,8 @@
                 data: JSON.stringify(data),
                 headers: { 'X-CSRFToken': csrftoken },
             });
+        } else {
+            sendNotification('error', 'Необходимо заполнить все поля!')
         }
     }
 

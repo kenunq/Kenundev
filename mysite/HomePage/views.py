@@ -1,5 +1,6 @@
 import mimetypes
 
+from django.contrib import messages
 from django.core.handlers.asgi import ASGIRequest
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import TemplateView
@@ -48,6 +49,7 @@ class HomePageView(TemplateView):
 
         if files or text != "":
             send_problem_message.delay(files, text)
+            return JsonResponse({"status": "complaint sent successfully"})
 
-        return JsonResponse({"status": "data was successfully deleted"})
+        return JsonResponse({"status": "complaint not sent"})
 

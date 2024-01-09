@@ -1,0 +1,627 @@
+
+.main_block{
+    padding-left: 25px;
+    padding-right: 85px;
+    padding-top: 90px;
+    padding-bottom: 65px;
+
+    width: min-content;
+    display: flex;
+    margin: 120px auto;
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.user_info{
+    width: 392px;
+    padding-right: 15px;
+    border-right: 1px solid rgba(255, 255, 255, .4);
+    margin-right: 60px;
+}
+
+.user_info_header{
+    text-align: center;
+    margin-bottom: 15px;
+
+    color: #FFF;
+    font-family: Kanit;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.user_mail{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+
+    color: #FFF;
+    font-family: Kanit;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.user_date_registration{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+
+
+    color: #FFF;
+    font-family: Kanit;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.user_discord{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 284px;
+
+
+    color: #FFF;
+    font-family: Kanit;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.discord_name{
+    display: flex;
+}
+
+.discord_name p{
+    margin-right: 10px;
+}
+
+.discord_edit{
+    cursor: pointer;
+}
+
+.edit_email {
+    background: #0057FF;
+    border-radius: 10px;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    text-align: center;
+    width: 310px;
+    padding: 5px 7px 6px 7px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.edit_email p{
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.edit_password {
+    background: #0057FF;
+    border-radius: 10px;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    text-align: center;
+    width: 310px;
+    margin: 0 auto;
+    padding: 5px 7px 6px 7px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.edit_password p{
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.my_addons{
+    width: 470px;
+    border-right: 1px solid rgba(255, 255, 255, .4);
+}
+
+.my_addons_header{
+    text-align: center;
+    padding-bottom: 25px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .4);
+
+    color: #FFF;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.my_addons_list{
+    width: 100%;
+    max-height: 480px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    padding: 30px 25px;
+}
+
+.my_addon{
+    width: 420px;
+    height: 40px;
+    margin-bottom: 25px;
+    display: flex;
+    position: relative;
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.my_addon:last-child{
+    margin-bottom: 0px;
+}
+
+.my_addon a{
+    margin: 6px auto;
+}
+
+.download_addon{
+    position: absolute;
+    margin-top: 4px;
+    cursor: pointer;
+    padding-right: 3px;
+    right: 0;
+}
+
+.my_services{
+    width: 470px;
+}
+
+.my_services_header{
+    text-align: center;
+    padding-bottom: 25px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .4);
+
+    color: #FFF;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.my_services_list{
+    width: 100%;
+    height: 480px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    padding: 30px 25px;
+}
+
+.my_service{
+    width: 420px;
+    height: 40px; /*  40px */
+    margin-bottom: 25px;
+    padding-left: 15px;
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.my_service.open{
+    height: 105px;
+}
+.my_service:last-child{
+    margin-bottom: 0px;
+}
+
+.service_type{
+    display: flex;
+    padding-top: 6px;
+}
+
+.service_type p:first-child{
+    margin-right: 80px;
+}
+
+.service_short_desc {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 9px;
+}
+
+.open_service{
+    margin-right: 15px;
+    margin-top: 5px;
+    margin-left: 30px;
+    cursor: pointer;
+}
+
+.open_service img{
+    pointer-events: none;
+}
+
+
+.service_full_desc{
+    display: none;
+}
+
+.service_full_desc.open{
+    display: flex;
+}
+
+.server_and_fraction{
+    margin-right: 60px;
+}
+
+.server_and_fraction p:first-child{
+    white-space: nowrap;
+}
+
+.time_and_open{
+    display: flex;
+}
+
+.time_and_open p{
+    margin-top: 6px;
+}
+
+.lightbox-overlay{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #000;
+    opacity: .8;
+    filter: alpha(opacity=80);
+    z-index: 50
+}
+
+.update_discord{
+    display: none;
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 10px;
+    z-index: 100;
+    text-align: center;
+    width: 500px;
+
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.update_discrod_header{
+    color: #fff;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 8px;
+    margin-top: 5px;
+    white-space: nowrap;
+
+    margin-bottom: 25px;
+}
+
+.update_discrod_main{
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.new_discord_input{
+    margin: 0 auto;
+}
+
+.new_discord_input{
+    display:flex;
+    width: 70%;
+    height: 30px;
+    margin: 0 auto;
+}
+
+.new_discord_input input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+}
+
+.button_update{
+    background: #0057FF;
+    border-radius: 10px;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    text-align: center;
+    width: 200px;
+    padding: 5px 7px 6px 7px;
+    height: 30px;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+
+.button_update p{
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.update_password_block{
+    display: none;
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 10px;
+    z-index: 100;
+
+    width: 500px;
+
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.update_password_header{
+    color: #fff;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    margin-bottom: 8px;
+    margin-top: 5px;
+    white-space: nowrap;
+
+    margin-bottom: 25px;
+}
+
+.update_password_main{
+    display: flex;
+    margin-bottom:15px;
+}
+
+.update_password_inputs_desc{
+    margin-right: 15px;
+     color: #fff;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.update_password_inputs_desc p{
+    margin-bottom: 22px;
+}
+
+.old_password{
+    display:flex;
+    width: 100%;
+    height: 30px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.old_password input{
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+}
+
+.new_password{
+    display:flex;
+    width: 100%;
+    height: 30px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.new_password input{
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+}
+
+.confirm_new_password{
+    display:flex;
+    width: 100%;
+    height: 30px;
+    margin: 0 auto;
+}
+
+.confirm_new_password input{
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+}
+
+.update_password_footer{
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+    background: #0057FF;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+.update_password_footer button{
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.update_email_block{
+    display: none;
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 10px;
+    z-index: 100;
+
+    width: 500px;
+
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.update_email_header{
+    color: #fff;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    margin-bottom: 8px;
+    margin-top: 5px;
+    white-space: nowrap;
+
+    margin-bottom: 25px;
+}
+
+.update_email_main{
+    display: flex;
+    margin-bottom:15px;
+}
+
+.update_email_input_desc{
+    margin-right: 15px;
+    color: #fff;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.update_email_input_desc p{
+    margin-top: 4px;
+    margin-bottom: 22px;
+}
+
+.new_email{
+    display:flex;
+    width: 100%;
+    height: 30px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.new_email input{
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    outline:none;
+    padding-left: 5px;
+    color: #fff;
+}
+
+.button_update_email{
+    background: #0057FF;
+    border-radius: 10px;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    text-align: center;
+    width: 200px;
+    padding: 5px 7px 6px 7px;
+    height: 30px;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+
+.button_update_email p{
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.button_update_email.disabled{
+    background: black;
+    pointer-events: none;
+    opacity: .3;
+}

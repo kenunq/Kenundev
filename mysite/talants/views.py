@@ -1,5 +1,6 @@
 import json
 
+from django.contrib import messages
 from django.core.handlers.asgi import ASGIRequest
 from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
@@ -34,15 +35,18 @@ class TalantsView(TemplateView):
         print(data)
         if data.get('deltalent_id'):
             TalentsModel.objects.filter(id=data["deltalent_id"]).delete()
+            messages.success(self.request, 'Таланты успешно удалены.')
             return JsonResponse({'status': 'data was successfully talent deleted'})
+
         if data.get('char'):
             char = CharModel.objects.get(room_id=data['char'])
             if char.talents.count() < 2:
                 bids = TalentsModel.objects.create(name=data['name'], creator=creator, url=data['url'], talent_class=data['class'], talent_spec=data['spec'])
                 bids.charmodel_set.add(char)
                 bids.save()
+                return JsonResponse({'status': 'talents are successfully saved and tied to the character'})
         else:
             bids = TalentsModel(name=data['name'], creator=creator, url=data['url'], talent_class=data['class'], talent_spec=data['spec'])
             bids.save()
+            return JsonResponse({'status': 'talents successfully saved'})
 
-        return JsonResponse({'status': 'data was successfully saved'})

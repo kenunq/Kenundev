@@ -1,7 +1,7 @@
 import json
 from datetime import timedelta
 
-from django.contrib import auth, messages
+from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash, authenticate
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -162,26 +162,20 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             user.save()
             return JsonResponse({"status": "data was successfully discrod updated"})
 
-        if data.get("update_password"):
-            user = self.request.user
-            old_password = data['old_password']
-            new_password = data['update_password']
-            if user.check_password(old_password):
-                user.set_password(new_password)
-                user.save()
-                update_session_auth_hash(request, self.request.user) # Сохранение авторизации пользователя
-                return JsonResponse({"status": "data was successfully password updated"})
-
         if data.get("update_email"):
             user = self.request.user
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             email = urlsafe_base64_encode(force_bytes(data["update_email"]))
+
+            if User.objects.filter(email=data["update_email"]).exists():
+                return JsonResponse({"status": "the specified mailing address is already in use"})
+
             activation_url = reverse_lazy('user:confirm_email', kwargs={'uidb64': uid, 'token': token, 'email': email})
             # current_site = Site.objects.get_current().domain
             current_site = "127.0.0.1:8000"
             send_update_email_message.delay(user.email, current_site, activation_url)
-            return JsonResponse({"status": "data was successfully discrod updated"})
+            return JsonResponse({"status": "email details were successfully updated"})
 
 
 def profileView2(request):
