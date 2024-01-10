@@ -1355,7 +1355,28 @@ a:-webkit-any-link {
     cursor: pointer;
 }
 
+.terms_of_use {
+    display: flex;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    white-space: nowrap;
+    width: min-content;
 
+    color: #fff;
+    font-size: 12px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.terms_of_use p{
+    margin-left: 10px;
+}
+
+.terms_of_use a{
+    color: #2929ff;
+}
 
 .btn-registration button {
     height: 100%;

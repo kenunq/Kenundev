@@ -29,7 +29,7 @@ def send_message_zapis(telegram_id, data):
 
 
 class AsyncActionGetGameChatData(threading.Thread):
-    '''Класс работающий не в основном потоке, который отправляет меседж в телеграм'''
+    '''Класс работающий не в основном потоке, который запускаем телеграмм бота'''
 
     def run(self):
         bot.polling(none_stop=True, interval=0)
@@ -37,5 +37,5 @@ class AsyncActionGetGameChatData(threading.Thread):
 
 #создаем экземпляр класса отправки меседжей
 async_action_get_game_chat_data = AsyncActionGetGameChatData()
+async_action_get_game_chat_data.daemon = True
 async_action_get_game_chat_data.start()
-

@@ -44,6 +44,10 @@ class RegistrationView(RedirectAuthUser, SuccessMessageMixin, CreateView):
         return self.render_to_response(self.get_context_data(form=form))
 
 
+class TermsOfUseView(TemplateView):
+    template_name = 'terms_of_use.html'
+
+
 class UserLoginView(RedirectAuthUser, LoginView):
     template_name = "login.html"
     form_class = UserLoginForm

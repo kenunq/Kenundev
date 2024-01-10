@@ -93,6 +93,10 @@
 
         {{ form.captcha }}
 
+        <div class="terms_of_use">
+        {{ form.terms_of_use }}
+            <p>Я соглашаюсь с <a href="{% url 'user:terms-of-use' %}">Политикой конфиденциальности</a></p>
+        </div>
     </div>
 
 <!--    <div class="captcha-block">-->

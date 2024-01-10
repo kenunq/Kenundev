@@ -40,10 +40,11 @@ class UserRegistrationForm(UserCreationForm):
             'style': "margin: 0px 25px 26px 25px;"
         }
     ))
+    terms_of_use = BooleanField(widget=CheckboxInput())
 
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'email', 'captcha')
+        fields = ('username', 'password1', 'password2', 'email', 'captcha', 'terms_of_use')
 
     def save(self, commit=True):
         user = super(UserRegistrationForm, self).save(commit=True)
