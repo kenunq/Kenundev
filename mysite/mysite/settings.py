@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import logging.config
 import os
 from decouple import config
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -188,6 +190,61 @@ EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+ADMINS = [('Admin', EMAIL_HOST_USER)] # Нужно для отправки писем через django.utils.log.AdminEmailHandler https://docs.djangoproject.com/en/3.2/ref/settings/#std-setting-ADMINS
+
 SITE_ID = 1
 
 PARENT_DOMAIN = ALLOWED_HOSTS[0]
+
+
+#LOGGING
+LOGGING_CONFIG = None # отключение настроек логинга по умолчанию https://docs.djangoproject.com/en/dev/topics/logging/#top
+
+logging.config.dictConfig({
+    'version': 1,  # the dictConfig format version
+    'disable_existing_loggers': False,  # retain the default loggers
+    'formatters': {
+            'verbose': {
+                'format': '{levelname} --- {asctime} --- {module} --- {filename} --- {message}',
+                'style': '{',
+            },
+            'simple': {
+                'format': '{levelname} --- {message}',
+                'style': '{',
+            },
+    },
+    "filters": {
+            "require_debug_true": {
+                "()": "django.utils.log.RequireDebugTrue",
+            },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'logging.log',
+            'formatter': 'verbose',
+            'maxBytes': 1024*1024*5, # 5MB максимальный размер файла
+            'backupCount': 5,
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose',
+        },
+    },
+    "loggers": {
+        "django": {
+            "level": 'INFO',
+            "handlers": ["console", "mail_admins", "file"],
+            "propagate": True,
+        },
+    },
+})

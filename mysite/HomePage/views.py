@@ -6,6 +6,9 @@ from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import TemplateView
 
 from HomePage.tasks import send_problem_message
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class HomePageView(TemplateView):
@@ -27,7 +30,9 @@ class HomePageView(TemplateView):
         if request.GET.get("data") == "item-scaling":
             return HttpResponse(
                 open(
-                    "./static/js/javascript/data-item-scaling.js", "r", encoding="utf-8"
+                    "./static/js/javascript/data-item-scaling.js",
+                    "r",
+                    encoding="utf-8"
                 ),
                 content_type="application/x-javascript; charset=utf-8",
             )
