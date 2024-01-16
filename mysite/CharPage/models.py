@@ -88,7 +88,7 @@ class CharModel(models.Model):
 
     char_name = models.CharField(max_length=32, verbose_name='Имя персонажа', default='')
 
-    proffesions = models.CharField(max_length=32, verbose_name='Профессии', default='')
+    proffesions = models.CharField(max_length=32, verbose_name='Профессии', default='[0,0]')
 
     talents = models.ManyToManyField(TalentsModel, null=True, verbose_name='Привязанные таланты')
 

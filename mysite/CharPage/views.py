@@ -7,6 +7,7 @@ from uuid import uuid4
 
 from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 from django.core.handlers.asgi import ASGIRequest
 from django.db.models import QuerySet
@@ -27,10 +28,6 @@ from user.models import User
 
 class CharPageView(TemplateView):
     template_name = "index.html"
-
-
-class TestAnim(TemplateView):
-    template_name = "testanim.html"
 
 
 # class ZamimgProxyView(View):
@@ -394,7 +391,6 @@ class UniqueCharPageView(TemplateView):
                     return JsonResponse(
                         {"status": "data was successfully delete talent"}
                     )
-
             self.dressing_room.update(**data)
 
             return JsonResponse({"status": "data was successfully saved"})
@@ -419,8 +415,13 @@ class CreateCharView(TemplateView):
         return context
 
     def render_to_response(self, context, **response_kwargs):
+        room_id = str(context['room_id'])
+        dressing_room = CharModel.objects.filter(room_id=room_id)
+
         if context["creating"]:
             return redirect("char_page_room", self.room_id)
+        elif dressing_room[0].creator != self.request.user and dressing_room[0].creator != None:
+            raise PermissionDenied()
         return super(CreateCharView, self).render_to_response(
             context, **response_kwargs
         )
@@ -474,4 +475,6 @@ class CharListPageView(TemplateView):
                 obj_char.delete()
                 messages.success(self.request, 'Персонаж успешно удален.')
                 return JsonResponse({"status": "The character has been successfully deleted"})
+            else:
+                return JsonResponse({"status": "access error"})
 

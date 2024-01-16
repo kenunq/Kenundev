@@ -35,7 +35,6 @@ urlpatterns = [
     path('charlist/', CharListPageView.as_view(), name='char_list'),
     path('createchar/<uuid:room_id>/', CreateCharView.as_view(), name='createchar'),
     path('char/<uuid:room_id>/', UniqueCharPageView.as_view(), name='char_page_room'),
-    path('testanim/', TestAnim.as_view(), name='testanim'),
     path('talents/', TalantsView.as_view(), name='talants'),
     path('api/modelviewer/<path:modelviewer_path>/', ZamimgProxyView.as_view(), name='zamimg_proxy'),
 ]
