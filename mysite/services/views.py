@@ -65,7 +65,7 @@ class ServicesView(TemplateView):
         # send_message_zapis(telegram_id, data)
         send_telegram_message.delay(telegram_id, data)
 
-        return JsonResponse({"status": "data was successfully saved"})
+        return JsonResponse({"status": "message sent successfully"})
 
 
 class SuccessAddView(TemplateView):

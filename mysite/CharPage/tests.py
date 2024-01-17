@@ -46,7 +46,7 @@ class Test_charpage(TestCase):
         self.assertTrue(self.client.login(username=self.user1_username, password=self.user1_password))
         response = self.client.get(reverse('char_list'))
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed('char_list_page.html')
+        self.assertTemplateUsed(response, 'char_list_page.html')
 
     def test_create_char(self):
 

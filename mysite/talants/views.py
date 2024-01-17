@@ -31,8 +31,11 @@ class TalantsView(TemplateView):
 
     def post(self, request: ASGIRequest, *args, **kwargs):
         data: dict = json.loads(request.body)
+
+        if self.request.user.is_anonymous:
+            return JsonResponse({"status": "access error"})
+
         creator = self.request.user
-        print(data)
         if data.get('deltalent_id'):
             TalentsModel.objects.filter(id=data["deltalent_id"]).delete()
             messages.success(self.request, 'Таланты успешно удалены.')
@@ -45,6 +48,8 @@ class TalantsView(TemplateView):
                 bids.charmodel_set.add(char)
                 bids.save()
                 return JsonResponse({'status': 'talents are successfully saved and tied to the character'})
+            else:
+                return JsonResponse({'status': 'the character has too many talents'})
         else:
             bids = TalentsModel(name=data['name'], creator=creator, url=data['url'], talent_class=data['class'], talent_spec=data['spec'])
             bids.save()

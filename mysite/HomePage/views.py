@@ -39,6 +39,8 @@ class HomePageView(TemplateView):
         return resp
 
     def post(self, request: ASGIRequest, *args, **kwargs):
+        if self.request.user.is_anonymous:
+            return JsonResponse({"status": "access error"})
         if request.FILES:
             # Заполняем словарь нужными данными, так как селери не принимает файлы
             files = {}
