@@ -40,7 +40,6 @@ class RegistrationView(RedirectAuthUser, SuccessMessageMixin, CreateView):
 
     def form_invalid(self, form: UserRegistrationForm):
         print(form.errors)
-
         return self.render_to_response(self.get_context_data(form=form))
 
 
@@ -147,7 +146,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
         if self.request.session.get('PasswordChangeForm-errors'):
             context['PasswordChangeFormerrors'] = json.loads(self.request.session.get('PasswordChangeForm-errors', ''))
-            print(context['PasswordChangeFormerrors'])
             del self.request.session['PasswordChangeForm-errors']
         else:
             context['PasswordChangeFormerrors'] = ''

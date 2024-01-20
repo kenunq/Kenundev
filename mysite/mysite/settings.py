@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import logging.config
 import os
+import sys
+
 from decouple import config
 from pathlib import Path
 
@@ -159,6 +161,9 @@ LOGIN_REDIRECT_URL = '/'
 
 RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
+
+if 'test' in sys.argv:
+    CAPTCHA_TEST_MODE = True
 
 #redis
 
