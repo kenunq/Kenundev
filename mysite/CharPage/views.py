@@ -22,6 +22,7 @@ from django.views.generic.base import TemplateView, View
 import requests
 
 from CharPage.models import CharModel
+from common.mixin.views import TitleMixin
 from talants.models import TalentsModel
 from user.models import User
 
@@ -130,11 +131,11 @@ class CharPageView(View):
         return redirect("char_page_room", uuid4())
 
 
-class UniqueCharPageView(TemplateView):
+class UniqueCharPageView(TitleMixin, TemplateView):
     """#### Представление обрабатывающее примерочную страницу."""
 
     template_name = "index.html"
-
+    title = 'Персонаж'
     time_delta = timedelta(days=365)
 
     def _time_checking(self):
@@ -402,8 +403,9 @@ class UniqueCharPageView(TemplateView):
         return JsonResponse({"status": "access error"})
 
 
-class CreateCharView(TemplateView):
+class CreateCharView(TitleMixin, TemplateView):
     template_name = "create_char.html"
+    title = 'Создание персонажа'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -442,8 +444,9 @@ class CreateCharView(TemplateView):
         return JsonResponse({"status": "data was successfully saved"})
 
 
-class CharListPageView(TemplateView):
+class CharListPageView(TitleMixin, TemplateView):
     template_name = "char_list_page.html"
+    title = 'Мои персонажи'
 
     def get_context_data(self, **kwargs):
         context = super(CharListPageView, self).get_context_data(**kwargs)

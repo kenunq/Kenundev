@@ -20,7 +20,7 @@
       <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 
-    <title>Kenunchik</title>
+    <title>{{ title }}</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
       <script>
           const csrftoken = Cookies.get('csrftoken');
@@ -101,6 +101,7 @@ vertical-align: sub
 
   </head>
 <body>
+    <div class="body_content">
     <div class='header'>
        <div class='header-line'>
 
@@ -116,10 +117,12 @@ vertical-align: sub
            <a class='nav-item' href="{% url 'addons:shop' %}">Аддоны</a>
            <a class='nav-item' href="{% url 'services:services' %}">Услуги</a>
 
-
          </div>
 
               {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                <p style="color: #fff; font-size: 20px; position: absolute; left: 1450px;"> Сейчас онлайн: {{ request.users_online_count }}</p>
+             {% endif %}
                     <div class="block_user_name" onclick="show_user_list()">
                     <p>{{ user }}</p>
                     </div>
@@ -223,7 +226,28 @@ vertical-align: sub
   {% endblock %}
 
 
+</div>
+<div class="footer">
+        <div class="footer_content">
+            <div class="useful_links">
+                <a href="{% url 'support:chat' %}">Техническая поддержка</a>
+                <p>-</p>
+                <a href="https://www.donationalerts.com/r/jojin">Поддержать меня</a>
+            </div>
+            <div class="block_documents">
+                <a href="{% url 'user:terms-of-use' %}">Terms of use</a>
+                <p>-</p>
+                <a href="#">Cookie Police</a>
+                <p>-</p>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="block_copyright">
+                <p>© Copyright 2024-2026 kenundev.ru</p>
+            </div>
+        </div>
+    </div>
 </body>
+
 
   <script>
           // alerts .............................................................
@@ -305,6 +329,67 @@ function sendNotification(type, text) {
 // ..............................................................................................
   </script>
 
+  {% if user.is_superuser == False %}
+  <script>
+    function getCookie(c_name) {
+    if (document.cookie.length > 0) {
+        c_start = document.cookie.indexOf(c_name + "=");
+        if (c_start != -1) {
+            c_start = c_start + c_name.length + 1;
+            c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) {
+                c_end = document.cookie.length;
+            }
+            return unescape(document.cookie.substring(c_start, c_end));
+        }
+    }
+    return "";
+}
+
+    {% if user.is_authenticated %}
+        const userID = {{ user.id }}
+    {% else %}
+        const userID = getCookie('userID')
+    {% endif %}
+</script>
+
+  <script>
+        const ChatSocket = new WebSocket('ws://' + window.location.host + `/ws/support/chat/${userID}/`)
+
+        function play_notification() {
+            var audio = new Audio();
+            audio.src = 'static/audio/notification.mp3';
+            audio.volume = 0.8;
+            audio.play();
+        }
+
+        ChatSocket.onmessage = function(e) {
+        if (window.location.pathname != '/support/chat/'){
+            sendNotification('info', 'Тех. поддержка отправила вам сообщение.')
+            play_notification()
+        }
+    }
+  </script>
+
+  {% else %}
+    <script>
+        const ChatSocketAdmin = new WebSocket('ws://' + window.location.host + `/ws/support/chat/admin/`)
+
+        function play_notification() {
+            var audio = new Audio();
+            audio.src = 'static/audio/notification.mp3';
+            audio.volume = 0.8;
+            audio.play();
+        }
+
+        ChatSocketAdmin.onmessage = function(e) {
+        if (window.location.pathname != '/support/admin-chat/'){
+            sendNotification('info', `${JSON.parse(e.data).username} отправил вам сообщение.`)
+            play_notification()
+        }
+    }
+  </script>
+  {% endif %}
 {% block js %}
 
 {% endblock %}
@@ -383,7 +468,6 @@ function sendNotification(type, text) {
 
         for(var key in formData_fake){
             if(formData_fake[key].name == file_name){
-                console.log(key)
                 delete formData_fake[key]
                 return;
             }

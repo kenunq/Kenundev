@@ -1,6 +1,7 @@
 import mimetypes
+import uuid
 
-from django.contrib import messages
+from django.conf import settings
 from django.core.handlers.asgi import ASGIRequest
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import TemplateView
@@ -8,11 +9,14 @@ from django.views.generic.base import TemplateView
 from HomePage.tasks import send_problem_message
 import logging
 
+from common.mixin.views import TitleMixin
+
 logger = logging.getLogger(__name__)
 
 
-class HomePageView(TemplateView):
+class HomePageView(TitleMixin, TemplateView):
     template_name = "HomePage/HomePage.html"
+    title = 'Главная страница'
 
     def get(self, request, *args, **kwargs):
         resp = super().get(request, *args, **kwargs)
@@ -59,4 +63,17 @@ class HomePageView(TemplateView):
             return JsonResponse({"status": "complaint sent successfully"})
 
         return JsonResponse({"status": "complaint not sent"})
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super(HomePageView, self).render_to_response(context, **response_kwargs)
+
+        if self.request.user.is_anonymous:
+            if not self.request.COOKIES.get('userID'):
+                response.set_cookie(
+                    key='userID',
+                    value=uuid.uuid4(),
+                    domain=settings.PARENT_DOMAIN
+                )
+
+        return response
 

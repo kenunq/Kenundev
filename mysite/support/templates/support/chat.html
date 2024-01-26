@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load support_page_tags %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'chat.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="chat_main_block">
+    <div class="chat_window">
+        <div class="chat_header">
+            <p>Техническая поддержка</p>
+            <div class="support_block">
+                <div class="support_icon">
+                    <img src="{% static 'img/other/support_icon.png' %}" alt="" width="30" height="30">
+                </div>
+                {% get_admin_status %}
+            </div>
+        </div>
+
+        <div class="chat">
+            {% for message in chat_messages %}
+                {% if message.user_id|add:0 != user.id|add:0 %}
+                    <div class="support_message_block">
+                <div class="support_message">
+
+                    <div class="support_message_header">
+                        <p>Тех. поддержка</p>
+                    </div>
+
+                    <div class="message">
+                        <p>{{ message.body }}</p>
+                    </div>
+
+                    <div class="message_time">
+                        <p>{{ message.sended_time }}</p>
+                    </div>
+
+                </div>
+
+            </div>
+            {% else %}
+                    <div class="user_message_block">
+
+                <div class="user_message">
+
+                    <div class="message">
+                        <p>{{ message.body }}</p>
+                    </div>
+
+                    <div class="message_time">
+                        <p>{{ message.sended_time }}</p>
+                    </div>
+
+                </div>
+            </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="send_message_block">
+    <textarea class="message_input" placeholder="Задайте любой вопрос"></textarea>
+    <div class="send_message_button">
+        <img src="{% static 'img/other/send_message.png' %}" alt="">
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+
+<!--<script>-->
+<!--    function getCookie(c_name) {-->
+<!--    if (document.cookie.length > 0) {-->
+<!--        c_start = document.cookie.indexOf(c_name + "=");-->
+<!--        if (c_start != -1) {-->
+<!--            c_start = c_start + c_name.length + 1;-->
+<!--            c_end = document.cookie.indexOf(";", c_start);-->
+<!--            if (c_end == -1) {-->
+<!--                c_end = document.cookie.length;-->
+<!--            }-->
+<!--            return unescape(document.cookie.substring(c_start, c_end));-->
+<!--        }-->
+<!--    }-->
+<!--    return "";-->
+<!--}-->
+
+<!--    {% if user.is_authenticated %}-->
+<!--        const userID = {{ user.id }}-->
+<!--    {% else %}-->
+<!--        console.log(getCookie('userID'))-->
+<!--        const userID = getCookie('userID')-->
+<!--    {% endif %}-->
+<!--</script>-->
+
+<script>
+
+    // const ChatSocket = new WebSocket('ws://' + window.location.host + `/ws/support/chat/${userID}/`)
+
+    ChatSocket.onmessage = function(e) {
+        onChatMessage(JSON.parse(e.data))
+    }
+
+    function onChatMessage(data) {
+        var chat = document.querySelector('.chat')
+
+        if (data.type == 'chat_message'){
+            if (data.user_id == userID) {
+                chat.innerHTML += `<div class="user_message_block">
+
+                <div class="user_message">
+
+                    <div class="message">
+                        <p>${data.message}</p>
+                    </div>
+
+                    <div class="message_time">
+                        <p>${data.sended_time}</p>
+                    </div>
+
+                </div>
+            </div>`
+            }else {
+                chat.innerHTML += `<div class="support_message_block">
+                <div class="support_message">
+
+                    <div class="support_message_header">
+                        <p>Тех. поддержка</p>
+                    </div>
+
+                    <div class="message">
+                        <p>${data.message}</p>
+                    </div>
+
+                    <div class="message_time">
+                        <p>${data.sended_time}</p>
+                    </div>
+
+                </div>
+
+            </div>`
+            }
+        }
+        fix_message()
+    }
+
+function fix_message(){
+    var message = document.querySelectorAll('.message')
+    message.forEach((a) => {
+           if(a.offsetWidth > 413) {
+             a.style.whiteSpace = "normal";
+             a.style.wordWrap = "break-word";
+             a.parentElement.style.width = '100%';
+             a.style.width = '100%';
+           }
+         });
+
+    document.querySelector(".chat").scrollTop = 9999999
+}
+
+function sendMessage() {
+    var messageDom = document.querySelector('.message_input')
+    var message = messageDom.value
+    if(message != '' && message.trim() != ''){
+        if (message.length < 300){
+            ChatSocket.send(JSON.stringify({
+                'type': 'message',
+                'message': message,
+                'user_id': userID
+            }))
+            messageDom.value = ""
+        } else {
+            sendNotification('warning', 'Максимальная длина сообщения - 300 символов')
+        }
+    }
+}
+
+document.querySelector('.send_message_button').onclick = sendMessage
+
+$('.message_input').keypress(function (e) {
+    if(e.which === 13 && !e.shiftKey) {
+        e.preventDefault();
+
+        sendMessage();
+    }
+});
+
+fix_message()
+</script>
+{% endblock %}

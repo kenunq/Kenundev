@@ -29,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view(), name='home'),
     path('user/', include('user.urls', namespace='user')),
+    path('support/', include('support.urls', namespace='support')),
     path('addons/', include('addons.urls', namespace='addons')),
     path('services/', include('services.urls', namespace='services')),
     path('char/', CharPageView.as_view(), name='char'),

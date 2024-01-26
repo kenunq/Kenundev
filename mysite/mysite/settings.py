@@ -35,6 +35,8 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'channels',
+    'channels_redis',
     'django_recaptcha',
 
     'CharPage',
@@ -51,6 +55,7 @@ INSTALLED_APPS = [
     'HomePage',
     'talants',
     'services',
+    'support',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +66,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'common.middleware.count_users_online',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -81,8 +88,8 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'mysite.asgi.application'
 WSGI_APPLICATION = 'mysite.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -95,7 +102,8 @@ DATABASES = {
         'PASSWORD': config('POSTGRES_PASSWORD'),
         'HOST': config('POSTGRES_HOST'),
         'PORT': config('POSTGRES_PORT'),
-    }}
+    }
+}
 
 
 # Password validation
@@ -169,6 +177,15 @@ if 'test' in sys.argv:
 
 REDIS_HOST = config('REDIS_HOST')
 REDIS_PORT = config('REDIS_PORT')
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [(REDIS_HOST, REDIS_PORT)],
+        },
+    },
+}
 
 #celery
 

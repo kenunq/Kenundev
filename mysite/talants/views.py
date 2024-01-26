@@ -3,19 +3,20 @@ import json
 from django.contrib import messages
 from django.core.handlers.asgi import ASGIRequest
 from django.db.models import Count
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.http import JsonResponse
 from django.views.generic import TemplateView
 
 from CharPage.models import CharModel
+from common.mixin.views import TitleMixin
 from talants.models import TalentsModel
 
 
 # Create your views here.
 
 
-class TalantsView(TemplateView):
+class TalantsView(TitleMixin, TemplateView):
     template_name = 'talants/talants.html'
+    title = 'Таланты'
 
     def get_context_data(self, **kwargs):
         context = super(TalantsView, self).get_context_data(**kwargs)

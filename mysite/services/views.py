@@ -1,13 +1,13 @@
 import json
+
+from common.mixin.views import TitleMixin
 # from .services import send_message_zapis
 from .tasks import send_telegram_message
 
-
-from django.contrib import messages
 from django.core.handlers.asgi import ASGIRequest
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils import timezone, dateformat
+from django.utils import timezone
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 
@@ -17,8 +17,9 @@ from services.models import TypeModel, ServerModel, FractionModel, ClassModel, M
 
 # Create your views here.
 
-class ServicesView(TemplateView):
+class ServicesView(TitleMixin, TemplateView):
     template_name = "services/appointment_page.html"
+    title = 'Заказать услугу'
 
     def get_context_data(self, **kwargs):
         context = super(ServicesView, self).get_context_data(**kwargs)
@@ -68,8 +69,9 @@ class ServicesView(TemplateView):
         return JsonResponse({"status": "message sent successfully"})
 
 
-class SuccessAddView(TemplateView):
+class SuccessAddView(TitleMixin, TemplateView):
     template_name = "services/success_add.html"
+    title = "Успех!"
 
     def render_to_response(self, context, **response_kwargs):
         if not context.get('mentor'):

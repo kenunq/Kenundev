@@ -3,6 +3,8 @@
     top:  50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    /*margin: 80px auto;
+    width: min-content; */
 
     padding: 35px 50px 35px 50px;
 

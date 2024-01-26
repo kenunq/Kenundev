@@ -2,27 +2,25 @@ import json
 from datetime import timedelta
 
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash, authenticate
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, \
-    PasswordResetDoneView, PasswordResetCompleteView
-from django.contrib.sites.models import Site
-from django.core.exceptions import ValidationError
+    PasswordResetCompleteView
 from django.core.handlers.asgi import ASGIRequest
 from django.http import JsonResponse
-from django.shortcuts import HttpResponseRedirect, redirect
-from django.shortcuts import render, resolve_url
+from django.shortcuts import redirect
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.generic.edit import CreateView, FormView
-from django.urls import reverse, reverse_lazy
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, View
 from django.conf import settings
 
+from common.mixin.views import TitleMixin
 from services.models import ServicesModel
 from user.forms import UserRegistrationForm, UserLoginForm, PasswordResetCustomForm, PasswordChangeForm
 from user.models import User
@@ -30,27 +28,30 @@ from user.tasks import send_update_email_message
 from user.utils import RedirectAuthUser
 
 
-class RegistrationView(RedirectAuthUser, SuccessMessageMixin, CreateView):
+class RegistrationView(TitleMixin, RedirectAuthUser, SuccessMessageMixin, CreateView):
     model = User
     form_class = UserRegistrationForm
     template_name = "registration.html"
     success_url = reverse_lazy("user:login")
     success_message = "Вы успешно зарегистрировались!"
     redirect_auth_user_url = 'user:profile'
+    title = 'Регистрация'
 
     def form_invalid(self, form: UserRegistrationForm):
         print(form.errors)
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class TermsOfUseView(TemplateView):
+class TermsOfUseView(TitleMixin, TemplateView):
     template_name = 'terms_of_use.html'
+    title = 'Политика конфиденциальности'
 
 
-class UserLoginView(RedirectAuthUser, LoginView):
+class UserLoginView(TitleMixin, RedirectAuthUser, LoginView):
     template_name = "login.html"
     form_class = UserLoginForm
     redirect_auth_user_url = 'user:profile'
+    title = 'Вход'
 
     def get_success_url(self):
         messages.success(self.request, f'Добро пожаловать {self.request.user.get_username()}.')
@@ -77,12 +78,13 @@ class UserLogoutView(LoginRequiredMixin, LogoutView):
         return reverse_lazy('home')
 
 
-class UserResetPasswordView(RedirectAuthUser, PasswordResetView):
+class UserResetPasswordView(TitleMixin, RedirectAuthUser, PasswordResetView):
     template_name = "reset_password.html"
     form_class = PasswordResetCustomForm
     email_template_name = 'emails/password_reset_email.html'
     html_email_template_name = 'emails/password_reset_email.html'
     redirect_auth_user_url = 'user:profile'
+    title = 'Сброс пароля'
 
     def get_success_url(self):
         messages.success(self.request, 'Письмо успешно отправлено.')
@@ -102,12 +104,13 @@ class UserResetPasswordView2(RedirectAuthUser, TemplateView):
     redirect_auth_user_url = 'user:profile'
 
 
-class PasswordResetConfirmCustomView(RedirectAuthUser, PasswordResetConfirmView):
+class PasswordResetConfirmCustomView(TitleMixin, RedirectAuthUser, PasswordResetConfirmView):
     """#### Представление обрабатывающее страницу с формой для ввода нового пароля."""
 
     form_class = SetPasswordForm
     redirect_auth_user_url = 'user:profile'
     template_name='password_reset_confirm.html'
+    title = 'Сброс пароля'
 
     # автоматическая аутентификация пользователя после успешного сброса пароля
     # post_reset_login = True
@@ -117,13 +120,13 @@ class PasswordResetConfirmCustomView(RedirectAuthUser, PasswordResetConfirmView)
         return reverse_lazy('user:password_reset_complete')
 
 
-class PasswordResetCompleteCustomView(RedirectAuthUser, PasswordResetCompleteView):
+class PasswordResetCompleteCustomView(TitleMixin, RedirectAuthUser, PasswordResetCompleteView):
     """#### Представление обрабатывающее страницу с сообщением об успешной смене пароля."""
 
     redirect_auth_user_url = 'user:profile'
 
     template_name = 'reset_password_complete.html'
-
+    title = 'Успех!'
     def render_to_response(self, context, **response_kwargs):
         response = super(PasswordResetCompleteCustomView, self).render_to_response(context, **response_kwargs)
         time_delta = timedelta(minutes=15)
@@ -136,9 +139,10 @@ class PasswordResetCompleteCustomView(RedirectAuthUser, PasswordResetCompleteVie
         return response
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileView(TitleMixin, LoginRequiredMixin, TemplateView):
     template_name = "profile.html"
     login_url = reverse_lazy('user:login')
+    title = 'Личный кабинет'
 
 
     def get_context_data(self, **kwargs):
@@ -214,9 +218,11 @@ class UserConfirmEmailView(View):
             return redirect('user:email_confirmation_failed')
 
 
-class EmailConfirmedView(TemplateView):
+class EmailConfirmedView(TitleMixin, TemplateView):
     template_name = 'email_confirmed.html'
+    title = 'Успех!'
 
 
-class EmailConfirmationFailedView(TemplateView):
+class EmailConfirmationFailedView(TitleMixin, TemplateView):
     template_name = 'email_confirmed_failed.html'
+    title = 'Упс!!'

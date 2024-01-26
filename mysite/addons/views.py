@@ -1,17 +1,19 @@
 from django.db.models import Count
-from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.core.cache import cache
 
-from addons.models import Addon, AddonCategory, AddonImage
+from addons.models import Addon, AddonCategory
+from common.mixin.views import TitleMixin
+
 
 # Create your views here.
 
 
-class AddonsView(ListView):
+class AddonsView(TitleMixin, ListView):
     model = Addon
     template_name = 'addons/addons_shop.html'
+    title = "Магазин аддонов"
     # paginate_by = 4
 
     def get_queryset(self):
@@ -62,6 +64,7 @@ class AddonPageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AddonPageView, self).get_context_data()
         context['addon'] = Addon.objects.filter(slug=kwargs['addon_slug'])[0]
+        context['title'] = context['addon'].name
         # context['images'] = AddonImage.objects.filter(addon__slug=kwargs['addon_slug'])
         print(context)
         return context

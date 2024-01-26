@@ -39,10 +39,6 @@ class Addon(models.Model):
 
     is_published = models.BooleanField(default=False, verbose_name='Публикация')
 
-    # так же при добавлении данного метода в админку добавляется кнопка 'СМОТРЕТЬ НА САЙТЕ >'
-    # def get_absolute_url(self):
-    #     return reverse('guide', kwargs={'guide_slug': self.slug})
-
     def __str__(self):
         return f"Аддон: {self.name} | Категория: {self.category.name}"
 

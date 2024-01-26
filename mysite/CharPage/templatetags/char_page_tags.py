@@ -69,15 +69,8 @@ def get_race_name_rus(race: int) -> str:
 @register.simple_tag
 def get_prof_html(prof: str) -> SafeString:
     prof_list = eval(prof)
-    # prof_list_len = 0
     result = ""
 
-    # if prof_list[0] != 0:
-    #     prof_list_len += 1
-    # if prof_list[1] != 0:
-    #     if prof_list_len == 0:
-    #         prof_list.pop(0)
-    #     prof_list_len += 1
     for i in range(2):
         if prof_list[i] == 0:
             result += f'''
