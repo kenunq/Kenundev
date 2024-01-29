@@ -102,6 +102,12 @@
         onChatMessage(JSON.parse(e.data))
     }
 
+    ChatSocket.onopen = function(event){
+        ChatSocket.send(JSON.stringify({
+                    'type': 'connect'
+                }))
+    }
+
     function onChatMessage(data) {
         var chat = document.querySelector('.chat')
 
@@ -142,6 +148,8 @@
             </div>`
             }
         }
+        document.querySelector('.support_block').children[1].innerText = 'В сети'
+        document.querySelector('.support_block').children[1].style.color = 'green'
         fix_message()
     }
 

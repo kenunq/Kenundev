@@ -1,3 +1,8 @@
+import json
+
+from django.core.cache import cache
+from django.core.handlers.asgi import ASGIRequest
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
@@ -38,7 +43,6 @@ class SupportChatView(TitleMixin, TemplateView):
 
     def render_to_response(self, context, **response_kwargs):
         response = super(SupportChatView, self).render_to_response(context, **response_kwargs)
-        # TODO если у юзера не установлен куки тогда перенеправить на главную страницу
         if self.request.user.is_superuser:
             return redirect('support:admin-chat')
 
@@ -51,7 +55,7 @@ class AdminSupportChatView(TitleMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AdminSupportChatView, self).get_context_data(**kwargs)
-
+        print(cache.get('online-now-user-ips', [])) # ----------------------------------------------------------
         if self.request.GET.get('user-id'):
             user_id = self.request.GET.get('user-id')
             if len(user_id) < 36:
@@ -63,6 +67,23 @@ class AdminSupportChatView(TitleMixin, TemplateView):
             chat_room = ChatRoom.objects.filter(slug=user_id)
             context['chat_messages'] = chat_room[0].messages.all()
 
-        context['all_chats'] = ChatRoom.objects.exclude(messages__isnull=True).order_by('-state')
+        context['all_chats'] = ChatRoom.objects.exclude(messages__isnull=True)
 
         return context
+
+    def post(self, request: ASGIRequest, *args, **kwargs):
+        data: dict = json.loads(request.body)
+
+        if data.get('change_state'):
+            user_id = self.request.GET.get('user-id')
+            chat_room = ChatRoom.objects.get(slug=user_id)
+            chat_room.state = data['change_state']
+            chat_room.save()
+            return JsonResponse({"status": "status changed successfully"})
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super(AdminSupportChatView, self).render_to_response(context, **response_kwargs)
+        if not self.request.user.is_superuser:
+            return redirect('support:chat')
+
+        return response

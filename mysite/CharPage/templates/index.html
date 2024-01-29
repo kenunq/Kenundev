@@ -655,11 +655,11 @@ vertical-align: sub
 <div class="enter_talent">
     <p>Выберите таланты</p>
     <div class="talent_list">
-        <div class="talent_obj">
-            <img src="{% static 'img/classes/druid.jpg' %}">
-            <img src="{% static 'img/Talents/trees/druid_1.jpg' %}">
-            <p>Название талантов</p>
+        <a href="{% url 'talants' %}">
+        <div class="talent_obj" style="height: 40px;">
+            <p style="font-weight: 400; margin-top: 10px;">Создать таланты</p>
         </div>
+            </a>
         {% for talent in talents_all %}
         <div class="talent_obj" talent_id="{{ talent.id }}" onclick="send_data_talent(event)">
             <img src="{{ talent.talent_class }}">

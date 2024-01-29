@@ -365,8 +365,10 @@ function sendNotification(type, text) {
 
         ChatSocket.onmessage = function(e) {
         if (window.location.pathname != '/support/chat/'){
-            sendNotification('info', 'Тех. поддержка отправила вам сообщение.')
-            play_notification()
+            if(JSON.parse(e.data).type == 'chat_message') {
+                sendNotification('info', 'Тех. поддержка отправила вам сообщение.')
+                play_notification()
+            }
         }
     }
   </script>
@@ -384,8 +386,10 @@ function sendNotification(type, text) {
 
         ChatSocketAdmin.onmessage = function(e) {
         if (window.location.pathname != '/support/admin-chat/'){
-            sendNotification('info', `${JSON.parse(e.data).username} отправил вам сообщение.`)
-            play_notification()
+            if(JSON.parse(e.data).type == 'chat_message') {
+                sendNotification('info', `${JSON.parse(e.data).username} отправил вам сообщение.`)
+                play_notification()
+            }
         }
     }
   </script>

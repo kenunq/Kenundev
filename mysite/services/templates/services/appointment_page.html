@@ -229,7 +229,7 @@
     }
 
     $(document).ajaxSuccess(function(event, request, settings) {
-        if (request.responseJSON['status'] == 'data was successfully saved') {
+        if (request.responseJSON['status'] == 'message sent successfully') {
            window.location.replace(document.URL+ "success");
         }
     });

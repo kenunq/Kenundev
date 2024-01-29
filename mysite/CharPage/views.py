@@ -480,4 +480,3 @@ class CharListPageView(TitleMixin, TemplateView):
                 return JsonResponse({"status": "The character has been successfully deleted"})
             else:
                 return JsonResponse({"status": "access error"})
-
