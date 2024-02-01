@@ -43,6 +43,7 @@ class SupportChatView(TitleMixin, TemplateView):
 
     def render_to_response(self, context, **response_kwargs):
         response = super(SupportChatView, self).render_to_response(context, **response_kwargs)
+
         if self.request.user.is_superuser:
             return redirect('support:admin-chat')
 
@@ -55,7 +56,6 @@ class AdminSupportChatView(TitleMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AdminSupportChatView, self).get_context_data(**kwargs)
-        print(cache.get('online-now-user-ips', [])) # ----------------------------------------------------------
         if self.request.GET.get('user-id'):
             user_id = self.request.GET.get('user-id')
             if len(user_id) < 36:

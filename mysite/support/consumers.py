@@ -122,3 +122,13 @@ class AdminChatConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, code):
         print('DISCONNECT')
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+
+    async def chat_message(self, event):
+        # Обработчик для сообщений типа 'chat_message'
+        await self.send(text_data=json.dumps({
+            'type': event['type'],
+            'message': event['message'],
+            'sended_time': event['sended_time'],
+            'user_id': event['user_id'],
+            'username': event['username']
+        }))
