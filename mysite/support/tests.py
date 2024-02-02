@@ -61,49 +61,6 @@ class Test_SupportPage(TestCase):
         self.assertEquals(ChatRoom.objects.get(slug=self.user1.id).state, '2')
 
 
-# class Test_Consumers(TestCase):
-#     async def connect_and_authenticate(self, communicator, user):
-#         # Соединяемся с WebSocket
-#         connected, subprotocol = await communicator.connect()
-#
-#         # В Django Channels аутентификация уже выполняется автоматически для WebSocket соединений
-#         # Поэтому нет необходимости в явной аутентификации через communicator.scope['user']
-#
-#         return connected, subprotocol
-#
-#     @database_sync_to_async
-#     def create_user(self):
-#         return User.objects.create(username='testuser')
-#
-#
-#     async def test_chat_consumer(self):
-#             # user = User.objects.create_user('user', 'user@yandex.ru', 'user')
-#             # self.client.login(username=user.username, password=user.password)
-#             user1 = await self.create_user()
-#             communicator = WebsocketCommunicator(ChatConsumer.as_asgi(), f'ws/support/chat/{user1.id}/')
-#             communicator.scope['url_route'] = {'kwargs': {'user_id': user1.id}}
-#             connected, subprotocol = await self.connect_and_authenticate(communicator, user1)
-#             self.assertTrue(connected)
-#             await communicator.send_json_to({
-#                 'type': 'message',
-#                 'message': 'test_message',
-#                 'user_id': user1.id
-#             })
-#             response = await communicator.receive_from()
-#             print(response)
-#             await communicator.disconnect()
-#
-#             # communicator = ApplicationCommunicator(ChatConsumer.as_asgi(), {"user_id": f"{self.user1.id}"})
-#             # await communicator.send_input({
-#             #     'type': 'message',
-#             #     'message': 'test_message',
-#             #     'user_id': self.user1.id
-#             # })
-#             # event = await communicator.receive_output()
-#             # print(event)
-#             # assert event["type"] == "chat_message"
-#             # print(communicator)
-
 class ChatConsumerTest(ChannelsLiveServerTestCase):
     async def connect_and_authenticate(self, communicator):
         # Соединяемся с WebSocket

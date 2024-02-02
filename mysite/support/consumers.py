@@ -11,7 +11,6 @@ from support.models import Message, ChatRoom
 class ChatConsumer(AsyncWebsocketConsumer):
     connected_users = {}
     async def connect(self):
-        print('CONNECT')
         self.room_name = self.scope['url_route']['kwargs']['user_id']
         self.room_group_name = f'chat_{self.room_name}'
         self.user_id = self.scope['user'].id if self.scope['user'].username else self.room_name
@@ -21,7 +20,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, code):
-        print('DISCONNECT')
         self.connected_users.get(self.room_name, set()).discard(str(self.user_id))
         await self.send_user_list()
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
@@ -111,7 +109,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 class AdminChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        print('CONNECT')
         self.room_name = 'admin'
         self.room_group_name = f'chat_{self.room_name}'
 
@@ -120,7 +117,6 @@ class AdminChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, code):
-        print('DISCONNECT')
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     async def chat_message(self, event):

@@ -1849,7 +1849,7 @@ a:-webkit-any-link {
 /* addon-page......................................................................................................*/
 
 
-.addon_page_discription{
+.addon_page_main p {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
@@ -1857,7 +1857,7 @@ a:-webkit-any-link {
     line-height: 19px;
     color: #fff;
 
-    width: 400px;
+    width: 380px;
     margin-right: 60px;
     margin-top: 30px;
 }
@@ -1865,7 +1865,7 @@ a:-webkit-any-link {
 
 .slider-main{
     position: relative;
-    width: min-content;
+    width: 404px;
     height: min-content;
     margin-right: 136px;
     padding: 14px 14px 14px 14px;
@@ -1943,7 +1943,7 @@ a:-webkit-any-link {
 }
 
 .addon_page_name p{
-        font-family: 'Inter';
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 32px;
@@ -1954,7 +1954,6 @@ a:-webkit-any-link {
 
 .addon_page_price{
     margin-bottom: 32px;
-
 
     font-family: 'Inter';
     font-style: normal;
@@ -1997,10 +1996,11 @@ a:-webkit-any-link {
 }
 
 .addon-page-buy-btn p{
-
+    margin: 0;
+    width: 100%;
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     font-size: 16px;
     line-height: 19px;
     color: #fff

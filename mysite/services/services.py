@@ -16,7 +16,7 @@ def get_text_messages(message):
         bot.send_message(message.from_user.id, "Я тебя не понимаю. Напиши /help.")
 
 
-def send_message_zapis(telegram_id, data):
+def send_message_zapis(telegram_id: int, data: dict[str, str]):
     comment = data.get('comment', '')
     bot.send_message(telegram_id, f"Тип: {data['type']} \n"
                                   f"Сервер: {data['server']} \n"

@@ -1,7 +1,6 @@
 import json
 
 from common.mixin.views import TitleMixin
-# from .services import send_message_zapis
 from .tasks import send_telegram_message
 
 from django.core.handlers.asgi import ASGIRequest
@@ -18,12 +17,14 @@ from services.models import TypeModel, ServerModel, FractionModel, ClassModel, M
 # Create your views here.
 
 class ServicesView(TitleMixin, TemplateView):
+    """Представление обрабатывающее страницу записи на услуги."""
+
     template_name = "services/appointment_page.html"
     title = 'Заказать услугу'
 
     def get_context_data(self, **kwargs):
         context = super(ServicesView, self).get_context_data(**kwargs)
-        # TODO Избавиться от того что написано ниже
+
         context['types'] = TypeModel.objects.all()
 
         context['servers'] = ServerModel.objects.all()
@@ -44,8 +45,10 @@ class ServicesView(TitleMixin, TemplateView):
             creator = self.request.user
         else:
             creator = None
+
         comment = data.get('comment', '')
         telegram_id = MentorModel.objects.get(name=data['mentor']).telegram_id
+
         bids = ServicesModel.objects.create(
             type=data['type'],
             server=data['server'],
@@ -70,6 +73,8 @@ class ServicesView(TitleMixin, TemplateView):
 
 
 class SuccessAddView(TitleMixin, TemplateView):
+    """Представление обрабатывающее страницу успешного записи на услугу."""
+
     template_name = "services/success_add.html"
     title = "Успех!"
 
@@ -83,8 +88,10 @@ class SuccessAddView(TitleMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(SuccessAddView, self).get_context_data(**kwargs)
+
         if self.request.session.get('mentor'):
             context['mentor'] = self.request.session['mentor']
             del self.request.session['mentor']
+
         return context
 

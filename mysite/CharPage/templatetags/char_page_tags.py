@@ -1,37 +1,12 @@
-from re import findall
-
 from django import template
 from django.utils.html import format_html
 from django.utils.safestring import SafeString
 
-from CharPage.models import CharModel
 
 register = template.Library()
 
 
-@register.filter
-def get_race_img_by_dress_room_url(url: str) -> str:
-    """Принимает url dressing room комнаты и пытается получить из БД расу привязаную к этой
-    комнате если получается, то возвращает url иконки расы, иначе возвращает дефолтную иконку."""
-
-    room_id = findall(r"/char/([A-Za-z0-9\-]+)", url)
-    if not room_id:
-        return "/static/images/other/close.png"
-
-    dressing_room = CharModel.objects.filter(room_id=room_id[0])
-    if (
-        not dressing_room
-        or dressing_room[0].race in dressing_room.model.RACES_WITHOUT_ICON
-    ):
-        return "/static/images/other/close.png"
-
-    race = dressing_room.model.RACES.get(dressing_room[0].race).lower()
-    gender = dressing_room.model.GENDERS.get(dressing_room[0].gender).lower()
-
-    return f"{dressing_room.model.DEFAULT_ICON_URL}race_{race}_{gender}.jpg"
-
-
-RACES = {
+RACES: dict[int, list[str]] = {
     1: ["Человек", "race_human"],
     2: ["Орк", "race_orc"],
     3: ["Дворф", "race_dwarf"],
@@ -45,7 +20,7 @@ RACES = {
     11: ["Дреней", "race_draenei"],
 }
 
-PROFFESIONS = {
+PROFFESIONS: dict[int, list[str]] = {
     0: ["Ювелирное дело", "Jewelcrafting"],
     1: ["Ювелирное дело", "Jewelcrafting"],
     2: ["Инженерное дело", "Engineering"],
@@ -63,21 +38,24 @@ PROFFESIONS = {
 
 @register.simple_tag
 def get_race_name_rus(race: int) -> str:
+    """Возвращает название расы"""
     return RACES[race][0]
 
 
 @register.simple_tag
-def get_prof_html(prof: str) -> SafeString:
+def get_prof_html(prof: list[int]) -> SafeString:
+    """Возвращает html объект содержащий иконку профессии"""
     prof_list = eval(prof)
     result = ""
 
     for i in range(2):
         if prof_list[i] == 0:
-            result += f'''
+            result += f"""
                     <img src="static/img/Professions/medium/{PROFFESIONS[prof_list[i]][1]}.jpg" height="36" width="36" style='opacity: 0;'>
-                    '''
+                    """
             continue
-        result += f'''
+        result += f"""
         <img src="static/img/Professions/medium/{PROFFESIONS[prof_list[i]][1]}.jpg" height="36" width="36">
-        '''
+        """
     return format_html(result)
+

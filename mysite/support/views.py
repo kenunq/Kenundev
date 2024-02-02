@@ -1,6 +1,5 @@
 import json
 
-from django.core.cache import cache
 from django.core.handlers.asgi import ASGIRequest
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -15,6 +14,8 @@ from user.models import User
 
 
 class SupportChatView(TitleMixin, TemplateView):
+    """Представление обрабатывающее страницу чата с технической поддержкой."""
+
     template_name = 'support/chat.html'
     title = 'Техническая поддержка'
 
@@ -51,11 +52,14 @@ class SupportChatView(TitleMixin, TemplateView):
 
 
 class AdminSupportChatView(TitleMixin, TemplateView):
+    """Представление обрабатывающее страницу чата технической поддержки с пользователями."""
+
     template_name = 'support/chat_admin.html'
     title = 'Техническая поддержка'
 
     def get_context_data(self, **kwargs):
         context = super(AdminSupportChatView, self).get_context_data(**kwargs)
+
         if self.request.GET.get('user-id'):
             user_id = self.request.GET.get('user-id')
             if len(user_id) < 36:
@@ -83,6 +87,7 @@ class AdminSupportChatView(TitleMixin, TemplateView):
 
     def render_to_response(self, context, **response_kwargs):
         response = super(AdminSupportChatView, self).render_to_response(context, **response_kwargs)
+
         if not self.request.user.is_superuser:
             return redirect('support:chat')
 

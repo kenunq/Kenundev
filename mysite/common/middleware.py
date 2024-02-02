@@ -36,7 +36,7 @@ class count_users_online(MiddlewareMixin):
         if current_user_ip not in online_now_user_ips:
             online_now_user_ips.append(current_user_ip)
 
-        # ---------------------------------------------------------------------------------------------------
+        # ------------------------------------------------------------------------------------------------------
         #                                   онлайн статус у пользователей
 
         if request.user.is_authenticated and request.session.session_key:

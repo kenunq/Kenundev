@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.db.models import TextField
+from tinymce.widgets import TinyMCE
 
 from addons.models import AddonCategory, Addon, AddonImage, Compatible_Versions
 
@@ -23,3 +25,13 @@ class ImageInline(admin.TabularInline):
 class AddonAdmin(admin.ModelAdmin):
     list_display = ('name', 'price')
     inlines = [ImageInline, ]
+
+    formfield_overrides = {
+        TextField: {
+            'widget': TinyMCE(
+                attrs={'cols': 80, 'rows': 30},
+                # https://www.tiny.cloud/docs/general-configuration-guide/
+                mce_attrs={'skin': 'oxide-dark', 'content_css': 'dark', 'readonly': False}
+            )
+        },
+    }

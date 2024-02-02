@@ -24,13 +24,6 @@ class CharModelAdmin(admin.ModelAdmin):
               'gender', 'char_class', 'proffesions', 'talents', 'last_update_time', 'items', 'face')
 
     def get_short_room_id(self, obj: CharModel) -> str:
-        # print(getattr(self, 'GENDERS')) # self.__class__.__getattribute__(self, 'GENDERS')
-        # print(vars(obj)) # obj.__dict__
-        # print(vars(obj._meta))
-        # print(obj.__doc__)
-        # self.__class__.get_short_room_id.__setattr__('short_description', obj._meta.get_field('room_id').verbose_name)
-        # setattr(self.__class__.get_short_room_id, 'short_description', obj._meta.get_field('room_id').verbose_name)
-
         setattr(type(self).get_short_room_id, 'short_description',
                 obj._meta.get_field('room_id').verbose_name)
         length = len(obj.room_id)

@@ -11,16 +11,17 @@ import logging
 
 from common.mixin.views import TitleMixin
 
-logger = logging.getLogger(__name__)
-
 
 class HomePageView(TitleMixin, TemplateView):
+    """Представление обрабатывающее главную страницу."""
+
     template_name = "HomePage/HomePage.html"
     title = 'Главная страница'
 
     def get(self, request, *args, **kwargs):
         resp = super().get(request, *args, **kwargs)
         id_class = request.GET.get("class")
+
         if request.GET.get("data") == "talents":
             return HttpResponse(
                 open(
@@ -40,11 +41,13 @@ class HomePageView(TitleMixin, TemplateView):
                 ),
                 content_type="application/x-javascript; charset=utf-8",
             )
+
         return resp
 
     def post(self, request: ASGIRequest, *args, **kwargs):
         if self.request.user.is_anonymous:
             return JsonResponse({"status": "access error"})
+
         if request.FILES:
             # Заполняем словарь нужными данными, так как селери не принимает файлы
             files = {}

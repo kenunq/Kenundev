@@ -29,6 +29,7 @@ from user.utils import RedirectAuthUser
 
 
 class RegistrationView(TitleMixin, RedirectAuthUser, SuccessMessageMixin, CreateView):
+    """Представление обрабатывающее страницу регистрации пользователя."""
     model = User
     form_class = UserRegistrationForm
     template_name = "registration.html"
@@ -37,17 +38,15 @@ class RegistrationView(TitleMixin, RedirectAuthUser, SuccessMessageMixin, Create
     redirect_auth_user_url = 'user:profile'
     title = 'Регистрация'
 
-    def form_invalid(self, form: UserRegistrationForm):
-        print(form.errors)
-        return self.render_to_response(self.get_context_data(form=form))
-
 
 class TermsOfUseView(TitleMixin, TemplateView):
+    """Представление обрабатывающее страницу с политикой конфиденциальности."""
     template_name = 'terms_of_use.html'
     title = 'Политика конфиденциальности'
 
 
 class UserLoginView(TitleMixin, RedirectAuthUser, LoginView):
+    """Представление обрабатывающее страницу входа в аккаунт."""
     template_name = "login.html"
     form_class = UserLoginForm
     redirect_auth_user_url = 'user:profile'
@@ -65,6 +64,7 @@ class UserLoginView(TitleMixin, RedirectAuthUser, LoginView):
 
 
 class UserLogoutView(LoginRequiredMixin, LogoutView):
+    """Представление обрабатывающее выход пользователя из аккаунта."""
     permission_denied_message = 'Вы не авторизованы.'
     raise_exception = True
 
@@ -79,6 +79,7 @@ class UserLogoutView(LoginRequiredMixin, LogoutView):
 
 
 class UserResetPasswordView(TitleMixin, RedirectAuthUser, PasswordResetView):
+    """Представление обрабатывающее страницу сброса пароля."""
     template_name = "reset_password.html"
     form_class = PasswordResetCustomForm
     email_template_name = 'emails/password_reset_email.html'
@@ -100,6 +101,7 @@ class UserResetPasswordView(TitleMixin, RedirectAuthUser, PasswordResetView):
 
 
 class UserResetPasswordView2(RedirectAuthUser, TemplateView):
+    """Представление обрабатывающее страницу успешной отправки ссылки на почту для сброса пароля"""
     template_name = 'reset_password_sended.html'
     redirect_auth_user_url = 'user:profile'
 
@@ -140,6 +142,7 @@ class PasswordResetCompleteCustomView(TitleMixin, RedirectAuthUser, PasswordRese
 
 
 class ProfileView(TitleMixin, LoginRequiredMixin, TemplateView):
+    """Представление обрабатывающее страницу профиля пользователя."""
     template_name = "profile.html"
     login_url = reverse_lazy('user:login')
     title = 'Личный кабинет'
@@ -219,10 +222,12 @@ class UserConfirmEmailView(View):
 
 
 class EmailConfirmedView(TitleMixin, TemplateView):
+    """Представление обрабатывающее страницу успешной смены почтового ящика"""
     template_name = 'email_confirmed.html'
     title = 'Успех!'
 
 
 class EmailConfirmationFailedView(TitleMixin, TemplateView):
+    """Представление обрабатывающее страницу не успешного сброса почтового ящика"""
     template_name = 'email_confirmed_failed.html'
     title = 'Упс!!'

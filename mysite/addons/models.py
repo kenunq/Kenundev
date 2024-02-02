@@ -23,8 +23,7 @@ class Compatible_Versions(models.Model):
 
 class Addon(models.Model):
     name = models.CharField(max_length=256, verbose_name='Название аддона')
-    description = models.TextField(verbose_name='Краткое описание аддона')
-    #возможно сделать хтмл разметку
+    description = models.CharField(verbose_name='Краткое описание аддона')
     full_description = models.TextField(verbose_name='Полное описание аддона')
     category = models.ManyToManyField(AddonCategory, related_name='a_category', verbose_name='Категория')
 

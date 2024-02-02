@@ -1,11 +1,8 @@
-import mimetypes
-
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 
 
-def send_problem(files, text):
-
+def send_problem(files: dict[str, list[bytes, str]], text: str):
     message = EmailMultiAlternatives(
         subject="Пользователь нашел проблему на сайте",
         body=text,

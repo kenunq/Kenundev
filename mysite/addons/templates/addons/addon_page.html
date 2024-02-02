@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="addon_page_main">
-    <p class="addon_page_discription">{{ addon.full_description }}</p>
+    {{ addon.full_description|safe }}
 <div class="slider-main">
     <div class="slider-container">
         <div class="slider">
@@ -23,19 +23,17 @@
             <p>{{ addon.name }}</p>
         </div>
 
-        <p class="addon_page_price">{{ addon.price }}р.</p>
+        <p class="addon_page_price" style="font-size: 24px;">{{ addon.price }}р.</p>
 
         <p class="addon_page_author">Автор: {{ addon.author }}</p>
 
         <p class="addon_page_sovm">Совместимость: 3.3.5, 3.4.0</p>
 
         <a href="@">
-                    <div class="addon-page-buy-btn">
-
-                        <p>Купить</p>
-
-                    </div>
-                </a>
+            <div class="addon-page-buy-btn">
+                <p>Купить</p>
+            </div>
+        </a>
 
 
 

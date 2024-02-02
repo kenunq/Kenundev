@@ -26,29 +26,6 @@ from common.mixin.views import TitleMixin
 from talants.models import TalentsModel
 from user.models import User
 
-
-class CharPageView(TemplateView):
-    template_name = "index.html"
-
-
-# class ZamimgProxyView(View):
-#
-#     def get(self, request, *args, **kwargs):
-#         """Проксирует запрос к zamimg API через этот сервер,
-#         т.к. zamimg сервер не установил Cross-Origin Resource Sharing заголовки,
-#         для возможности отправки запроса со стороны клиента используя JavaScript.
-#         https://developer.mozilla.org/ru/docs/Web/HTTP/CORS"""
-#
-#         headers_get = {
-#             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
-#                 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36'
-#         }
-#         url = 'https://wow.zamimg.com/modelviewer/' + kwargs.get('modelviewer_path')
-#
-#         response = requests.get(url, headers=headers_get, timeout=5)
-#
-#         return HttpResponse(response.content)
-
 RACES = {
     1: ["Человек", "race_human"],
     2: ["Орк", "race_orc"],
@@ -94,10 +71,6 @@ class ZamimgProxyView(View):
             file_name = modelviewer_path.rsplit("/", 1)[-1]
             modelviewer_path = f"live/meta/armor/5/{file_name}"
 
-        # Костыль для работы "Шадоуморна" на лайв патче..
-        elif modelviewer_path == "live/meta/item/65153.json":
-            modelviewer_path = "wrath/meta/item/65153.json"
-
         STATIC_ROOT = settings.BASE_DIR / "static"
         full_path = f"{STATIC_ROOT}/CharPage/json/modelviewer/{modelviewer_path}"
 
@@ -106,8 +79,8 @@ class ZamimgProxyView(View):
                 "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                 "(KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
             }
+
             zamimg_url = f"https://wow.zamimg.com/modelviewer/{modelviewer_path}"
-            # zamimg_url = f"https://frishub.ru/api/modelviewer/{modelviewer_path}"
 
             response = requests.get(zamimg_url, headers=headers_get, timeout=5)
 
@@ -135,7 +108,7 @@ class UniqueCharPageView(TitleMixin, TemplateView):
     """#### Представление обрабатывающее примерочную страницу."""
 
     template_name = "index.html"
-    title = 'Персонаж'
+    title = "Персонаж"
     time_delta = timedelta(days=365)
 
     def _time_checking(self):
@@ -227,12 +200,11 @@ class UniqueCharPageView(TitleMixin, TemplateView):
         my_saved_rooms = []
         self.timezone_now = timezone.now()
 
-        # self.room_id = str(self.request.resolver_match.kwargs.get('room_id')) # <class 'uuid.UUID'>
         self.room_id = str(kwargs.get("room_id"))  # <class 'uuid.UUID'>
         self.dressing_room = CharModel.objects.filter(room_id=self.room_id)
 
         # Получаем все комнаты (если они существуют)
-        # которые привязаны к текущему Cookie либо пользователю
+        # которые привязаны к текущему пользователю
         if not self.request.user.is_anonymous:
             my_saved_rooms, dressing_rooms = self._get_my_saved_rooms(self.request.user)
 
@@ -244,41 +216,40 @@ class UniqueCharPageView(TitleMixin, TemplateView):
             else:
                 self.is_room_creator = self.creator_id == self.request.user
 
-            current_room = CharModel.objects.filter(room_id=self.room_id)
-            context["creating"] = getattr(current_room[0], "creating")
-            context["class"] = getattr(current_room[0], "char_class").lower()
-            context["race"] = RACES[getattr(current_room[0], "race")][0]
+            context["creating"] = getattr(self.dressing_room[0], "creating")
+            context["class"] = getattr(self.dressing_room[0], "char_class").lower()
+            context["race"] = RACES[getattr(self.dressing_room[0], "race")][0]
             context["is_creator"] = self.is_room_creator
             context[
                 "race_image"
-            ] = f"../static/img/rass/{GENDERS[getattr(current_room[0], 'gender')]}/{RACES[getattr(current_room[0], 'race')][1]}.jpg"
-            context["name"] = getattr(current_room[0], "char_name")
-            if eval(getattr(current_room[0], "proffesions"))[0] == 0:
-                if eval(getattr(current_room[0], "proffesions"))[1] == 0:
+            ] = f"../static/img/rass/{GENDERS[getattr(self.dressing_room[0], 'gender')]}/{RACES[getattr(self.dressing_room[0], 'race')][1]}.jpg"
+            context["name"] = getattr(self.dressing_room[0], "char_name")
+            if eval(getattr(self.dressing_room[0], "proffesions"))[0] == 0:
+                if eval(getattr(self.dressing_room[0], "proffesions"))[1] == 0:
                     pass
                 else:
                     context[
                         "proffesion1_icon"
-                    ] = f"../static/img/Professions/large/{PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[1]][1]}.jpg"
+                    ] = f"../static/img/Professions/large/{PROFFESIONS[eval(getattr(self.dressing_room[0], 'proffesions'))[1]][1]}.jpg"
                     context["proffesion1"] = PROFFESIONS[
-                        eval(getattr(current_room[0], "proffesions"))[1]
+                        eval(getattr(self.dressing_room[0], "proffesions"))[1]
                     ][0]
             else:
                 context[
                     "proffesion1_icon"
-                ] = f"../static/img/Professions/large/{PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[0]][1]}.jpg"
+                ] = f"../static/img/Professions/large/{PROFFESIONS[eval(getattr(self.dressing_room[0], 'proffesions'))[0]][1]}.jpg"
                 context["proffesion1"] = PROFFESIONS[
-                    eval(getattr(current_room[0], "proffesions"))[0]
+                    eval(getattr(self.dressing_room[0], "proffesions"))[0]
                 ][0]
-                if not eval(getattr(current_room[0], "proffesions"))[1] == 0:
+                if not eval(getattr(self.dressing_room[0], "proffesions"))[1] == 0:
                     context[
                         "proffesion2_icon"
-                    ] = f"../static/img/Professions/large/{PROFFESIONS[eval(getattr(current_room[0], 'proffesions'))[1]][1]}.jpg"
+                    ] = f"../static/img/Professions/large/{PROFFESIONS[eval(getattr(self.dressing_room[0], 'proffesions'))[1]][1]}.jpg"
                     context["proffesion2"] = PROFFESIONS[
-                        eval(getattr(current_room[0], "proffesions"))[1]
+                        eval(getattr(self.dressing_room[0], "proffesions"))[1]
                     ][0]
 
-            context["talents"] = current_room[0].talents.all()
+            context["talents"] = self.dressing_room[0].talents.all()
             if not self.request.user.is_anonymous:
                 context["talents_all"] = reversed(
                     TalentsModel.objects.filter(creator=self.request.user)
@@ -286,23 +257,6 @@ class UniqueCharPageView(TitleMixin, TemplateView):
                 context["user_chars"] = reversed(
                     CharModel.objects.filter(creator=self.request.user, creating=True)
                 )
-
-            # # Если пользователь авторизован
-            # if not self.request.user.is_anonymous:
-            #     # Если в этой комнате не записан создатель
-            #     if not self.dressing_room[0].creator:
-            #         # Если creator_id из БД равен creator_id из Cookie
-            #         if self.is_room_creator:
-            #             # Записываем текущего пользователя как создателя этой комнаты
-            #             # т.к. id из его Cookie равен id записанному в БД
-            #             self.dressing_room.update(creator=self.request.user)
-            #     # Иначе если какой-либо пользователь записан в этой комнате
-            #     # сравниваем его с текущим пользователем который послал GET запрос
-            #     # и понимаем является ли он создателем этой комнаты
-            #     else:
-            #         self.is_room_creator = (
-            #             self.dressing_room[0].creator == self.request.user
-            #         )
 
             self._time_checking()
 
@@ -314,10 +268,6 @@ class UniqueCharPageView(TitleMixin, TemplateView):
                 self.dressing_room[0].face,
             )
         else:
-            if len(my_saved_rooms) > 1:
-                self.creator_id = dressing_rooms[0].creator
-            else:
-                self.creator_id = str(uuid4().hex)
             self.is_room_creator = True
 
             default_create_config = {
@@ -329,12 +279,14 @@ class UniqueCharPageView(TitleMixin, TemplateView):
                 "items": "",
                 "face": "0,0,0,0,0",
             }
+
             if not self.request.user.is_anonymous:
                 default_create_config["creator"] = self.request.user
 
             self.dressing_room.create(**default_create_config)
 
             character_data = self.create_character_data()
+
             current_room = CharModel.objects.filter(room_id=self.room_id)
             context["creating"] = getattr(current_room[0], "creating")
 
@@ -368,13 +320,6 @@ class UniqueCharPageView(TitleMixin, TemplateView):
         if not self.dressing_room:
             raise Http404
 
-
-        # Если пользователь авторизован и в этой комнате записан создатель
-        if not request.user.is_anonymous and self.dressing_room[0].creator:
-            # Если создатель этой комнаты равен текущему пользователю
-            if self.dressing_room[0].creator == request.user:
-                creator_id = self.dressing_room[0].creator
-
         data: dict = json.loads(request.body)
         if self.is_room_creator:
             if data.get("talent_id"):
@@ -392,9 +337,11 @@ class UniqueCharPageView(TitleMixin, TemplateView):
                     return JsonResponse(
                         {"status": "data was successfully delete talent"}
                     )
+
             self.dressing_room.update(**data)
 
             return JsonResponse({"status": "data was successfully saved"})
+
         elif creator_id is None:
             self.dressing_room.update(**data)
 
@@ -404,8 +351,10 @@ class UniqueCharPageView(TitleMixin, TemplateView):
 
 
 class CreateCharView(TitleMixin, TemplateView):
+    """Представление обрабатывающее страницу создания персонажа."""
+
     template_name = "create_char.html"
-    title = 'Создание персонажа'
+    title = "Создание персонажа"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -417,13 +366,20 @@ class CreateCharView(TitleMixin, TemplateView):
         return context
 
     def render_to_response(self, context, **response_kwargs):
-        room_id = str(context['room_id'])
+        room_id = str(context["room_id"])
         dressing_room = CharModel.objects.filter(room_id=room_id)
 
+        # Если персонаж создан перенаправляем на страницу с персонажем
         if context["creating"]:
             return redirect("char_page_room", self.room_id)
-        elif dressing_room[0].creator != self.request.user and dressing_room[0].creator != None:
+
+        # Иначе если создатель существует и не равен текущему пользователю - запрещаем доступ к странице
+        elif (
+            dressing_room[0].creator != self.request.user
+            and dressing_room[0].creator != None
+        ):
             raise PermissionDenied()
+
         return super(CreateCharView, self).render_to_response(
             context, **response_kwargs
         )
@@ -445,8 +401,10 @@ class CreateCharView(TitleMixin, TemplateView):
 
 
 class CharListPageView(TitleMixin, TemplateView):
+    """Представление обрабатывающее страницу с персонажами пользователя"""
+
     template_name = "char_list_page.html"
-    title = 'Мои персонажи'
+    title = "Мои персонажи"
 
     def get_context_data(self, **kwargs):
         context = super(CharListPageView, self).get_context_data(**kwargs)
@@ -476,7 +434,10 @@ class CharListPageView(TitleMixin, TemplateView):
             # Если пользователь является создателем персонажа
             if self.request.user == obj_char.creator:
                 obj_char.delete()
-                messages.success(self.request, 'Персонаж успешно удален.')
-                return JsonResponse({"status": "The character has been successfully deleted"})
+                messages.success(self.request, "Персонаж успешно удален.")
+                return JsonResponse(
+                    {"status": "The character has been successfully deleted"}
+                )
             else:
                 return JsonResponse({"status": "access error"})
+

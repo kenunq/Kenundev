@@ -519,7 +519,7 @@ vertical-align: sub
                     </div>
                     {% endif %}
 
-                    {% if talents|length > 0 or is_creator %}
+                    {% if talents|length > 0 or is_creator and user.is_authenticated%}
                     <div class="block-talents">
 
                         <div class="border-talents">
@@ -592,12 +592,12 @@ vertical-align: sub
 
                             </div>
                                     {% endfor %}
-                                    {% if is_creator %}
+                                    {% if is_creator and user.is_authenticated %}
                                     <div class="talent" onclick="add_talent_open()" style="cursor: pointer;">
 
                                 <div class="talent-image">
 
-                                    <img src="{% static 'img/Talents/Stealth.png' %}">
+                                    <img src="{% static 'img/Talents/trees/hunter_2.jpg' %}">
 
                                 </div>
 
@@ -617,12 +617,12 @@ vertical-align: sub
                                     {% endif %}
                                 {% endif %}
                             {% else %}
-                                {% if is_creator %}
+                                {% if is_creator and user.is_authenticated %}
                                     <div class="talent" onclick="add_talent_open()" style="cursor: pointer;">
 
                                 <div class="talent-image" onclick="add_talent_open()">
 
-                                    <img src="{% static 'img/Talents/Stealth.png' %}">
+                                    <img src="{% static 'img/Talents/trees/hunter_2.jpg' %}">
 
                                 </div>
 

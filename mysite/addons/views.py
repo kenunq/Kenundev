@@ -11,6 +11,7 @@ from common.mixin.views import TitleMixin
 
 
 class AddonsView(TitleMixin, ListView):
+    """Представление обрабатывающее страницу товаров с аддонами."""
     model = Addon
     template_name = 'addons/addons_shop.html'
     title = "Магазин аддонов"
@@ -27,7 +28,7 @@ class AddonsView(TitleMixin, ListView):
 
         if filter:
             list_filter = {'price': 'price', '-price': '-price', "popular": "name"}
-            print(1111)
+
             return queryset.filter(category__id=category_id, is_published=True).order_by(
                     list_filter.get(filter, "")) if category_id else queryset.filter(is_published=True).order_by(
                     list_filter.get(filter, ""))
@@ -36,18 +37,8 @@ class AddonsView(TitleMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(AddonsView, self).get_context_data()
+
         categories = cache.get('categories')
-
-        # filter = self.request.GET.get('filter')
-
-        # list_filter = {'price': 'price', '-price': '-price', "popular": "name"}
-        # if filter:
-        #
-        #     if self.kwargs.get('category_id'):
-        #         context["object_list"] = Addon.objects.filter(category__id=self.kwargs.get('category_id')).order_by(
-        #             list_filter.get(filter, ""))
-        #     else:
-        #         context["object_list"] = Addon.objects.order_by(list_filter.get(filter, ""))
 
         if not categories:
             #возвращаем только те категории, которые используются
@@ -59,12 +50,11 @@ class AddonsView(TitleMixin, ListView):
 
 
 class AddonPageView(TemplateView):
+    """Представление обрабатывающее страницу товара(аддона)."""
     template_name = 'addons/addon_page.html'
 
     def get_context_data(self, **kwargs):
         context = super(AddonPageView, self).get_context_data()
         context['addon'] = Addon.objects.filter(slug=kwargs['addon_slug'])[0]
         context['title'] = context['addon'].name
-        # context['images'] = AddonImage.objects.filter(addon__slug=kwargs['addon_slug'])
-        print(context)
         return context

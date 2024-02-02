@@ -23,8 +23,9 @@ constantly==23.10.4
 coverage==7.4.0
 cryptography==41.0.7
 daphne==4.0.0
-Django==5.0.1
+Django==4.2.1
 django-recaptcha==4.0.0
+django-tinymce==3.6.1
 dm-tree==0.1.8
 flake8==6.1.0
 flake8-bugbear==23.12.2
