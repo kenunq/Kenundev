@@ -2247,3 +2247,42 @@ a:-webkit-any-link {
     line-height: normal;
     margin: 10px auto;
 }
+
+.accept_cookie_block{
+    display: none;
+    position: fixed;
+    top: 80%;
+    left: 36.6%;
+
+    width: 550px;
+    height: 100px;
+    backdrop-filter: blur(10px);
+    padding: 10px;
+
+    background: rgba(88, 84, 84, 0.18);
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    z-index: 101;
+
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.accept_cookie_btn {
+    border-radius: 8px;
+    background: #0057FF;
+
+    width: min-content;
+    text-align: center;
+    margin: 10px auto;
+    padding-left: 40px;
+    padding-right: 40px;
+
+    cursor: pointer;
+}
