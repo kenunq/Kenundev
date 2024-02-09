@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'email-confirmed.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="confirmed_email">
+    <p>Благодарим за покупку!</p><br/><p style="font-weight: 400;">Купленный аддон можно скачать на странице <a href="{% url 'user:profile' %}" style="color: #007bff;">Личного кабинета</a>!</p>
+</div>
+{% endblock %}

@@ -1,5 +1,8 @@
 from django.db import models
 
+from user.models import User
+
+
 # Create your models here.
 
 
@@ -47,3 +50,11 @@ class AddonImage(models.Model):
     addon = models.ForeignKey(Addon, on_delete=models.CASCADE, related_name='images')
 
 
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Покупатель')
+    addon = models.ForeignKey(Addon, on_delete=models.CASCADE, verbose_name='Аддон')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания заказа')
+    status = models.BooleanField(default=False, verbose_name='Заказ оплачен?')
+
+    def __str__(self):
+        return f'Заказ {self.id}'

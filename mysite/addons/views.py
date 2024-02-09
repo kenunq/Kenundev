@@ -1,9 +1,13 @@
+import hashlib
+
+from django.conf import settings
 from django.db.models import Count
+from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.core.cache import cache
 
-from addons.models import Addon, AddonCategory
+from addons.models import Addon, AddonCategory, Order
 from common.mixin.views import TitleMixin
 
 
@@ -38,6 +42,11 @@ class AddonsView(TitleMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(AddonsView, self).get_context_data()
 
+        user = self.request.user
+
+        if user.is_authenticated:
+            context['paid_addons'] = Addon.objects.filter(order__user=user, order__status=True)
+
         categories = cache.get('categories')
 
         if not categories:
@@ -52,9 +61,54 @@ class AddonsView(TitleMixin, ListView):
 class AddonPageView(TemplateView):
     """Представление обрабатывающее страницу товара(аддона)."""
     template_name = 'addons/addon_page.html'
-
     def get_context_data(self, **kwargs):
         context = super(AddonPageView, self).get_context_data()
+
         context['addon'] = Addon.objects.filter(slug=kwargs['addon_slug'])[0]
+
+        user = self.request.user
+        if user.is_authenticated:
+            context['paid'] = Order.objects.filter(user=user, addon=context['addon'], status=True).exists()
+
         context['title'] = context['addon'].name
+
+        if self.request.user.is_authenticated:
+            currency = 'RUB'
+            order = Order.objects.create(user=self.request.user, addon=context['addon'])
+            sign = hashlib.md5(
+                f'{settings.MERCHANT_ID}:{context["addon"].price}:{settings.SECRET_WORD}:{currency}:{order.id}'.encode(
+                    'utf-8')).hexdigest()
+            context[
+                'payment_url'] = f'https://pay.kassa.shop/?m={settings.MERCHANT_ID}&oa={context["addon"].price}&s={sign}&currency={currency}&o={order.id}'
+
         return context
+
+def payment_alerts(request):
+
+    if request.GET.get('MERCHANT_ID') == settings.MERCHANT_ID:
+
+        order = Order.objects.get(id=request.GET.get('MERCHANT_ORDER_ID'))
+
+        amount = request.GET.get('AMOUNT')
+
+
+        if order.addon.price == int(amount):
+
+            order.status = True
+
+            order.save()
+
+
+        return HttpResponse('YES')
+
+    else:
+
+        return HttpResponse('NO')
+
+class PaymentSuccess(TitleMixin, TemplateView):
+    template_name = 'addons/payment_success.html'
+    title = 'Успех!'
+
+class PaymentFailed(TitleMixin, TemplateView):
+    template_name = 'addons/payment_failed.html'
+    title = 'Неудача!'

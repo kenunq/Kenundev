@@ -85,13 +85,43 @@
                 <p class="addon_name">{{ product.name }}</p>
                 <p class="addon_description">{{ product.description }}</p>
                 <p class="addon_price">{{ product.price }}р.</p>
-                <a href="{{ request.path }}{{ product.slug }}">
+                    {% if user.is_authenticated %}
+                        {% if product in paid_addons %}
+                            <div class="addon_paid">
+                                <a href="{% url 'user:profile' %}">
+                                    <div class="user_profile">
+                                        <img src="{% static 'img/other/user_icon.png' %}">
+                                    </div>
+                                </a>
+                                <a href="{{ request.path }}{{ product.slug }}">
+
+                                    <div class="more_details_addon">
+
+                                        <p>Подробнее</p>
+
+                                    </div>
+                                </a>
+                            </div>
+                        {% else %}
+                            <a href="{{ request.path }}{{ product.slug }}">
+
                     <div class="buy-btn">
 
                         <p>Купить</p>
 
                     </div>
                 </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ request.path }}{{ product.slug }}">
+
+                    <div class="buy-btn">
+
+                        <p>Купить</p>
+
+                    </div>
+                </a>
+                    {% endif %}
             </div>
             {% endfor %}
 

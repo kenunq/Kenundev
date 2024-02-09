@@ -15,9 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.template.defaulttags import url
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve
 
 from HomePage.views import *
 from user.views import *
@@ -38,7 +40,21 @@ urlpatterns = [
     path('char/<uuid:room_id>/', UniqueCharPageView.as_view(), name='char_page_room'),
     path('talents/', TalantsView.as_view(), name='talants'),
     path('api/modelviewer/<path:modelviewer_path>/', ZamimgProxyView.as_view(), name='zamimg_proxy'),
+    re_path(f"flower/(?P<path>.*)", flower_proxy_view,
+            name='flower'),
 ]
 
-if settings.DEBUG == True:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+else:
+    urlpatterns += [
+       re_path(f'^{settings.MEDIA_URL.lstrip("/")}(?P<path>.*)$',
+            serve, {'document_root': settings.MEDIA_ROOT}),
+        re_path(f'^{settings.STATIC_URL.lstrip("/")}(?P<path>.*)$',
+            serve, {'document_root': settings.STATIC_ROOT}),
+    ]
+
+handler400 = 'HomePage.views.bad_request'
+handler403 = 'HomePage.views.permission_denied'
+handler404 = 'HomePage.views.page_not_found'
+handler500 = 'HomePage.views.server_error'

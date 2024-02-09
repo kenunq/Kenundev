@@ -56,8 +56,13 @@ class Command(BaseCommand):
         )
 
         flower = subprocess.Popen(
-            shlex.split(f"celery -A {config('PROJECT_NAME')} flower --port=5555 -P gevent"),
+            shlex.split(f"celery -A {config('PROJECT_NAME')} flower --port=5555 --url_prefix={config('CELERY_FLOWER_URL_PREFIX')} -P gevent"),
             stdin=subprocess.PIPE, stderr=subprocess.STDOUT, stdout=subprocess.PIPE
+        )
+
+        beat = subprocess.Popen(
+            shlex.split(f"celery -A {config('PROJECT_NAME')} beat"),
+            stdin=subprocess.PIPE, stderr=subprocess.STDOUT
         )
 
     def reload_celery(self):

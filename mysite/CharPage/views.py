@@ -372,7 +372,6 @@ class CreateCharView(TitleMixin, TemplateView):
         # Если персонаж создан перенаправляем на страницу с персонажем
         if context["creating"]:
             return redirect("char_page_room", self.room_id)
-
         # Иначе если создатель существует и не равен текущему пользователю - запрещаем доступ к странице
         elif (
             dressing_room[0].creator != self.request.user

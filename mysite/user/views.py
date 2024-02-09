@@ -2,7 +2,7 @@ import json
 from datetime import timedelta
 
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash, login
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
@@ -37,6 +37,13 @@ class RegistrationView(TitleMixin, RedirectAuthUser, SuccessMessageMixin, Create
     success_message = "Вы успешно зарегистрировались!"
     redirect_auth_user_url = 'user:profile'
     title = 'Регистрация'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        username = form.cleaned_data.get('username')
+        messages.success(self.request, f'Добро пожаловать {username}.')
+        return redirect('home')
 
 
 class TermsOfUseView(TitleMixin, TemplateView):

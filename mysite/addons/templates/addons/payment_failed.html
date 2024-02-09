@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'email-confirmed.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="confirmed_email">
+    <p>Что-то пошло не так!<br/>За дополнительной информацией обратитесь в <a href="{% url 'support:chat' %}" style="color: #007bff;">Техническую поддержку</a></p>
+</div>
+{% endblock %}

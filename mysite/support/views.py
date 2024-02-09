@@ -19,6 +19,11 @@ class SupportChatView(TitleMixin, TemplateView):
     template_name = 'support/chat.html'
     title = 'Техническая поддержка'
 
+    def get(self, request, *args, **kwargs):
+        if not self.request.COOKIES.get('userID'):
+            return redirect('home')
+        return super(SupportChatView, self).get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(SupportChatView, self).get_context_data(**kwargs)
 

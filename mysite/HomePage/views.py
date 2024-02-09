@@ -1,13 +1,17 @@
 import mimetypes
 import uuid
 
+from decouple import config
 from django.conf import settings
+from django.core.exceptions import BadRequest, PermissionDenied
 from django.core.handlers.asgi import ASGIRequest
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
+from proxy.views import proxy_view
 
 from HomePage.tasks import send_problem_message
-import logging
 
 from common.mixin.views import TitleMixin
 
@@ -78,5 +82,73 @@ class HomePageView(TitleMixin, TemplateView):
                     domain=settings.PARENT_DOMAIN
                 )
 
+        response.set_cookie(
+            key='ctrEnterWidget',
+            value='close',
+            domain=settings.PARENT_DOMAIN
+        )
+
         return response
 
+
+def bad_request(request: ASGIRequest, exception: BadRequest) -> HttpResponse:
+    """Обработка ошибки 400"""
+
+    error_msg = 'Сервер не смог распознать запрос.'
+    if type(exception) is BadRequest and str(exception):
+        error_msg = str(exception)
+
+    return render(request=request, template_name='error/error_page.html', status=400, context={
+        'code': 400,
+        'title': 'Неверный запрос',
+        'error_msg': error_msg
+    })
+
+def permission_denied(request: ASGIRequest, exception: BadRequest) -> HttpResponse:
+    """Обработка ошибки 403"""
+
+    error_msg = 'Доступ к данной странице запрещен.'
+    if type(exception) is BadRequest and str(exception):
+        error_msg = str(exception)
+
+    return render(request=request, template_name='error/error_page.html', status=403, context={
+        'code': 403,
+        'title': 'Доступ запрещен',
+        'error_msg': error_msg
+    })
+
+def page_not_found(request: ASGIRequest, exception: BadRequest) -> HttpResponse:
+    """Обработка ошибки 404"""
+
+    error_msg = 'Страница не существует или была перемещена на другой адрес.'
+    if type(exception) is BadRequest and str(exception):
+        error_msg = str(exception)
+
+    return render(request=request, template_name='error/error_page.html', status=404, context={
+        'code': 404,
+        'title': 'Страница не найдена',
+        'error_msg': error_msg
+    })
+
+def server_error(request: ASGIRequest) -> HttpResponse:
+    """Обработка ошибки 500"""
+
+    error_msg = 'Cервер столкнулся с неожиданной ошибкой, администрация уже работает над этим.'
+
+    return render(request=request, template_name='error/error_page.html', status=500, context={
+        'code': 500,
+        'title': 'Ошибка сервера',
+        'error_msg': error_msg
+    })
+
+@csrf_exempt
+def flower_proxy_view(request: ASGIRequest, path: str) -> HttpResponse:
+    """Представление позволяющее открывать панель flower
+    как обычную страницу django (только для супер пользователя)."""
+
+    if not request.user.is_superuser: raise PermissionDenied
+    return proxy_view(
+        request,
+        f"http://{config('CELERY_FLOWER_ADDRESS')}:{config('CELERY_FLOWER_PORT')}/{config('CELERY_FLOWER_URL_PREFIX')}/{path}",
+        {}
+    )

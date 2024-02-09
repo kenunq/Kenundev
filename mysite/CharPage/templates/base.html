@@ -116,6 +116,9 @@ vertical-align: sub
            <a class='nav-item' href="{% url 'talants' %}">Таланты</a>
            <a class='nav-item' href="{% url 'addons:shop' %}">Аддоны</a>
            <a class='nav-item' href="{% url 'services:services' %}">Услуги</a>
+             {% if user.is_superuser %}
+             <a class='nav-item' target="_BLANK" href="/flower">flower</a>
+             {% endif %}
 
          </div>
 

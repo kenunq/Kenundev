@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db.models import TextField
 from tinymce.widgets import TinyMCE
 
-from addons.models import AddonCategory, Addon, AddonImage, Compatible_Versions
+from addons.models import AddonCategory, Addon, AddonImage, Compatible_Versions, Order
 
 
 # Register your models here.
@@ -35,3 +35,9 @@ class AddonAdmin(admin.ModelAdmin):
             )
         },
     }
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('user', 'addon', 'created_at', 'status')
+    readonly_fields = ('created_at',)

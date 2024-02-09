@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block head %}
+<script src="{% static 'js/javascript/zamimg_power.min.js' %}"></script>
+<script>const wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "iconSize": "small",  "renamelinks": false }</script>
+{% endblock %}
+
 {% block content %}
 
 <div class="addon_page_main">
@@ -28,12 +33,19 @@
         <p class="addon_page_author">Автор: {{ addon.author }}</p>
 
         <p class="addon_page_sovm">Совместимость: 3.3.5, 3.4.0</p>
-
+        {% if paid %}
+        <a href="{% url 'user:profile' %}">
+            <div class="addon-page-buy-btn">
+                <p>Перейти к моим аддонам</p>
+            </div>
+        </a>
+        {% else %}
         <a href="@">
             <div class="addon-page-buy-btn">
                 <p>Купить</p>
             </div>
         </a>
+        {% endif %}
 
 
 

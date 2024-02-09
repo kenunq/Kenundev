@@ -9,13 +9,14 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 import logging.config
 import os
 import sys
 
+from celery.schedules import crontab
 from decouple import config
 from pathlib import Path
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -198,6 +199,13 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
+CELERY_BEAT_SCHEDULE = {
+    'clear-orders': {
+        'task': 'addons.tasks.clear_orders',
+        'schedule': crontab(hour=4, minute=0),
+    },
+}
+
 #Telegram
 
 TELEBOT_ID = config('TELEBOT_ID')
@@ -288,3 +296,7 @@ TINYMCE_DEFAULT_CONFIG = {
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
 }
+
+#payment
+MERCHANT_ID = config('MERCHANT_ID')
+SECRET_WORD = config('SECRET_WORD')

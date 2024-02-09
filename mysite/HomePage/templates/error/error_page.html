@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'error.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="terminal-loader">
+  <div class="terminal-header">
+    <div class="terminal-title">Error</div>
+    <div class="terminal-controls">
+      <div class="control closes"></div>
+      <div class="control minimize"></div>
+      <div class="control maximize"></div>
+    </div>
+  </div>
+  <div class="text_status">{{ code }}</div>
+</div>
+<div class="loader">
+   <div data-glitch="{{ error_msg }}" class="glitch">{{ error_msg }}</div>
+</div>
+<a href="{% url 'home' %}">
+<div class="go_home">
+  <p>На главную</p>
+</div>
+  </a>
+{% endblock %}
