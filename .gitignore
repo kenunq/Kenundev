@@ -4,13 +4,25 @@ db.sqlite3
 venv/
 media/
 
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
+
 .git
 
 __pycache__/
 */__pycache__/
 
-wrath/
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir
+celerybeat.pid
 
-logging.log
+**/CharPage/
+
+.log
+.idea
 
 htmlcov
+
+**/ace-editor/

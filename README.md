@@ -1,8 +1,5 @@
-<div style="text-align: center;">
-  <a href="https://kenundev.ru" style="font-size:24px; font-weight: 600;">Kenundev.ru</a>
-</div>
- 
-___
+<h1 align="center"><a href="https://kenundev.ru" target="_BLANK">Kenundev.ru</a></h1>
+
 <br/>
 
 ![Python Version](https://img.shields.io/badge/Python-3.11-blue)
@@ -532,7 +529,7 @@ ___
   ...
   ```
 
-  ```
+  ```python
   ...
   DATABASES = {
     'default': {
