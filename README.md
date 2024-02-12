@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div style="text-align: center; width: 100%;">
   <a href="https://kenundev.ru" style="font-size:24px; font-weight: 600;">Kenundev.ru</a>
 </div>
  
