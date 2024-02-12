@@ -1,9 +1,16 @@
 #!/bin/sh
 
 echo "WAITING FOR POSTGRES... host=${POSTGRES_HOST} port=${POSTGRES_PORT}";
+#bash -c '
+#until printf "" 2>>/dev/null >>/dev/tcp/${POSTGRES_HOST}/${POSTGRES_PORT}; do
+#    echo "POSTGRES LOADING... $(nc -zv ${POSTGRES_HOST}.${PROJECT_NAME}_back ${POSTGRES_PORT})";
+#    sleep 0.5;
+#done;
+#echo "POSTGRES STARTED!";
+#'
 bash -c '
 until printf "" 2>>/dev/null >>/dev/tcp/${POSTGRES_HOST}/${POSTGRES_PORT}; do
-    echo "POSTGRES LOADING... $(nc -zv ${POSTGRES_HOST}.${PROJECT_NAME}_back ${POSTGRES_PORT})";
+    echo "POSTGRES LOADING... $(ncat -zv ${POSTGRES_HOST}.${PROJECT_NAME}_back ${POSTGRES_PORT})";
     sleep 0.5;
 done;
 echo "POSTGRES STARTED!";

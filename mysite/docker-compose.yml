@@ -7,7 +7,7 @@ services:
     image: postgres
     restart: always
     volumes:
-      - /var/lib/postgres/data/:/var/lib/postgresql/data/
+      - /var/lib/postgresql/data/pgdata:/var/lib/postgresql/data/
     environment:
       POSTGRES_DB: ${POSTGRES_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -22,16 +22,18 @@ services:
     container_name: redis
     image: redis
     restart: unless-stopped
-    command: redis-server
-#    volumes:
-#      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      REDIS_HOST: redis
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
     ports:
       - 6379:6379
     networks:
       - back
-  web:
-    build: .
-#    command: python manage.py runserver 0.0.0.0:8000
+
+  wsgiserver:
+    build: ./
     entrypoint: ./docker/backend/web-entrypoint.sh
     volumes:
       - static_volume:/mysite/static
@@ -39,6 +41,10 @@ services:
       - .:/mysite # автоматическая перезагрузка при изменении файлов
     env_file:
       - .env
+    environment:
+      - RUN_FROM_DOCKER=1
+      - POSTGRES_HOST=postgres
+      - REDIS_HOST=redis
     ports:
       - 8000:8000
     depends_on:
@@ -50,13 +56,13 @@ services:
 
 
   celery-worker:
-    build: .
+    build: ./
     entrypoint: ./docker/backend/celery-worker-entrypoint.sh
     volumes:
       - /var/log/celery:/var/run/celery
     environment:
       CELERY_APP: ${CELERY_APP}
-      REDIS_HOST: ${REDIS_HOST}
+      REDIS_HOST: redis
     depends_on:
       - postgres
       - redis
@@ -67,7 +73,7 @@ services:
 
   celery-flower:
     container_name: celery-flower
-    build: .
+    build: ./
     entrypoint: ./docker/backend/celery-flower-entrypoint.sh
     volumes:
       - /var/log/celery:/var/run/celery
@@ -81,6 +87,26 @@ services:
     depends_on:
       - postgres
       - redis
+    networks:
+      - back
+
+  celery-beat:
+    container_name: celery-beat
+    build: ./
+    entrypoint: ./docker/backend/celery-beat-entrypoint.sh
+    volumes:
+      - /var/log/celery:/var/run/celery
+    environment:
+      CELERY_APP: ${CELERY_APP}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: ${POSTGRES_PORT}
+    depends_on:
+      - postgres
+      - redis
+    #            - rabbitmq
     networks:
       - back
 

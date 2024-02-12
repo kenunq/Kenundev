@@ -102,7 +102,7 @@ DATABASES = {
         'NAME': config('POSTGRES_NAME'),
         'USER': config('POSTGRES_USER'),
         'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('POSTGRES_HOST'),
+        'HOST': config('POSTGRES_HOST') if not bool(os.environ.get('RUN_FROM_DOCKER')) else 'postgres',
         'PORT': config('POSTGRES_PORT'),
     }
 }
@@ -141,9 +141,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = '/static/'
-if DEBUG:
+
+if DEBUG and not bool(os.environ.get('RUN_FROM_DOCKER')):
         STATICFILES_DIRS = [
             os.path.join(BASE_DIR, 'static')
        ]
@@ -177,7 +177,7 @@ if 'test' in sys.argv:
 
 #redis
 
-REDIS_HOST = config('REDIS_HOST')
+REDIS_HOST = config('REDIS_HOST') if not os.environ.get('RUN_FROM_DOCKER') else 'redis'
 REDIS_PORT = config('REDIS_PORT')
 
 CHANNEL_LAYERS = {

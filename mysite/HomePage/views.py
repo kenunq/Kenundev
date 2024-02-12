@@ -82,11 +82,12 @@ class HomePageView(TitleMixin, TemplateView):
                     domain=settings.PARENT_DOMAIN
                 )
 
-        response.set_cookie(
-            key='ctrEnterWidget',
-            value='close',
-            domain=settings.PARENT_DOMAIN
-        )
+        if not self.request.COOKIES.get('ctrEnterWidget'):
+            response.set_cookie(
+                key='ctrEnterWidget',
+                value='close',
+                domain=settings.PARENT_DOMAIN
+            )
 
         return response
 

@@ -14,6 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import os
+
 from django.contrib import admin
 from django.template.defaulttags import url
 from django.urls import path, include, re_path
@@ -44,7 +46,7 @@ urlpatterns = [
             name='flower'),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG or not os.environ.get('RUN_FROM_DOCKER'):
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 else:
     urlpatterns += [

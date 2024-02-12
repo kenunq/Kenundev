@@ -93,7 +93,7 @@
                                         <img src="{% static 'img/other/user_icon.png' %}">
                                     </div>
                                 </a>
-                                <a href="{{ request.path }}{{ product.slug }}">
+                                <a href="{% url 'addons:shop' %}{{ product.slug }}">
 
                                     <div class="more_details_addon">
 
@@ -103,7 +103,7 @@
                                 </a>
                             </div>
                         {% else %}
-                            <a href="{{ request.path }}{{ product.slug }}">
+                            <a href="{% url 'addons:shop' %}{{ product.slug }}">
 
                     <div class="buy-btn">
 
@@ -113,7 +113,7 @@
                 </a>
                         {% endif %}
                     {% else %}
-                        <a href="{{ request.path }}{{ product.slug }}">
+                        <a href="{% url 'addons:shop' %}{{ product.slug }}">
 
                     <div class="buy-btn">
 

@@ -1,4 +1,13 @@
-FROM python:3.11.7
+FROM python:3.11
+
+RUN apt-get update && apt-get install -y ncat
+# RUN apt-get update && apt-get install netcat
+#RUN apt install -y netcat
+
+#RUN apt-get update && apt-get -y dist-upgrade
+#RUN apt-get -y install build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 gcc python3-dev python3-pip cython3
+#RUN apt-get -y install python3-numpy python3-scipy
+#RUN apt install -y netcat
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -9,5 +18,11 @@ WORKDIR /mysite
 COPY requirements.txt /mysite/
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
+
+RUN pip uninstall -y websocket websocket-client
+RUN pip install websocket && pip3 install websocket-client
+
+# for work websocket
+RUN pip install -U 'Twisted[tls,http2]'
 
 ADD . /mysite/

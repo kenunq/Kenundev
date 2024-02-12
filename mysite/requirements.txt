@@ -30,15 +30,6 @@ django-recaptcha==4.0.0
 django-timezone-field==6.1.0
 django-tinymce==3.6.1
 dm-tree==0.1.8
-flake8==6.1.0
-flake8-bugbear==23.12.2
-flake8-builtins==2.2.0
-flake8-commas==2.1.0
-flake8-django==1.4
-flake8-quotes==3.3.2
-flake8-todo==0.7
-flake8-variables-names==0.0.6
-flake8_cognitive_complexity==0.1.0
 flower==2.0.1
 gevent==23.9.1
 greenlet==3.0.3
