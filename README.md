@@ -6,7 +6,7 @@
 ![Django Version](https://img.shields.io/badge/Django-4.2.1-blue)
 ![Redis Version](https://img.shields.io/badge/Redis-6.0-blue)
 ![Code Style](https://img.shields.io/badge/code_style-pep8-orange)
-![Coverage](https://img.shields.io/badge/coverage-89%-orange)
+![Coverage](https://img.shields.io/badge/coverage-89%25-orange)
 ___
 
 ## Содержание
