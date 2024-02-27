@@ -26,6 +26,10 @@ from common.mixin.views import TitleMixin
 from talants.models import TalentsModel
 from user.models import User
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
+
 RACES = {
     1: ["Человек", "race_human"],
     2: ["Орк", "race_orc"],
@@ -62,7 +66,10 @@ class ZamimgProxyView(View):
     для возможности отправки запроса со стороны клиента используя JavaScript.
     https://developer.mozilla.org/ru/docs/Web/HTTP/CORS
     И кэширует файлы локально для уменьшения количества запросов к zamimg API."""
+    _cache_timeout = 60 * 60 * 24 * 182
 
+    @method_decorator(cache_page(_cache_timeout))
+    @method_decorator(vary_on_cookie)
     def get(self, request, *args, **kwargs):
         modelviewer_path: str = kwargs.get("modelviewer_path")
 
