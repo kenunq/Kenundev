@@ -10,32 +10,40 @@ from django.utils import timezone
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 
-from services.models import TypeModel, ServerModel, FractionModel, ClassModel, MentorModel, CommunicationModel, \
-    ServicesModel
+from services.models import (
+    TypeModel,
+    ServerModel,
+    FractionModel,
+    ClassModel,
+    MentorModel,
+    CommunicationModel,
+    ServicesModel,
+)
 
 
 # Create your views here.
+
 
 class ServicesView(TitleMixin, TemplateView):
     """Представление обрабатывающее страницу записи на услуги."""
 
     template_name = "services/appointment_page.html"
-    title = 'Заказать услугу'
+    title = "Заказать услугу"
 
     def get_context_data(self, **kwargs):
         context = super(ServicesView, self).get_context_data(**kwargs)
 
-        context['types'] = TypeModel.objects.all()
+        context["types"] = TypeModel.objects.all()
 
-        context['servers'] = ServerModel.objects.all()
+        context["servers"] = ServerModel.objects.all()
 
-        context['fractions'] = FractionModel.objects.all()
+        context["fractions"] = FractionModel.objects.all()
 
-        context['classes'] = ClassModel.objects.all()
+        context["classes"] = ClassModel.objects.all()
 
-        context['mentors'] = MentorModel.objects.all()
+        context["mentors"] = MentorModel.objects.all()
 
-        context['communications'] = CommunicationModel.objects.all()
+        context["communications"] = CommunicationModel.objects.all()
 
         return context
 
@@ -46,25 +54,25 @@ class ServicesView(TitleMixin, TemplateView):
         else:
             creator = None
 
-        comment = data.get('comment', '')
-        telegram_id = MentorModel.objects.get(name=data['mentor']).telegram_id
+        comment = data.get("comment", "")
+        telegram_id = MentorModel.objects.get(name=data["mentor"]).telegram_id
 
         bids = ServicesModel.objects.create(
-            type=data['type'],
-            server=data['server'],
-            fraction=data['fraction'],
-            class_name=data['class'],
-            mentor=data['mentor'],
-            communication=data['communication'],
-            username=data['username'],
+            type=data["type"],
+            server=data["server"],
+            fraction=data["fraction"],
+            class_name=data["class"],
+            mentor=data["mentor"],
+            communication=data["communication"],
+            username=data["username"],
             comment=comment,
             creator=creator,
-            time_of_create=timezone.now()
+            time_of_create=timezone.now(),
         )
         bids.save()
 
         # messages.success(request, data['mentor'])
-        request.session['mentor'] = data['mentor']
+        request.session["mentor"] = data["mentor"]
 
         # send_message_zapis(telegram_id, data)
         send_telegram_message.delay(telegram_id, data)
@@ -79,7 +87,7 @@ class SuccessAddView(TitleMixin, TemplateView):
     title = "Успех!"
 
     def render_to_response(self, context, **response_kwargs):
-        if not context.get('mentor'):
+        if not context.get("mentor"):
             return redirect(reverse("services:services"))
 
         return super(SuccessAddView, self).render_to_response(
@@ -89,9 +97,8 @@ class SuccessAddView(TitleMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(SuccessAddView, self).get_context_data(**kwargs)
 
-        if self.request.session.get('mentor'):
-            context['mentor'] = self.request.session['mentor']
-            del self.request.session['mentor']
+        if self.request.session.get("mentor"):
+            context["mentor"] = self.request.session["mentor"]
+            del self.request.session["mentor"]
 
         return context
-

@@ -58,4 +58,3 @@ def get_prof_html(prof: list[int]) -> SafeString:
         <img src="static/img/Professions/medium/{PROFFESIONS[prof_list[i]][1]}.jpg" height="36" width="36">
         """
     return format_html(result)
-

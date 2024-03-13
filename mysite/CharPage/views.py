@@ -66,6 +66,7 @@ class ZamimgProxyView(View):
     для возможности отправки запроса со стороны клиента используя JavaScript.
     https://developer.mozilla.org/ru/docs/Web/HTTP/CORS
     И кэширует файлы локально для уменьшения количества запросов к zamimg API."""
+
     _cache_timeout = 60 * 60 * 24 * 182
 
     @method_decorator(cache_page(_cache_timeout))
@@ -446,4 +447,3 @@ class CharListPageView(TitleMixin, TemplateView):
                 )
             else:
                 return JsonResponse({"status": "access error"})
-

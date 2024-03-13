@@ -17,9 +17,7 @@ class RedirectAuthUser:
     @method_decorator(csrf_protect)
     @method_decorator(never_cache)
     def dispatch(self, request: ASGIRequest, *args, **kwargs):
-
         if self.redirect_auth_user_url and request.user.is_authenticated:
-
             return HttpResponseRedirect(reverse(self.redirect_auth_user_url))
 
         return super().dispatch(request, *args, **kwargs)

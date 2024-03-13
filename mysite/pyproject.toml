@@ -1,0 +1,12 @@
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+line-lenght = 120
+
+[tool.pyright]
+pythonVersion = "3.11"
+pythonPlatform = "Linux"
+reportGeneralTypeIssues = false
+

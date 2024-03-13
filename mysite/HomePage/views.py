@@ -20,7 +20,7 @@ class HomePageView(TitleMixin, TemplateView):
     """Представление обрабатывающее главную страницу."""
 
     template_name = "HomePage/HomePage.html"
-    title = 'Главная страница'
+    title = "Главная страница"
 
     def get(self, request, *args, **kwargs):
         resp = super().get(request, *args, **kwargs)
@@ -39,9 +39,7 @@ class HomePageView(TitleMixin, TemplateView):
         if request.GET.get("data") == "item-scaling":
             return HttpResponse(
                 open(
-                    "./static/js/javascript/data-item-scaling.js",
-                    "r",
-                    encoding="utf-8"
+                    "./static/js/javascript/data-item-scaling.js", "r", encoding="utf-8"
                 ),
                 content_type="application/x-javascript; charset=utf-8",
             )
@@ -72,21 +70,19 @@ class HomePageView(TitleMixin, TemplateView):
         return JsonResponse({"status": "complaint not sent"})
 
     def render_to_response(self, context, **response_kwargs):
-        response = super(HomePageView, self).render_to_response(context, **response_kwargs)
+        response = super(HomePageView, self).render_to_response(
+            context, **response_kwargs
+        )
 
         if self.request.user.is_anonymous:
-            if not self.request.COOKIES.get('userID'):
+            if not self.request.COOKIES.get("userID"):
                 response.set_cookie(
-                    key='userID',
-                    value=uuid.uuid4(),
-                    domain=settings.PARENT_DOMAIN
+                    key="userID", value=uuid.uuid4(), domain=settings.PARENT_DOMAIN
                 )
 
-        if not self.request.COOKIES.get('ctrEnterWidget'):
+        if not self.request.COOKIES.get("ctrEnterWidget"):
             response.set_cookie(
-                key='ctrEnterWidget',
-                value='close',
-                domain=settings.PARENT_DOMAIN
+                key="ctrEnterWidget", value="close", domain=settings.PARENT_DOMAIN
             )
 
         return response
@@ -95,61 +91,72 @@ class HomePageView(TitleMixin, TemplateView):
 def bad_request(request: ASGIRequest, exception: BadRequest) -> HttpResponse:
     """Обработка ошибки 400"""
 
-    error_msg = 'Сервер не смог распознать запрос.'
+    error_msg = "Сервер не смог распознать запрос."
     if type(exception) is BadRequest and str(exception):
         error_msg = str(exception)
 
-    return render(request=request, template_name='error/error_page.html', status=400, context={
-        'code': 400,
-        'title': 'Неверный запрос',
-        'error_msg': error_msg
-    })
+    return render(
+        request=request,
+        template_name="error/error_page.html",
+        status=400,
+        context={"code": 400, "title": "Неверный запрос", "error_msg": error_msg},
+    )
+
 
 def permission_denied(request: ASGIRequest, exception: BadRequest) -> HttpResponse:
     """Обработка ошибки 403"""
 
-    error_msg = 'Доступ к данной странице запрещен.'
+    error_msg = "Доступ к данной странице запрещен."
     if type(exception) is BadRequest and str(exception):
         error_msg = str(exception)
 
-    return render(request=request, template_name='error/error_page.html', status=403, context={
-        'code': 403,
-        'title': 'Доступ запрещен',
-        'error_msg': error_msg
-    })
+    return render(
+        request=request,
+        template_name="error/error_page.html",
+        status=403,
+        context={"code": 403, "title": "Доступ запрещен", "error_msg": error_msg},
+    )
+
 
 def page_not_found(request: ASGIRequest, exception: BadRequest) -> HttpResponse:
     """Обработка ошибки 404"""
 
-    error_msg = 'Страница не существует или была перемещена на другой адрес.'
+    error_msg = "Страница не существует или была перемещена на другой адрес."
     if type(exception) is BadRequest and str(exception):
         error_msg = str(exception)
 
-    return render(request=request, template_name='error/error_page.html', status=404, context={
-        'code': 404,
-        'title': 'Страница не найдена',
-        'error_msg': error_msg
-    })
+    return render(
+        request=request,
+        template_name="error/error_page.html",
+        status=404,
+        context={"code": 404, "title": "Страница не найдена", "error_msg": error_msg},
+    )
+
 
 def server_error(request: ASGIRequest) -> HttpResponse:
     """Обработка ошибки 500"""
 
-    error_msg = 'Cервер столкнулся с неожиданной ошибкой, администрация уже работает над этим.'
+    error_msg = (
+        "Cервер столкнулся с неожиданной ошибкой, администрация уже работает над этим."
+    )
 
-    return render(request=request, template_name='error/error_page.html', status=500, context={
-        'code': 500,
-        'title': 'Ошибка сервера',
-        'error_msg': error_msg
-    })
+    return render(
+        request=request,
+        template_name="error/error_page.html",
+        status=500,
+        context={"code": 500, "title": "Ошибка сервера", "error_msg": error_msg},
+    )
+
 
 @csrf_exempt
 def flower_proxy_view(request: ASGIRequest, path: str) -> HttpResponse:
     """Представление позволяющее открывать панель flower
     как обычную страницу django (только для супер пользователя)."""
 
-    if not request.user.is_superuser: raise PermissionDenied
+    if not request.user.is_superuser:
+        raise PermissionDenied
     return proxy_view(
         request,
         f"http://{config('CELERY_FLOWER_ADDRESS')}:{config('CELERY_FLOWER_PORT')}/{config('CELERY_FLOWER_URL_PREFIX')}/{path}",
-        {}
+        {},
     )

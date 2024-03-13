@@ -17,8 +17,8 @@ from talants.models import TalentsModel
 class TalantsView(TitleMixin, TemplateView):
     """Представление обрабатывающее страницу создания талантов."""
 
-    template_name = 'talants/talants.html'
-    title = 'Таланты'
+    template_name = "talants/talants.html"
+    title = "Таланты"
 
     def get_context_data(self, **kwargs):
         context = super(TalantsView, self).get_context_data(**kwargs)
@@ -26,12 +26,16 @@ class TalantsView(TitleMixin, TemplateView):
         creator = self.request.user
 
         if not creator.is_anonymous:
-
             # оборачиваем в лист для корректной работы {% if user_talents|length > 0 %}
-            context['user_talents'] = list(reversed(TalentsModel.objects.filter(creator=creator)))
+            context["user_talents"] = list(
+                reversed(TalentsModel.objects.filter(creator=creator))
+            )
             # отображаем персонажей у которых привязано меньше двух талантов
-            context['chars'] = reversed(CharModel.objects.annotate(num_talents=Count('talents')).filter(
-                creator=creator, creating=True, num_talents__lt=2))
+            context["chars"] = reversed(
+                CharModel.objects.annotate(num_talents=Count("talents")).filter(
+                    creator=creator, creating=True, num_talents__lt=2
+                )
+            )
 
         return context
 
@@ -43,22 +47,37 @@ class TalantsView(TitleMixin, TemplateView):
 
         creator = self.request.user
 
-        if data.get('deltalent_id'):
+        if data.get("deltalent_id"):
             TalentsModel.objects.filter(id=data["deltalent_id"]).delete()
-            messages.success(self.request, 'Таланты успешно удалены.')
-            return JsonResponse({'status': 'data was successfully talent deleted'})
+            messages.success(self.request, "Таланты успешно удалены.")
+            return JsonResponse({"status": "data was successfully talent deleted"})
 
-        if data.get('char'):
-            char = CharModel.objects.get(room_id=data['char'])
+        if data.get("char"):
+            char = CharModel.objects.get(room_id=data["char"])
             if char.talents.count() < 2:
-                bids = TalentsModel.objects.create(name=data['name'], creator=creator, url=data['url'], talent_class=data['class'], talent_spec=data['spec'])
+                bids = TalentsModel.objects.create(
+                    name=data["name"],
+                    creator=creator,
+                    url=data["url"],
+                    talent_class=data["class"],
+                    talent_spec=data["spec"],
+                )
                 bids.charmodel_set.add(char)
                 bids.save()
-                return JsonResponse({'status': 'talents are successfully saved and tied to the character'})
+                return JsonResponse(
+                    {
+                        "status": "talents are successfully saved and tied to the character"
+                    }
+                )
             else:
-                return JsonResponse({'status': 'the character has too many talents'})
+                return JsonResponse({"status": "the character has too many talents"})
         else:
-            bids = TalentsModel(name=data['name'], creator=creator, url=data['url'], talent_class=data['class'], talent_spec=data['spec'])
+            bids = TalentsModel(
+                name=data["name"],
+                creator=creator,
+                url=data["url"],
+                talent_class=data["class"],
+                talent_spec=data["spec"],
+            )
             bids.save()
-            return JsonResponse({'status': 'talents successfully saved'})
-
+            return JsonResponse({"status": "talents successfully saved"})

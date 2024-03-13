@@ -6,12 +6,14 @@ from support.models import ChatRoom, Message
 
 admin.site.register(Message)
 
+
 @admin.register(ChatRoom)
 class CharRoomAdmin(admin.ModelAdmin):
-
     model: ChatRoom = ChatRoom
 
-    list_display = ('slug', 'state', )
+    list_display = (
+        "slug",
+        "state",
+    )
 
-    search_fields = ('user', )
-
+    search_fields = ("user",)
