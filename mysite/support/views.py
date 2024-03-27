@@ -1,12 +1,13 @@
 import json
 
 from django.core.handlers.asgi import ASGIRequest
+from django.db.models import F, Max, OuterRef, Prefetch, Subquery
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
 from common.mixin.views import TitleMixin
-from support.models import ChatRoom
+from support.models import ChatRoom, Message
 from user.models import User
 
 
@@ -45,9 +46,7 @@ class SupportChatView(TitleMixin, TemplateView):
         return context
 
     def render_to_response(self, context, **response_kwargs):
-        response = super(SupportChatView, self).render_to_response(
-            context, **response_kwargs
-        )
+        response = super(SupportChatView, self).render_to_response(context, **response_kwargs)
 
         if self.request.user.is_superuser:
             return redirect("support:admin-chat")
@@ -75,7 +74,26 @@ class AdminSupportChatView(TitleMixin, TemplateView):
             chat_room = ChatRoom.objects.filter(slug=user_id)
             context["chat_messages"] = chat_room[0].messages.all()
 
-        context["all_chats"] = ChatRoom.objects.exclude(messages__isnull=True)
+        context["all_chats"] = (
+            ChatRoom.objects.exclude(messages__isnull=True)
+            .select_related("user")
+            .prefetch_related(
+                Prefetch(
+                    "messages",
+                    queryset=Message.objects.filter(
+                        id__in=Subquery(
+                            ChatRoom.objects.annotate(
+                                last_message=Subquery(
+                                    Message.objects.filter(messages=OuterRef("id"))
+                                    .order_by("-id")
+                                    .values_list("id", flat=True)[:1]
+                                )
+                            ).values_list("last_message", flat=True)
+                        )
+                    ),
+                )
+            )
+        )
 
         return context
 
@@ -90,9 +108,7 @@ class AdminSupportChatView(TitleMixin, TemplateView):
             return JsonResponse({"status": "status changed successfully"})
 
     def render_to_response(self, context, **response_kwargs):
-        response = super(AdminSupportChatView, self).render_to_response(
-            context, **response_kwargs
-        )
+        response = super(AdminSupportChatView, self).render_to_response(context, **response_kwargs)
 
         if not self.request.user.is_superuser:
             return redirect("support:chat")

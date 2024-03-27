@@ -1,38 +1,33 @@
 import json
 from datetime import timedelta
 
+from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash, login
+from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import (
     LoginView,
     LogoutView,
-    PasswordResetView,
-    PasswordResetConfirmView,
     PasswordResetCompleteView,
+    PasswordResetConfirmView,
+    PasswordResetView,
 )
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.handlers.asgi import ASGIRequest
 from django.http import JsonResponse
 from django.shortcuts import redirect
-from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.generic.edit import CreateView
-from django.urls import reverse_lazy
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.generic.base import TemplateView, View
-from django.conf import settings
+from django.views.generic.edit import CreateView
 
 from common.mixin.views import TitleMixin
 from services.models import ServicesModel
-from user.forms import (
-    UserRegistrationForm,
-    UserLoginForm,
-    PasswordResetCustomForm,
-    PasswordChangeForm,
-)
+from user.forms import PasswordChangeForm, PasswordResetCustomForm, UserLoginForm, UserRegistrationForm
 from user.models import User
 from user.tasks import send_update_email_message
 from user.utils import RedirectAuthUser
@@ -73,9 +68,7 @@ class UserLoginView(TitleMixin, RedirectAuthUser, LoginView):
     title = "Вход"
 
     def get_success_url(self):
-        messages.success(
-            self.request, f"Добро пожаловать {self.request.user.get_username()}."
-        )
+        messages.success(self.request, f"Добро пожаловать {self.request.user.get_username()}.")
         return reverse_lazy("home")
 
     def form_valid(self, form):
@@ -119,9 +112,7 @@ class UserResetPasswordView(TitleMixin, RedirectAuthUser, PasswordResetView):
         if self.request.COOKIES.get("reset_password"):
             messages.warning(self.request, "Пароль можно сбросить раз в 15 минут.")
             return redirect("user:login")
-        return super(UserResetPasswordView, self).render_to_response(
-            context, **response_kwargs
-        )
+        return super(UserResetPasswordView, self).render_to_response(context, **response_kwargs)
 
 
 class UserResetPasswordView2(RedirectAuthUser, TemplateView):
@@ -131,9 +122,7 @@ class UserResetPasswordView2(RedirectAuthUser, TemplateView):
     redirect_auth_user_url = "user:profile"
 
 
-class PasswordResetConfirmCustomView(
-    TitleMixin, RedirectAuthUser, PasswordResetConfirmView
-):
+class PasswordResetConfirmCustomView(TitleMixin, RedirectAuthUser, PasswordResetConfirmView):
     """#### Представление обрабатывающее страницу с формой для ввода нового пароля."""
 
     form_class = SetPasswordForm
@@ -149,9 +138,7 @@ class PasswordResetConfirmCustomView(
         return reverse_lazy("user:password_reset_complete")
 
 
-class PasswordResetCompleteCustomView(
-    TitleMixin, RedirectAuthUser, PasswordResetCompleteView
-):
+class PasswordResetCompleteCustomView(TitleMixin, RedirectAuthUser, PasswordResetCompleteView):
     """#### Представление обрабатывающее страницу с сообщением об успешной смене пароля."""
 
     redirect_auth_user_url = "user:profile"
@@ -160,9 +147,7 @@ class PasswordResetCompleteCustomView(
     title = "Успех!"
 
     def render_to_response(self, context, **response_kwargs):
-        response = super(PasswordResetCompleteCustomView, self).render_to_response(
-            context, **response_kwargs
-        )
+        response = super(PasswordResetCompleteCustomView, self).render_to_response(context, **response_kwargs)
         time_delta = timedelta(minutes=15)
         response.set_cookie(
             key="reset_password",
@@ -184,17 +169,13 @@ class ProfileView(TitleMixin, LoginRequiredMixin, TemplateView):
         context = super(ProfileView, self).get_context_data(**kwargs)
 
         if self.request.session.get("PasswordChangeForm-errors"):
-            context["PasswordChangeFormerrors"] = json.loads(
-                self.request.session.get("PasswordChangeForm-errors", "")
-            )
+            context["PasswordChangeFormerrors"] = json.loads(self.request.session.get("PasswordChangeForm-errors", ""))
             del self.request.session["PasswordChangeForm-errors"]
         else:
             context["PasswordChangeFormerrors"] = ""
 
         context["PasswordChangeForm"] = PasswordChangeForm(self.request.GET or None)
-        context["user_services"] = list(
-            reversed(ServicesModel.objects.filter(creator=self.request.user))
-        )
+        context["user_services"] = list(reversed(ServicesModel.objects.filter(creator=self.request.user)))
 
         return context
 
@@ -214,9 +195,7 @@ class ProfileView(TitleMixin, LoginRequiredMixin, TemplateView):
             email = urlsafe_base64_encode(force_bytes(data["update_email"]))
 
             if User.objects.filter(email=data["update_email"]).exists():
-                return JsonResponse(
-                    {"status": "the specified mailing address is already in use"}
-                )
+                return JsonResponse({"status": "the specified mailing address is already in use"})
 
             activation_url = reverse_lazy(
                 "user:confirm_email",

@@ -1,12 +1,27 @@
+[tool.ruff.lint]
+ignore = ["ALL"]
+
 [tool.black]
 line-length = 120
+target-version = ['py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \venv
+  | migrations
+)/
+'''
 
 [tool.isort]
 profile = "black"
-line-lenght = 120
+line_length = 120
+py_version=311
+skip = [".gitignore", ".dockerignore", 'venv', 'migrations']
+balanced_wrapping=true
+lines_after_imports=2
 
 [tool.pyright]
 pythonVersion = "3.11"
 pythonPlatform = "Linux"
 reportGeneralTypeIssues = false
-

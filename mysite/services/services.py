@@ -1,7 +1,8 @@
 import threading
-import telebot
 
+import telebot
 from django.conf import settings
+
 
 bot = telebot.TeleBot(settings.TELEBOT_ID)
 
@@ -9,9 +10,7 @@ bot = telebot.TeleBot(settings.TELEBOT_ID)
 @bot.message_handler(content_types=["text"])
 def get_text_messages(message):
     if message.text == "Привет":
-        bot.send_message(
-            message.from_user.id, f"Привет, чем я могу тебе помочь?{message.chat.id}"
-        )
+        bot.send_message(message.from_user.id, f"Привет, чем я могу тебе помочь?{message.chat.id}")
     elif message.text == "/help":
         bot.send_message(message.from_user.id, "Напиши привет")
     else:
@@ -43,4 +42,4 @@ class AsyncActionTelegramBot(threading.Thread):
 # создаем экземпляр класса отправки меседжей
 async_action_telegram_bot = AsyncActionTelegramBot()
 async_action_telegram_bot.daemon = True
-async_action_telegram_bot.start()
+# async_action_telegram_bot.start()

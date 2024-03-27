@@ -2,6 +2,7 @@ from django.db import models
 
 from user.models import User
 
+
 # Create your models here.
 
 STATE_ICON_ID = {
@@ -24,10 +25,8 @@ class Message(models.Model):
 
 
 class ChatRoom(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, verbose_name="Создатель комнаты"
-    )
-    messages = models.ManyToManyField(Message, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, verbose_name="Создатель комнаты")
+    messages = models.ManyToManyField(Message, null=True, blank=True, related_name="messages")
     # last_message = models.CharField(max_length=300, null=True, verbose_name='Последнее сообщение',
     #                                 help_text='Устанавливается автоматически')
     CHAT_STATE = (
@@ -37,12 +36,8 @@ class ChatRoom(models.Model):
         ("3", "Новое сообщение"),
         ("4", "Срочно"),
     )
-    state = models.CharField(
-        choices=CHAT_STATE, default=3, verbose_name="Состояние чата"
-    )
-    slug = models.SlugField(
-        max_length=50, unique=True, db_index=True, verbose_name="Слаг", default=""
-    )
+    state = models.CharField(choices=CHAT_STATE, default=3, verbose_name="Состояние чата")
+    slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name="Слаг", default="")
 
     def get_status_icon(self) -> str:
         """Возвращает путь до иконки состояния чата"""

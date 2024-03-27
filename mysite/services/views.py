@@ -1,25 +1,24 @@
 import json
 
-from common.mixin.views import TitleMixin
-from .tasks import send_telegram_message
-
 from django.core.handlers.asgi import ASGIRequest
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
-from django.http import JsonResponse
 from django.views.generic import TemplateView
 
+from common.mixin.views import TitleMixin
 from services.models import (
-    TypeModel,
-    ServerModel,
-    FractionModel,
     ClassModel,
-    MentorModel,
     CommunicationModel,
+    FractionModel,
+    MentorModel,
+    ServerModel,
     ServicesModel,
+    TypeModel,
 )
 
+from .tasks import send_telegram_message
 
 # Create your views here.
 
@@ -90,9 +89,7 @@ class SuccessAddView(TitleMixin, TemplateView):
         if not context.get("mentor"):
             return redirect(reverse("services:services"))
 
-        return super(SuccessAddView, self).render_to_response(
-            context, **response_kwargs
-        )
+        return super(SuccessAddView, self).render_to_response(context, **response_kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(SuccessAddView, self).get_context_data(**kwargs)
