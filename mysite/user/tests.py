@@ -3,12 +3,7 @@ from unittest.mock import patch
 from django.test import TestCase
 from django.urls import reverse
 
-from user.forms import (
-    UserRegistrationForm,
-    UserLoginForm,
-    PasswordResetCustomForm,
-    PasswordChangeForm,
-)
+from user.forms import PasswordChangeForm, PasswordResetCustomForm, UserLoginForm, UserRegistrationForm
 from user.models import User
 
 
@@ -62,12 +57,10 @@ class Test_UsersViews(TestCase):
 
     @patch("django_recaptcha.fields.ReCaptchaField.validate")  # валидация капчи
     def test_registration_view(self, validate_method):
-        response = self.client.post(
-            reverse("user:registration"), self.registration_form_data
-        )
+        response = self.client.post(reverse("user:registration"), self.registration_form_data)
         validate_method.return_value = True
         self.assertEquals(response.status_code, 302)
-        self.assertEquals(response.url, "/user/login/")  # Регистрация прошла успешно
+        self.assertEquals(response.url, "/")  # Регистрация прошла успешно
 
     def test_terms_of_use_status(self):
         response = self.client.get(reverse("user:terms-of-use"))
@@ -82,9 +75,7 @@ class Test_UsersViews(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_login_view(self):
-        response = self.client.post(
-            reverse("user:login"), self.login_form_data, follow=True
-        )
+        response = self.client.post(reverse("user:login"), self.login_form_data, follow=True)
         self.assertTrue(response.context["user"].is_active)
         self.assertTemplateUsed(response, "HomePage/HomePage.html")
         self.assertTrue(response.client.cookies.get("sessionid").get("expires"))
@@ -104,18 +95,12 @@ class Test_UsersViews(TestCase):
         self.assertFalse(form.is_valid())  # Не верный формат почты
 
     def test_reset_pass_view(self):
-        response = self.client.post(
-            reverse("user:reset_password"), {"email": "testemail2@yandex.ru"}
-        )
-        self.assertEquals(
-            response.status_code, 302
-        )  # письмо для сброса пароля отправлено
+        response = self.client.post(reverse("user:reset_password"), {"email": "testemail2@yandex.ru"})
+        self.assertEquals(response.status_code, 302)  # письмо для сброса пароля отправлено
 
     def test_profile_status(self):
         response = self.client.get(reverse("user:profile"))
-        self.assertEquals(
-            response.status_code, 302
-        )  # незарегистрированного пользователя перенаправит на страницу
+        self.assertEquals(response.status_code, 302)  # незарегистрированного пользователя перенаправит на страницу
         # входа
 
         self.assertTrue(
@@ -153,9 +138,7 @@ class Test_UsersViews(TestCase):
             "application/json",
         )
         self.assertEquals(response.status_code, 200)
-        self.assertIn(
-            "the specified mailing address is already in use", response.content.decode()
-        )  # указанная
+        self.assertIn("the specified mailing address is already in use", response.content.decode())  # указанная
         # электронная почта уже используется
 
         response = self.client.post(
@@ -164,9 +147,7 @@ class Test_UsersViews(TestCase):
             "application/json",
         )
         self.assertEquals(response.status_code, 200)
-        self.assertIn(
-            "email details were successfully updated", response.content.decode()
-        )  # на действующую
+        self.assertIn("email details were successfully updated", response.content.decode())  # на действующую
         # элеткронную почту отправленно письмо с подтверждением
 
         response = self.client.post(
@@ -174,9 +155,7 @@ class Test_UsersViews(TestCase):
             {"update_discord": "testdiscord"},
             "application/json",
         )
-        self.assertIn(
-            "data was successfully discrod updated", response.content.decode()
-        )  # дискорд успешно обновлен
+        self.assertIn("data was successfully discrod updated", response.content.decode())  # дискорд успешно обновлен
 
     def test_logout_view(self):
         response = self.client.get(reverse("user:logout"))
@@ -189,6 +168,4 @@ class Test_UsersViews(TestCase):
             )
         )
         response = self.client.get(reverse("user:logout"))
-        self.assertEquals(
-            response.status_code, 302
-        )  # пользователь успешно деавторизировался
+        self.assertEquals(response.status_code, 302)  # пользователь успешно деавторизировался

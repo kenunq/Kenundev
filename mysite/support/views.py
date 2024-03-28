@@ -1,7 +1,7 @@
 import json
 
 from django.core.handlers.asgi import ASGIRequest
-from django.db.models import F, Max, OuterRef, Prefetch, Subquery
+from django.db.models import OuterRef, Prefetch, Subquery
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
@@ -21,7 +21,7 @@ class SupportChatView(TitleMixin, TemplateView):
     title = "Техническая поддержка"
 
     def get(self, request, *args, **kwargs):
-        if not self.request.COOKIES.get("userID"):
+        if not self.request.COOKIES.get("userID") and self.request.user.is_anonymous:
             return redirect("home")
         return super(SupportChatView, self).get(request, *args, **kwargs)
 
